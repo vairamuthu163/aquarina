@@ -1,0 +1,67 @@
+/* @import 'react-pro-sidebar/dist/scss/styles.scss'; */
+.sidebar-bg-color{
+    height:100vh;
+    background-color: #40a8e4;
+}
+Nav{
+    font-size: 14px;
+}
+ 
+.row-header {
+    margin: 0px auto;
+    padding: 0px 0px;
+  }
+  .row-content {
+    margin: 0px auto;
+    padding: 50px 0px;
+    border-bottom: 1px ridge;
+    min-height: 400px;
+  }
+  .footer {
+    background-color: #D1C4E9;
+    margin: 0px auto;
+    padding: 20px 0px;
+  }
+  .jumbotron {
+    margin: 0px auto;
+    padding: 70px 30px;
+    background: #9575CD;
+    color: floralwhite;
+  }
+  address {
+    font-size: 80%;
+    margin: 0px;
+    color: #0f0f0f;
+  }
+  body {
+    padding: 50px 0px 0px 0px;
+    z-index: 0;
+  }
+ 
+  .tab-content {
+    border-left: 1px solid #ddd;
+    border-right: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
+    padding: 10px;
+  }
+  
+  #carouselButton {
+    right: 0px;
+    position: absolute;
+    bottom: 0px;
+    z-index: 1;
+  }
+.carousel:hover{ 
+    transition: all 0.4s ease-in-out;
+    transform: scale(1.1);
+    transition-delay: 1ms;
+}
+/* .nav-profile:hover{
+     border: none !important;
+     border-radius: none !important;
+}
+.nav-item:hover{
+    transition: all 0.3s ease-in-out;
+    border-radius: 4px;
+    background-color: rgb(74, 131, 216);
+} */
