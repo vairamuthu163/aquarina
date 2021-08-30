@@ -39,7 +39,7 @@ function NavBar(){
     }
         return(
             <>
-                <Navbar dark expand="md" className="fixed-top" >
+                <Navbar dark expand="md" className="fixed-top" id="navBar" >
                     <div className="container">
                         <NavbarBrand className="mr-auto" href="/">
                             <h3><img src="assets/images/logo.png" height="30" width="41" alt="Ristorante confusion"/><span className="d-none d-sm-inline">Aquarina</span></h3>
@@ -47,28 +47,28 @@ function NavBar(){
                         <NavbarToggler onClick={toggleNav}></NavbarToggler>
                         <Collapse className="justify-content-end" isOpen={isNavOpen} navbar>
                             <Nav navbar className="mr-auto">
-                                <NavItem>
+                                <NavItem className="navItem">
                                   <Tooltip title="Home">
-                                    <NavLink className="nav-link" to="/">
+                                    <NavLink className="nav-link" to="/home">
                                         <span className="fa fa-home fa-lg"></span> Home
                                     </NavLink>
                                   </Tooltip>
-                                </NavItem>
-                                <NavItem>
+                                  </NavItem>
+                                <NavItem className="navItem">
                                   <Tooltip title="About Us">
-                                    <NavLink className="nav-link" to="/aboutus">
-                                        <span className="fa fa-info fa-lg"></span> About Us
+                                    <NavLink className="nav-link" to="/products">
+                                        Products
                                     </NavLink>
                                     </Tooltip>
                                 </NavItem>
-                                <NavItem>
+                                <NavItem className="navItem">
                                  <Tooltip title="Contact Us">
                                     <NavLink className="nav-link" to="/contactus">
                                         <span className="fa fa-address-card fa-lg"></span> Contact Us    
                                     </NavLink>
                                   </Tooltip>
                                 </NavItem>
-                                <NavItem>
+                                <NavItem className="navItem">
                                   <Tooltip title="Sign Up">
                                     <NavLink className="nav-link" to="/signup">
                                       <span className="fa fa-sign-in"></span> Sign Up
@@ -77,8 +77,8 @@ function NavBar(){
                                 </NavItem>
                               <UncontrolledDropdown nav inNavbar>
                                 <Tooltip title="Profile"> 
-                                  <DropdownToggle nav className="dropDown">
-                                    <AccountCircleIcon />
+                                  <DropdownToggle nav className="dropDown" caret>
+                                    <AccountCircleIcon /> Profile
                                   </DropdownToggle> 
                                 </Tooltip>
                               <DropdownMenu top>
@@ -96,9 +96,9 @@ function NavBar(){
                                 </DropdownItem>}
                               </DropdownMenu>
                             </UncontrolledDropdown>
-                            <NavItem>
+                            <NavbarText>
                               <Button disabled></Button>
-                            </NavItem>
+                            </NavbarText>
                             </Nav>
                         </Collapse>
                     </div>

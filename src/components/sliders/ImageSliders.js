@@ -7,7 +7,7 @@ import {
     CarouselCaption} from 'reactstrap';
 
 import { data } from './SlideImages';
-
+import './slides.css';
 export default function ImageSliders() {
     const [activeIndex, setActiveIndex] = useState(0);
   const [animating, setAnimating] = useState(false);
@@ -35,7 +35,7 @@ export default function ImageSliders() {
         onExited={() => setAnimating(false)}
         key={item.src}
       >
-        <img src={item.src} alt={item.caption} />
+        <img src={item.src} alt={item.caption} width="930px"/>
         <CarouselCaption captionText={item.caption} captionHeader={item.caption} />
       </CarouselItem>
     );

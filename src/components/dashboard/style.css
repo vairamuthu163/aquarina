@@ -1,0 +1,30 @@
+.card-flip{
+    background-color: transparent !important;
+}
+ 
+
+  .title {
+    color: #ffffff;
+    width: 0;
+    overflow: hidden;
+    white-space: no-wrap;
+    display:block;
+    border-right: 3px solid #ffffff;
+    animation: typewriter 7s steps(5) infinite, blinking-cursor 2s infinite;
+    animation-fill-mode: forwards
+  }
+  
+  @keyframes typewriter {
+    0% { width:0 }
+    25% { width: 32% }
+    48% { width: 40% }
+    50% { width: 55% }
+    55% { width: 60% }
+    62% {width: 65%}
+    75% { width:0; } 
+  }
+  
+  @keyframes blinking-cursor {
+    from { border-color: transparent }
+    to { border-color: #ffffff }
+  }

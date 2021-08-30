@@ -10,6 +10,7 @@ import UpdateProfile from "./components/updateprofile/UpdateProfile";
 import PrivateRoute from "./PrivateRoute";
 import NavBar from "./components/navbar/Navbar";
 import "./App.css";
+import Products from "./components/products/Products";
 
 function App() {
   return (
@@ -18,13 +19,14 @@ function App() {
         <Switch>
          {/*  <PrivateRoute exact path='/' component={Dashboard} />
           <PrivateRoute path='/update-profile' component={UpdateProfile} /> */}
-          <Route exact path='/' component={Dashboard} />
-          <Route path='/update-profile' component={UpdateProfile} />
+          <Route exact path='/home' component={Dashboard} />
+          <Route exact path='/update-profile' component={UpdateProfile} />
           <Route path='/signup' component={SignUp} />
           <Route path='/login' component={Login} />
           <Route path='/forgot-password' component={ForgotPassword}/>
-          <Route path='/navbar' component={NavBar} />
-          <Redirect to='/' />
+          {/* <Route path='/navbar' component={NavBar} /> */}
+          <Route path='/products' component={Products} />
+          <Redirect to='/home' />
 
         </Switch> 
       </AuthProvider>

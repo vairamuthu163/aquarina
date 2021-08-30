@@ -24,7 +24,6 @@ export const data = [
         src:'assets/images/aquarium-5.jpg',
         caption:'Aquarium-5'
     },
-    
 ]
 
 export const productList = [
