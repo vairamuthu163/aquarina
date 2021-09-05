@@ -1,37 +1,17 @@
-import React from "react";
-import SignUp from "./components/signup/SignUp";
-import Dashboard from "./components/dashboard/Dashboard";
-import Login from './components/login/Login';
-import { AuthProvider } from "./contexts/AuthContext";
-import {BrowserRouter as Router, Route, Switch,Redirect} from 'react-router-dom';
-import ForgotPassword from "./components/forgotpassword/ForgotPassword";
-import UpdateProfile from "./components/updateprofile/UpdateProfile";
-//import Navbar from "./components/navbar/Navbar";
-import PrivateRoute from "./PrivateRoute";
-import NavBar from "./components/navbar/Navbar";
-import "./App.css";
-import Products from "./components/products/Products";
-
+import React from 'react'
+import { Provider } from 'react-redux'
+import { BrowserRouter } from 'react-router-dom'
+import MainComponent from './MainComponent'
+import { ConfigureStore } from "./redux/configureStore";
+const store = ConfigureStore();
 function App() {
-  return (
-    <Router>
-      <AuthProvider>
-        <Switch>
-         {/*  <PrivateRoute exact path='/' component={Dashboard} />
-          <PrivateRoute path='/update-profile' component={UpdateProfile} /> */}
-          <Route exact path='/home' component={Dashboard} />
-          <Route exact path='/update-profile' component={UpdateProfile} />
-          <Route path='/signup' component={SignUp} />
-          <Route path='/login' component={Login} />
-          <Route path='/forgot-password' component={ForgotPassword}/>
-          {/* <Route path='/navbar' component={NavBar} /> */}
-          <Route path='/products' component={Products} />
-          <Redirect to='/home' />
-
-        </Switch> 
-      </AuthProvider>
-    </Router>
-  );
+    return (
+        <BrowserRouter>
+           <Provider store={store}>  
+                <MainComponent />
+            </Provider>
+        </BrowserRouter>
+    )
 }
 
-export default App;
+export default App

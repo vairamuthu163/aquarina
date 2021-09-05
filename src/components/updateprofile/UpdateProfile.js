@@ -93,7 +93,7 @@ export default function UpdateProfile() {
                                     type="email" 
                                     ref={emailRef} 
                                     placeholder="Email" 
-                                    defaultValue={currentUser.email}
+                                    defaultValue={currentUser && currentUser.email}
                                 />
                             </Form.Group>
                             <Form.Group id="password" className="mt-2">

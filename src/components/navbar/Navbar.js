@@ -15,7 +15,7 @@ function NavBar(){
     const[error,setError] = useState('');
     const {currentUser, logout} = useAuth();
     const history = useHistory();
-
+  const[navbar,setNavbar]=useState(false);
     //logout
     const handleLogout = async() =>{
       setError('');
@@ -37,12 +37,21 @@ function NavBar(){
     const toggleModal=()=>{
         setIsModalOpen(!isModalOpen);
     }
+    
+    const changBackground = () =>{
+      if(window.scrollY>=100){
+        setNavbar(true);
+      }else{
+        setNavbar(false)
+      }
+    }
+    window.addEventListener('scroll',changBackground);
         return(
             <>
-                <Navbar dark expand="md" className="fixed-top" id="navBar" >
+                <Navbar dark expand="md" className="fixed-top" id='navBar'>
                     <div className="container">
                         <NavbarBrand className="mr-auto" href="/">
-                            <h3><img src="assets/images/logo.png" height="30" width="41" alt="Ristorante confusion"/><span className="d-none d-sm-inline">Aquarina</span></h3>
+                            <h3><img src="assets/images/logo.png" height="30" width="41" alt="aquarina"/><span className="d-none d-sm-inline hover-underline-animation">Aquarina</span></h3>
                         </NavbarBrand>
                         <NavbarToggler onClick={toggleNav}></NavbarToggler>
                         <Collapse className="justify-content-end" isOpen={isNavOpen} navbar>
@@ -54,9 +63,9 @@ function NavBar(){
                                     </NavLink>
                                   </Tooltip>
                                   </NavItem>
-                                <NavItem className="navItem">
+                                <NavItem className='navItem'>
                                   <Tooltip title="About Us">
-                                    <NavLink className="nav-link" to="/products">
+                                    <NavLink className="nav-link" to="/products/fishes">
                                         Products
                                     </NavLink>
                                     </Tooltip>
@@ -68,14 +77,14 @@ function NavBar(){
                                     </NavLink>
                                   </Tooltip>
                                 </NavItem>
-                                <NavItem className="navItem">
+                                <NavItem className={currentUser ? 'd-none':'navItemSignUp'}>
                                   <Tooltip title="Sign Up">
                                     <NavLink className="nav-link" to="/signup">
                                       <span className="fa fa-sign-in"></span> Sign Up
                                     </NavLink>
                                   </Tooltip>
                                 </NavItem>
-                              <UncontrolledDropdown nav inNavbar>
+                              <UncontrolledDropdown nav inNavbar className={currentUser ? 'navItem':'d-none'}>
                                 <Tooltip title="Profile"> 
                                   <DropdownToggle nav className="dropDown" caret>
                                     <AccountCircleIcon /> Profile

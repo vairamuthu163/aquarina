@@ -1,0 +1,88 @@
+.card-flip{
+    background-color: transparent !important;
+}
+ 
+
+  .title {
+    color: #ffffff;
+    width: 0;
+    overflow: hidden;
+    white-space: no-wrap;
+    display:block;
+    border-right: 3px solid #ffffff;
+    animation: typewriter 7s steps(5) infinite, blinking-cursor 2s infinite;
+    animation-fill-mode: forwards
+  }
+  
+  @keyframes typewriter {
+    0% { width:0 }
+    25% { width: 32% }
+    48% { width: 40% }
+    50% { width: 55% }
+    55% { width: 60% }
+    62% {width: 65%}
+    75% { width:0; } 
+  }
+  
+  @keyframes blinking-cursor {
+    from { border-color: transparent }
+    to { border-color: #ffffff }
+  }
+  .row-header {
+    margin: 0px auto;
+    padding: 0px 0px;
+  }
+  .row-content {
+    margin: 0px auto;
+    padding: 50px 0px;
+    border-bottom: 1px ridge;
+    min-height: 400px;
+  }
+  .footer {
+    background-color: #D1C4E9;
+    margin: 0px auto;
+    padding: 20px 0px;
+  }
+  .row-contents{
+    margin: 0px auto;
+    padding: 30px 0px;
+  }
+.jumbotron {
+  margin: 0px auto;
+  padding: 70px 30px;
+  /* background: #9575CD; */
+  background: url('./gg.gif') no-repeat !important;
+  background-size: 100vw 80vh !important;
+  height:85vh !important;
+
+  color: floralwhite;
+}
+address {
+  font-size: 80%;
+  margin: 0px;
+  color: #0f0f0f;
+}
+body {
+  padding: 50px 0px 0px 0px;
+  z-index: 0;
+}
+.container-home{
+  padding-left: 50px !important;
+  padding-right: 50px !important;
+}
+.tab-content {
+  border-left: 1px solid #ddd;
+  border-right: 1px solid #ddd;
+  border-bottom: 1px solid #ddd;
+  padding: 10px;
+}
+.img-quick { 
+  overflow: hidden;
+}
+.img-quick .img-q{
+    transform-origin: 65% 75%;
+    transition: transform 0.9s, filter .3s ease-out;
+}
+.img-quick:hover .img-q{
+    transform: scale(1.2);
+}

@@ -1,26 +1,15 @@
 import React from 'react'
-import { Card, CardBody, CardHeader, Col, Container, Form , Input} from 'reactstrap'
-import NavBar from '../navbar/Navbar'
+import { Container, Form , Input,UncontrolledDropdown,Dropdown,DropdownItem,DropdownMenu,DropdownToggle} from 'reactstrap' 
 import "./style.css"
-import {ProductNav} from './productnav/ProductNav';
-import { makeStyles } from '@material-ui/core/styles';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText'; 
-import { Button, Divider } from '@material-ui/core';
-import ImageSliders from '../sliders/ImageSliders';
-const useStyles = makeStyles((theme) => ({
-    root: {
-      width: '100%',
-      maxWidth: 360,
-      backgroundColor: theme.palette.background.paper,
-    },
-  }));
-export default function Products() {
-    const classes = useStyles();
+import {ProductNav} from './productnav/ProductNav'; 
+import { Button } from '@material-ui/core'; 
+import Fishes from './fishes/Fishes';  
+import AppsIcon from '@material-ui/icons/Apps';
+import DehazeIcon from '@material-ui/icons/Dehaze';
+export default function Products(props) {
+      
     return (
         <>
-           <NavBar />
            <div style={{marginTop:'18px'}}>
                <Container>
                     <div className="row" style={{padding:'30px'}}> 
@@ -31,39 +20,36 @@ export default function Products() {
                                  type="submit"
                                  variant="contained"
                                  color="primary"
+                                 className="m-0 border-none"
                                  >submit</Button>
                             </div>
                         </Form> 
-                   
-                        <ProductNav />
-                    
-                        <div className="col col-sm-3" style={{paddingTop:'30px'}}>
-                            <Card>
-                                <CardHeader className="p-3 bg-primary text-white">
-                                    Top Catogories
-                                </CardHeader>
-                                <CardBody>
-                                    <List className="m-0 p-0">
-                                        <ListItem button divider>
-                                            <ListItemText primary="Aquarium Substrate" />
-                                        </ListItem>
-                                        <ListItem button divider>
-                                            <ListItemText primary="Aquarium Plants" />
-                                        </ListItem>
-                                        <ListItem button divider>
-                                            <ListItemText primary="Fish Food" />
-                                        </ListItem> 
-                                        <ListItem button>
-                                            <ListItemText primary="Aquarium Accessories" />
-                                        </ListItem>
-                                    </List>
-                                </CardBody>
-                            </Card>
+                        <ProductNav className="col-12" /> 
+                        <div className="col-12 m-2 d-flex justify-content-between">
+                            <div className="p-1 mt-2">
+                                <div className="d-flex">
+                                    <div className="m-3 mt-1">Sort By </div>
+                                    <UncontrolledDropdown>
+                                        <DropdownToggle caret>
+                                            Position
+                                        </DropdownToggle>
+                                        <DropdownMenu>
+                                            <DropdownItem header>Sort By</DropdownItem> 
+                                            <DropdownItem>Product Name</DropdownItem> 
+                                            <DropdownItem>Price</DropdownItem> 
+                                            <DropdownItem>Most viewed</DropdownItem> 
+                                        </DropdownMenu>
+                                    </UncontrolledDropdown>
+                                </div> 
+                            </div>
+                            <div className="p-1 mt-2">
+                                Show <AppsIcon></AppsIcon> <DehazeIcon></DehazeIcon>
+                            </div>
                         </div>
-                        <div className="col col-sm-9">
-                            <ImageSliders />
+                        <div className="col-12" style={{paddingTop:'20px'}}>
+                            <Fishes fishes={props.fishes}/>
                         </div>
-                     </div>
+                    </div> 
                </Container>
            </div>
         </>

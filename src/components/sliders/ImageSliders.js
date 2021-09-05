@@ -35,7 +35,7 @@ export default function ImageSliders() {
         onExited={() => setAnimating(false)}
         key={item.src}
       >
-        <img src={item.src} alt={item.caption} width="930px"/>
+        <img src={item.src} alt={item.caption} width="100%"/>
         <CarouselCaption captionText={item.caption} captionHeader={item.caption} />
       </CarouselItem>
     );
