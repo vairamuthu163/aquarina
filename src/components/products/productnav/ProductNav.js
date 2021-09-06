@@ -10,6 +10,7 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Home from '../../home/Home'
 import ImageSliders from '../../sliders/ImageSliders'
+import Fishes from '../fishes/Fishes';
 
 export function ProductNav() {
     const [dropDown,setDropdown] = useState(false);
@@ -145,43 +146,28 @@ export function ProductNavbar() {
         <div>
         <Paper elevation={3}>
             <Tabs
-            value={value}
-            indicatorColor="secondary"
-            textColor="primary"
-            onChange={handleChange}
-            aria-label="disabled tabs example"
-            >
-            <Tab label="Profile">
-
-                         <UncontrolledDropdown nav inNavbar>
-                                <Tooltip title="Profile"> 
-                                  <DropdownToggle nav className="dropDown" caret>
-                                   Profile
-                                  </DropdownToggle> 
-                                </Tooltip>
-                              <DropdownMenu top>
-                                <Link to='/update-profile' style={{textDecoration:'none'}}>
-                                  <DropdownItem>
-                                    Update Profile
-                                  </DropdownItem>
-                                </Link>
-                                <DropdownItem>
-                                  Option 2
-                                </DropdownItem>
-                                <DropdownItem divider />
-                              <DropdownItem>
-                                  log out
-                                </DropdownItem>
-                              </DropdownMenu>
-                            </UncontrolledDropdown>
-            </Tab>
-            <Tab label="Disabled" />
-            <Tab label="Active" />
+                value={value}
+                indicatorColor="secondary"
+                textColor="primary"
+                onChange={handleChange}
+                aria-label="disabled tabs example"
+                >
+                <Tab label={<b>Home</b>}></Tab>
+                <Tab label={<b>Aquarium substrates</b>}/>
+                <Tab label={<b>Aquarium Plants</b>}/>
+                <Tab label={<b>Fishes</b>}/>
+                <Tab label={<b>Fish Food</b>}/>
+                <Tab label={<b>Aquarium Accessories</b>} />
+                <Tab label={<b>indoor plants</b>}/>
             </Tabs>
         </Paper>
-        <TabPanel value={value}><ImageSliders /></TabPanel>
-        <TabPanel value={value} index={1}>Item 2 Details</TabPanel>
-        <TabPanel value={value} index={2}>Item 3 Details</TabPanel>
+        <TabPanel value={value} index={0}>Home</TabPanel>
+        <TabPanel value={value} index={1}>Aquarium substrates</TabPanel>
+        <TabPanel value={value} index={2}>Aquarium Plants</TabPanel>
+        <TabPanel value={value} index={3}>Fishes</TabPanel>
+        <TabPanel value={value} index={4}>Fish Food</TabPanel>
+        <TabPanel value={value} index={5}>Aquarium Accessories</TabPanel>
+        <TabPanel value={value} index={6}>indoor plants</TabPanel>
      </div>
     );
   }
@@ -190,7 +176,7 @@ function TabPanel(props){
     return(
         <div>
             {
-                value===index && (<h1>{children}</h1>)
+                value===index && (<div>{children}</div>)
             }
         </div>
     )

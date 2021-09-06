@@ -136,8 +136,9 @@ export default function UpdateProfile() {
                     </Card.Body>
                 </Card>
             </div>
-             
+            <ParticlesBg type="random" bg={true}/>
         </Container>
+       
         </ >
     )
 }

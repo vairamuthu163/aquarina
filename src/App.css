@@ -74,10 +74,45 @@ address{
   left: 0;
   background-color: #ffffff;
   transform-origin: bottom right;
-  transition: transform 0.25s ease-out;
+  transition: transform 0.40s ease-out;
 }
 
 .hover-underline-animation:hover:after {
   transform: scaleX(1);
   transform-origin: bottom left;
+}
+
+
+.fifth{
+  outline: none;
+  border: none;
+  border-color: #636264 !important;
+  border-radius: 0;
+  color: #f8f8f8;
+  position: relative;
+  overflow: hidden; 
+  z-index: 1;
+  -webkit-transition: color 550ms ease-in-out;
+  transition: color 550ms ease-in-out;
+}
+.fifth:after {
+  content: '';
+  position: absolute;
+  display: block;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  transform: translateX(-50%);
+  width: 0;
+  height: 100%;
+  background: #8e44ad;
+  z-index: -1;
+  transition: width 550ms ease-in-out;
+  transition: width 550ms ease-in-out;
+}
+.fifth:hover {
+color: #fff;
+}
+.fifth:hover:after {
+width: 120%;
 }

@@ -84,30 +84,44 @@ function NavBar(){
                                     </NavLink>
                                   </Tooltip>
                                 </NavItem>
-                              <UncontrolledDropdown nav inNavbar className={currentUser ? 'navItem':'d-none'}>
-                                <Tooltip title="Profile"> 
-                                  <DropdownToggle nav className="dropDown" caret>
-                                    <AccountCircleIcon /> Profile
-                                  </DropdownToggle> 
-                                </Tooltip>
-                              <DropdownMenu top>
-                                {currentUser && <Link to='/update-profile' style={{textDecoration:'none'}}>
+                                <UncontrolledDropdown nav inNavbar className={currentUser ? 'navItem':'d-none'}>
+                                  <Tooltip title="Profile"> 
+                                    <DropdownToggle nav className="dropDown" caret>
+                                      <AccountCircleIcon /> Profile
+                                    </DropdownToggle> 
+                                  </Tooltip>
+                                <DropdownMenu top>
+                                  {currentUser && <Link to='/update-profile' style={{textDecoration:'none'}}>
+                                    <DropdownItem>
+                                      Update Profile
+                                    </DropdownItem>
+                                  </Link>}
                                   <DropdownItem>
-                                    Update Profile
+                                    Option 2
                                   </DropdownItem>
-                                </Link>}
-                                <DropdownItem>
-                                  Option 2
-                                </DropdownItem>
-                                <DropdownItem divider />
-                                {currentUser && <DropdownItem onClick={handleLogout}>
-                                  log out
-                                </DropdownItem>}
-                              </DropdownMenu>
-                            </UncontrolledDropdown>
-                            <NavbarText>
-                              <Button disabled></Button>
-                            </NavbarText>
+                                  <DropdownItem divider />
+                                  {currentUser && <DropdownItem onClick={handleLogout}>
+                                    log out
+                                  </DropdownItem>}
+                                </DropdownMenu>
+                              </UncontrolledDropdown>
+                              <NavbarText>
+                                <Button disabled></Button>
+                              </NavbarText>
+                              {currentUser && <NavItem>
+                                  <Tooltip title="Tickets">
+                                     <Link className="text-decoration-none"
+                                      to='/tickets'
+                                     > 
+                                       <Button 
+                                        variant="outlined"
+                                        className="fifth border-none outline-none text-darken"
+                                        color="primary"
+                                       >Buy Tickets</Button> 
+                                      </Link>
+                                    </Tooltip>
+                                </NavItem>}
+                              
                             </Nav>
                         </Collapse>
                     </div>

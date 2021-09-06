@@ -5,6 +5,7 @@ import {Link, useHistory} from 'react-router-dom';
 import Tooltip from '@material-ui/core/Tooltip';
 import ReactCardFlip from 'react-card-flip';
 import { Button } from '@material-ui/core';
+import Fab from '@material-ui/core/Fab';
 //custom imports
 import "./style.css";
 import { useAuth } from '../../contexts/AuthContext';
@@ -12,10 +13,9 @@ import NavBar from '../navbar/Navbar';
 import ImageSliders from '../sliders/ImageSliders';
 import {ShippingNav } from '../products/productnav/ProductNav';
 import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';  
+import {ListItem,ListItemText,Grid,IconButton} from '@material-ui/core';   
+import ExpandLessIcon from '@material-ui/icons/ExpandLess';
 import NewProduct from '../products/newProducts/NewProduct'; 
-
 const RenderCategories = ({fish}) =>{
     if(fish!=null){
         return(
@@ -171,6 +171,13 @@ export default function Home(props) {
                             <hr />
                         </div>
                     </div>
+                </div>
+                <div>
+                  <a style={{position:'fixed',bottom:'8px',right:'19px',margin:'0',padding:'5px 3px'}} href="#"> 
+                        <Fab aria-label="like" color="primary" className="go_back">
+                            <ExpandLessIcon />
+                        </Fab> 
+                  </a>
                 </div>
             </Container>
         </>

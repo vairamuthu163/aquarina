@@ -19,20 +19,28 @@ import FishDetails from "./components/products/fishes/fishdetails/FishDetails";
 
 
 import { connect } from "react-redux";
+import Tickets from "./components/tickets/Tickets";
 
 
 const mapStateToProps = (state) =>{
   return {
     categories : state.categories,
-    fishes : state.fishes
+    fishes : state.fishes,
+    substrates : state.substrates,
+    plants : state.plants,
+    foods : state.foods,
+
+
   }
 }
 
 function MainComponent(props) {
 
-  const FishWithId = () =>{
+  const FishWithId = ({match}) =>{
     return(
-      <FishDetails />
+      <FishDetails 
+        fish = {props.fishes.find((fish)=>fish.id===parseInt(match.params.fishId,10))}
+      />
     )
     
   }
@@ -45,8 +53,13 @@ function MainComponent(props) {
   }
   const FishWithData = () =>{
     return(
-      <Products fishes = {props.fishes} />
-    )
+      <Products 
+        fishes = {props.fishes}
+        substrates = {props.substrates}
+        plants = {props.plants}
+        foods = {props.foods}
+        />
+    );
   }
   return ( 
         <AuthProvider>
@@ -59,12 +72,13 @@ function MainComponent(props) {
             <Route path='/signup' component={SignUp} />
             <Route path='/login' component={Login} />
             <Route path='/forgot-password' component={ForgotPassword}/>
+            <Route exact path='/products/fishes' component={FishWithData} />
             <Route exact path='/products/fishes/:fishId' component={FishWithId} />
             <Route exact path='/products' component={Products} />
-            <Route exact path='/products/plants' component={Plants} />
+            {/* <Route exact path='/products/plants' component={Plants} /> */}
             <Route exact path='/products/filters' component={Filters} />
-            <Route exact path='/products/fishes' component={FishWithData} />
-            <Route exact path='/products/substrates' component={Substrates} /> 
+            <Route exact path='/products/substrates' component={Substrates} />
+            <Route exact path='/tickets' component={Tickets} /> 
             <Redirect to='/home' /> 
           </Switch> 
         </AuthProvider> 

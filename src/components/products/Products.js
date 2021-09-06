@@ -1,13 +1,25 @@
 import React from 'react'
 import { Container, Form , Input,UncontrolledDropdown,Dropdown,DropdownItem,DropdownMenu,DropdownToggle} from 'reactstrap' 
 import "./style.css"
-import {ProductNav} from './productnav/ProductNav'; 
 import { Button } from '@material-ui/core'; 
 import Fishes from './fishes/Fishes';  
 import AppsIcon from '@material-ui/icons/Apps';
 import DehazeIcon from '@material-ui/icons/Dehaze';
+import { ProductNav } from './productnav/ProductNav';
+import Paper from '@material-ui/core/Paper';
+import Tabs from '@material-ui/core/Tabs';
+import Tab from '@material-ui/core/Tab';
+import { useHistory } from 'react-router';
+import Substrates from './substrates/Substrates';
+import Plants from './plants/Plants';
+import Foods from './fish-foods/Foods';
 export default function Products(props) {
-      
+    const [value, setValue] = React.useState(0);
+  
+    const history = useHistory();
+    const handleChange = (event, newValue) => {
+      setValue(newValue);
+    };
     return (
         <>
            <div style={{marginTop:'18px'}}>
@@ -24,7 +36,58 @@ export default function Products(props) {
                                  >submit</Button>
                             </div>
                         </Form> 
-                        <ProductNav className="col-12" /> 
+                        {/* <ProductNav className="col-12" />  */}
+                        <div className="col-12"> 
+                            <Paper elevation={3}>
+                                <Tabs
+                                    value={value}
+                                    indicatorColor="secondary"
+                                    textColor="primary"
+                                    onChange={handleChange}
+                                    aria-label="disabled tabs example"
+                                    >
+                                    <Tab label={<b>All</b>}></Tab>
+                                    <Tab label={<b>Aquarium substrates</b>}/>
+                                    <Tab label={<b>Aquarium Plants</b>}/>
+                                    <Tab label={<b>Fishes</b>}/>
+                                    <Tab label={<b>Fish Food</b>}/>
+                                    <Tab label={<b>Aquarium Accessories</b>} />
+                                    <Tab label={<b>indoor plants</b>}/>
+                                </Tabs>
+                            </Paper>
+                            <TabPanel value={value} index={0}>All</TabPanel>
+                            <TabPanel value={value} index={1}>
+                                <Substrates substrates = {props.substrates} />
+                            </TabPanel>
+                            <TabPanel value={value} index={2}>
+                                <Plants plants={props.plants} />
+                            </TabPanel>
+                            <TabPanel value={value} index={3}>
+                                <Fishes fishes={props.fishes}/>
+                            </TabPanel>
+                            <TabPanel value={value} index={4}>
+                                <Foods foods = {props.foods} />
+                            </TabPanel>
+                            <TabPanel value={value} index={5}>Aquarium Accessories</TabPanel>
+                            <TabPanel value={value} index={6}>indoor plants</TabPanel>
+                        </div>
+                        {/* <div className="col-12" style={{paddingTop:'20px'}}>
+                            <Fishes fishes={props.fishes}/>
+                        </div> */}
+                       
+                    </div> 
+               </Container>
+           </div>
+        </>
+    )
+}
+function TabPanel(props){
+    const {children,value,index} = props;
+    return(
+        <div>
+            {
+                value===index && (
+                    <div className="row">
                         <div className="col-12 m-2 d-flex justify-content-between">
                             <div className="p-1 mt-2">
                                 <div className="d-flex">
@@ -46,12 +109,12 @@ export default function Products(props) {
                                 Show <AppsIcon></AppsIcon> <DehazeIcon></DehazeIcon>
                             </div>
                         </div>
-                        <div className="col-12" style={{paddingTop:'20px'}}>
-                            <Fishes fishes={props.fishes}/>
+                        <div className="col-12">
+                            {children}
                         </div>
-                    </div> 
-               </Container>
-           </div>
-        </>
+                    </div>
+                )
+            }
+        </div>
     )
 }

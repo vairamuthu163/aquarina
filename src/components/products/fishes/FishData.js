@@ -1,38 +1,44 @@
 export const FISHES =[
     {
         id:0,
+        fishId:0,
         img:'../assets/fishes/thailand_blue_guppy.jpg',
-        caption: "thailand_blue_guppy", 
+        caption: "Thailand blue guppy", 
         url:'/fishes'
     },
     {
         id:1,
+        fishId:1,
         img:'../assets/fishes/albino_japan_blue_red_grass_guppy.jpg',
-        caption: "albino_japan_blue_red_grass_guppy",
+        caption: "Albino japan guppy",
         url:'/fishes'
     },
     {
         id:2,
+        fishId:2,
         img:'../assets/fishes/blue-mosaic-guppy.jpg',
-        caption: "blue-mosaic-guppy", 
+        caption: "Blue mosaic guppy", 
         url:'/fishes'
     },
     {
         id:3,
+        fishId:3,
         img:'../assets/fishes/cobra-guppy.jpg',
-        caption: "cobra-guppy", 
+        caption: "Cobra guppy", 
         url:'/fishes'
     },
     {
         id:4,
+        fishId:4,
         img:'../assets/fishes/mango-platy.jpg',
-        caption: "mango-platy", 
+        caption: "Mango platy", 
         url:'/fishes'
     },
     {
         id:5,
+        fishId:5,
         img:'../assets/fishes/red-mosaic-guppy.jpg',
-        caption: "red-mosaic-guppy", 
+        caption: "Red mosaic guppy", 
         url:'/fishes'
     },
 ]

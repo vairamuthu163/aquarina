@@ -86,3 +86,8 @@ body {
 .img-quick:hover .img-q{
     transform: scale(1.2);
 }
+.go_back{ 
+  color: #ffffff !important;
+  z-index: 1000 !important;
+  box-shadow: rgb(38, 57, 77) 0px 20px 30px -10px !important;
+}
