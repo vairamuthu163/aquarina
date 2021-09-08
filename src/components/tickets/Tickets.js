@@ -1,25 +1,139 @@
 import React,{useEffect,useState} from 'react';
 import {Modal,
-    ModalBody,ModalHeader,ModalFooter,Form,FormGroup,Label,Input,NavbarText, Container} from "reactstrap";
-import {Button} from '@material-ui/core';
+    ModalBody,ModalHeader,Label,Input,Card,CardBody,CardHeader,FormFeedback, Container, CardFooter} from "reactstrap";
  import './tickets.css';
-function Tickets(props) { 
-  
+ import NavBar from '../navbar/Navbar';  
+import { Formik } from 'formik';
+import {Button} from '@material-ui/core';  
+import * as yup from 'yup'; 
+
+const validationSchema =yup.object({
+    date : yup.string().required("Date is Required"), 
+    time : yup.string().required("Please Select the Time"),
+    members : yup.string().required("Please enter the no of members")
+});
+
+
+function Tickets(props) {  
     const [isModalOpen,setIsModalOpen] = useState(true); 
     
     const toggleModal=()=>{
          setIsModalOpen(!isModalOpen);
+    } 
+    const handleSubmit = async(values,{resetForm}) => {
+        await alert(JSON.stringify(values,null,2)); 
+        resetForm();   
     }
     return (
-        <div style={{marginTop:'17px'}}>
+        <div>
+            <NavBar navbg={'linear-gradient(rgba(0, 0, 0, 0.8),rgba(0, 0, 0, 0.8))'} />
             <div className="container-fluid">
-                <Container>
-                    <div className="row row-contents text-white">
-                        <div className="col-12 col-md-8" style={{marginTop:'70px'}}>
-                            <h1 className="display-3 hover-underline-animation">Get Tickets</h1>
+                <Container style={{color:'#f7f7f7'}}>
+                    <div className="row row-contents">
+                        <div className="col-12 col-md-6" style={{marginTop:'130px'}}>
+                            <div className="text-center mb-3">
+                                <h1 className="display-5 hover-underline-animation">Get Tickets</h1> 
+                            </div>
+                            <Formik
+                                initialValues={{
+                                    date : '',
+                                    time : '',
+                                    members : ''
+                                }}
+                                onSubmit={handleSubmit}
+                                validationSchema={validationSchema}
+                            >{(formik =>
+                            <form onSubmit={formik.handleSubmit}>
+                                    <Card className="myorder bg-gradient bg-transparent">
+                                        <CardBody>
+                                            <Label htmlFor="date" style={{marginTop:'5px'}}>What day would you like to visit? <span className="text-danger">*</span></Label>
+                                            <Input 
+                                                type="date"
+                                                placeholder="Please select a date"
+                                                fullWidth
+                                                id="date"
+                                                name="date" 
+                                                value={formik.values.date}
+                                                onChange={formik.handleChange}
+                                                invalid={formik.touched.date && Boolean(formik.errors.date)}
+                                                helperText={formik.touched.date && formik.errors.date}
+                                                style={{marginTop:'10px'}}  
+                                            />
+                                            <FormFeedback>{formik.errors.date}</FormFeedback>
+                                            <Label for="time" style={{marginTop:'5px'}}>What time would you like to visit?<span className="text-danger">*</span></Label>
+                                            <Input 
+                                                type="select" 
+                                                id="time"
+                                                name="time" 
+                                                value={formik.values.time}
+                                                onChange={formik.handleChange}
+                                                invalid={formik.touched.time && Boolean(formik.errors.time)}
+                                                helperText={formik.touched.time && formik.errors.time} 
+                                                style={{marginTop:'10px'}}
+                                                placeholder="Please Select a Time"
+                                            >
+                                                <option>1</option>
+                                                <option>2</option>
+                                                <option>3</option>
+                                                <option>4</option>
+                                                <option>5</option>
+                                            </Input>
+                                            <FormFeedback>{formik.errors.time}</FormFeedback>
+                                            <Label htmlFor="members" style={{marginTop:'5px'}}>What day would you like to visit? <span className="text-danger">*</span></Label>
+                                            <Input 
+                                                type="number"
+                                                fullWidth
+                                                placeholder="0"
+                                                id="members"
+                                                name="members" 
+                                                value={formik.values.members}
+                                                onChange={formik.handleChange}
+                                                invalid={formik.touched.members && Boolean(formik.errors.members)}
+                                                helperText={formik.touched.members && formik.errors.members}
+                                                style={{marginTop:'10px'}}  
+                                            /> 
+                                            <FormFeedback>{formik.errors.members}</FormFeedback>
+                                            <Button 
+                                                fullWidth
+                                                type="submit" 
+                                                color="primary"
+                                                variant="contained"
+                                                style={{marginTop:'30px'}}    
+                                            >
+                                                Submit
+                                            </Button>
+                                            </CardBody>
+                                    </Card>
+                                </form>
+                            )}
+                            </Formik>
                         </div>
-                        <div className="col-12 col-md-4">
-
+                        <div className="col-12 offset-md-2 col-md-4" style={{marginTop:'13.2rem'}}>
+                             <Card className="myorder bg-gradient bg-transparent">
+                                <CardHeader className="text-center"><h2 className="hover-underline-animation">My Order</h2></CardHeader>
+                                <CardBody>
+                                    General admission<br />{JSON.stringify(props.data)}
+                                    @6.00 PM<br /><br />
+                                    <div style={{display:'flex',justifyContent:'space-between'}}>
+                                        <b>1 X $36.95</b>
+                                        <b>$36.95</b>
+                                    </div>
+                                </CardBody>
+                                <CardFooter style={{margin:'20px 0px'}}>
+                                    <div style={{display:'flex',justifyContent:'space-between'}}>
+                                        <b>SUB TOTAL</b>
+                                        <b>$36.95</b>
+                                    </div>
+                                    <Button
+                                        variant="contained"
+                                        color="primary"
+                                        fullWidth
+                                        className="mt-3"
+                                    >
+                                        Check Out
+                                    </Button>
+                                </CardFooter>
+                             </Card>
                         </div>
                     </div>
                 </Container>

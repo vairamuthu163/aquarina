@@ -5,11 +5,15 @@
   font-family: 'Montserrat', sans-serif;
   font-family: 'Poppins', sans-serif;
   font-family: 'Sora', sans-serif;
+  scroll-behavior: smooth;
 }
-.row-header{
+body{
+  margin: 0 !important;
+}
+/* .row-header{
   margin:0px auto;
   padding:0px auto;
-}
+} */
 
 .row-content {
   margin:0px auto;
@@ -24,6 +28,8 @@
   padding: 20px 0px 20px 0px;
 }
 .jumbotron {
+  margin: 0px !important;
+  position: relative !important;
   padding:70px 30px 70px 30px;
   margin:0px auto;
   background: #9575CD ;
@@ -36,9 +42,9 @@ address{
   color:#0f0f0f;
 }
 
-.navbar-dark {
+/* .navbar-dark {
   background-color: #512DA8;
-}
+} */
 
 .page-enter{
   opacity: 0.01;
@@ -85,9 +91,8 @@ address{
 
 .fifth{
   outline: none;
-  border: none;
-  border-color: #636264 !important;
-  border-radius: 0;
+  border:1px solid #777a7c !important;
+  height:2.5rem !important;
   color: #f8f8f8;
   position: relative;
   overflow: hidden; 
@@ -111,6 +116,7 @@ address{
   transition: width 550ms ease-in-out;
 }
 .fifth:hover {
+  border: none !important;
 color: #fff;
 }
 .fifth:hover:after {

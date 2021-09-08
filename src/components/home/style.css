@@ -62,10 +62,10 @@ address {
   margin: 0px;
   color: #0f0f0f;
 }
-body {
+/* body {
   padding: 50px 0px 0px 0px;
   z-index: 0;
-}
+} */
 .container-home{
   padding-left: 50px !important;
   padding-right: 50px !important;

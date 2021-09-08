@@ -9,18 +9,18 @@ Nav{
 .nav-link.active{
  
 }
-#navBar{
+/* #navBar{
   background-color: #272829;
 }
 #navBar.active{
   background-color: transparent !important;
-}
+} */
 .navItem{
   margin-right: 12px;
 }
 .navItem:hover{
   border-radius: 5px;
-  background-color: gray;
+  background-color: rgb(87, 162, 233);
 } 
 .navItemSignUp{
   background-color: #292727;

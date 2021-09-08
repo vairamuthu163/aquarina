@@ -63,7 +63,6 @@ function MainComponent(props) {
   }
   return ( 
         <AuthProvider>
-          <NavBar />
           <Switch>
           {/*  <PrivateRoute exact path='/' component={Dashboard} />
             <PrivateRoute path='/update-profile' component={UpdateProfile} /> */}

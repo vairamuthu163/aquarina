@@ -41,4 +41,46 @@ export const FISHES =[
         caption: "Red mosaic guppy", 
         url:'/fishes'
     },
+    {
+        id:6,
+        fishId:5,
+        img:'../assets/fishes/red-mosaic-guppy.jpg',
+        caption: "Red mosaic guppy", 
+        url:'/fishes'
+    },
+    {
+        id:7,
+        fishId:5,
+        img:'../assets/fishes/red-mosaic-guppy.jpg',
+        caption: "Red mosaic guppy", 
+        url:'/fishes'
+    },
+    {
+        id:6,
+        fishId:5,
+        img:'../assets/fishes/red-mosaic-guppy.jpg',
+        caption: "Red mosaic guppy", 
+        url:'/fishes'
+    },
+    {
+        id:7,
+        fishId:5,
+        img:'../assets/fishes/red-mosaic-guppy.jpg',
+        caption: "Red mosaic guppy", 
+        url:'/fishes'
+    },
+    {
+        id:8,
+        fishId:5,
+        img:'../assets/fishes/red-mosaic-guppy.jpg',
+        caption: "Red mosaic guppy", 
+        url:'/fishes'
+    },
+    {
+        id:9,
+        fishId:5,
+        img:'../assets/fishes/red-mosaic-guppy.jpg',
+        caption: "Red mosaic guppy", 
+        url:'/fishes'
+    },
 ]

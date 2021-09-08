@@ -13,6 +13,8 @@ import { useHistory } from 'react-router';
 import Substrates from './substrates/Substrates';
 import Plants from './plants/Plants';
 import Foods from './fish-foods/Foods';
+import Accordian from './accordian/Accordian';
+import NavBar from '../navbar/Navbar';
 export default function Products(props) {
     const [value, setValue] = React.useState(0);
   
@@ -22,11 +24,12 @@ export default function Products(props) {
     };
     return (
         <>
-           <div style={{marginTop:'18px'}}>
+           <NavBar navbg={'linear-gradient(rgba(0, 0, 0, 0.8),rgba(0, 0, 0, 0.8))'} />
+           <div style={{marginTop:'20px'}}>
                <Container>
                     <div className="row" style={{padding:'30px'}}> 
                         <Form className="col-12 col-sm-6 offset-sm-3 p-3 pt-3">
-                            <div className="d-flex justify-content-center">
+                            <div className="d-flex justify-content-center mt-3">
                                 <Input type="search" placeholder="Search here..." className="form-control w-100"/>
                                 <Button
                                  type="submit"
@@ -109,7 +112,14 @@ function TabPanel(props){
                                 Show <AppsIcon></AppsIcon> <DehazeIcon></DehazeIcon>
                             </div>
                         </div>
-                        <div className="col-12">
+                        <div className="col-3"> 
+                           
+                                <Accordian />
+                                <Accordian />
+                                <Accordian />
+                           
+                        </div>
+                        <div className="col-9">
                             {children}
                         </div>
                     </div>

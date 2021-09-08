@@ -8,14 +8,14 @@ import { useAuth } from '../../contexts/AuthContext';
 import {Link, NavLink,useHistory} from 'react-router-dom';
 import "./style.css";
 
-function NavBar(){ 
+function NavBar(props){ 
     const [isNavOpen,setIsNavOpen] = useState(false);
     const [isModalOpen,setIsModalOpen] = useState(false);
     const [isDropdown,setIsDropdown] = useState(false);
     const[error,setError] = useState('');
     const {currentUser, logout} = useAuth();
     const history = useHistory();
-  const[navbar,setNavbar]=useState(false);
+  const[navBackground,setNavBackground]=useState(props.navbg);
     //logout
     const handleLogout = async() =>{
       setError('');
@@ -38,17 +38,20 @@ function NavBar(){
         setIsModalOpen(!isModalOpen);
     }
     
+   /*  const changBackground = () =>{
+      document.addEventListener("scroll", () => {
+        const backgroundcolor = window.scrollY < 200 ? props.navbg :'linear-gradient(rgba(0, 0, 0, 0.8),rgba(0, 0, 0, 0.8))' ;
+        setNavBackground(backgroundcolor);
+      });
+    } */
     const changBackground = () =>{
-      if(window.scrollY>=100){
-        setNavbar(true);
-      }else{
-        setNavbar(false)
-      }
+        const backgroundcolor = window.scrollY < 200 ? props.navbg :'linear-gradient(rgba(0, 0, 0, 0.8),rgba(0, 0, 0, 0.8))' ;
+        setNavBackground(backgroundcolor);
     }
     window.addEventListener('scroll',changBackground);
         return(
             <>
-                <Navbar dark expand="md" className="fixed-top" id='navBar'>
+                <Navbar dark expand="md" className="fixed-top" style={{backgroundImage:navBackground}}>
                     <div className="container">
                         <NavbarBrand className="mr-auto" href="/">
                             <h3><img src="assets/images/logo.png" height="30" width="41" alt="aquarina"/><span className="d-none d-sm-inline hover-underline-animation">Aquarina</span></h3>
@@ -115,8 +118,8 @@ function NavBar(){
                                      > 
                                        <Button 
                                         variant="outlined"
-                                        className="fifth border-none outline-none text-darken"
-                                        color="primary"
+                                        className="fifth text-darken"
+                                        style={{color:'white'}}
                                        >Buy Tickets</Button> 
                                       </Link>
                                     </Tooltip>

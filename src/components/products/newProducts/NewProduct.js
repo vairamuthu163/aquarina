@@ -31,7 +31,7 @@ export default function NewProduct() {
   var settings = { 
     dots: true,
     infinite: true,
-    slidesToShow: 5,
+    slidesToShow: 4,
     slidesToScroll: 1,
     speed: 500,
     autoplay: true,
@@ -68,7 +68,7 @@ export default function NewProduct() {
   
   }; 
   return (
-    <Slider {...settings} style={{backgroundColor:'lightBlue'}}>
+    <Slider {...settings} style={{backgroundColor:'lightBlue',padding:'3px'}}>
       <div className="p-3">
             <Card className="img-quick p-2"> 
                   <CardImg className="img-q" width="100" height="250" top src="assets/images/shipping-1.jpg" alt="Card image cap" />

@@ -15,7 +15,7 @@ import {ShippingNav } from '../products/productnav/ProductNav';
 import List from '@material-ui/core/List';
 import {ListItem,ListItemText,Grid,IconButton} from '@material-ui/core';   
 import ExpandLessIcon from '@material-ui/icons/ExpandLess';
-import NewProduct from '../products/newProducts/NewProduct'; 
+import NewProduct from '../products/newProducts/NewProduct';  
 const RenderCategories = ({fish}) =>{
     if(fish!=null){
         return(
@@ -56,8 +56,8 @@ export default function Home(props) {
         }
     }
     return (
-        <>
-            <NavBar />
+        <div>
+            <NavBar navbg={'linear-gradient(rgba(0, 0, 0, 0.0),rgba(0, 0, 0, 0.0))'} />
             <Jumbotron>
                 <Container>
                     <div className="row row-header">
@@ -180,6 +180,6 @@ export default function Home(props) {
                   </a>
                 </div>
             </Container>
-        </>
+        </div>
     )
 }
