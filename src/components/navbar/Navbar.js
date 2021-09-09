@@ -45,8 +45,8 @@ function NavBar(props){
       });
     } */
     const changBackground = () =>{
-        const backgroundcolor = window.scrollY < 200 ? props.navbg :'linear-gradient(rgba(0, 0, 0, 0.8),rgba(0, 0, 0, 0.8))' ;
-        setNavBackground(backgroundcolor);
+        const backgroundcolor = window.scrollY < 150 ? props.navbg :'linear-gradient(rgba(0, 0, 0, 0.8),rgba(0, 0, 0, 0.8))' ;
+        setNavBackground(backgroundcolor); 
     }
     window.addEventListener('scroll',changBackground);
         return(

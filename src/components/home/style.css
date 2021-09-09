@@ -30,7 +30,7 @@
   }
   .row-header {
     margin: 0px auto;
-    padding: 0px 0px;
+    padding: 46px 0px;
   }
   .row-content {
     margin: 0px auto;
@@ -51,10 +51,9 @@
   margin: 0px auto;
   padding: 70px 30px;
   /* background: #9575CD; */
-  background: url('./gg.gif') no-repeat !important;
-  background-size: 100vw 80vh !important;
+  background: url('./backgroundgif.gif') no-repeat !important;
+  background-size: 100vw 90vh !important;
   height:85vh !important;
-
   color: floralwhite;
 }
 address {

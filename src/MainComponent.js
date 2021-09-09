@@ -20,6 +20,7 @@ import FishDetails from "./components/products/fishes/fishdetails/FishDetails";
 
 import { connect } from "react-redux";
 import Tickets from "./components/tickets/Tickets";
+import ProductDetails from "./components/products/substrates/ProductDetails";
 
 
 const mapStateToProps = (state) =>{
@@ -29,7 +30,7 @@ const mapStateToProps = (state) =>{
     substrates : state.substrates,
     plants : state.plants,
     foods : state.foods,
-
+    filters : state.filters,
 
   }
 }
@@ -58,6 +59,7 @@ function MainComponent(props) {
         substrates = {props.substrates}
         plants = {props.plants}
         foods = {props.foods}
+        filters = {props.filters}
         />
     );
   }
@@ -76,7 +78,7 @@ function MainComponent(props) {
             <Route exact path='/products' component={Products} />
             {/* <Route exact path='/products/plants' component={Plants} /> */}
             <Route exact path='/products/filters' component={Filters} />
-            <Route exact path='/products/substrates' component={Substrates} />
+            <Route path='/products/substrates' component={ProductDetails} />
             <Route exact path='/tickets' component={Tickets} /> 
             <Redirect to='/home' /> 
           </Switch> 

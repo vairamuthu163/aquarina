@@ -15,6 +15,7 @@ import Plants from './plants/Plants';
 import Foods from './fish-foods/Foods';
 import Accordian from './accordian/Accordian';
 import NavBar from '../navbar/Navbar';
+import Filters from './filters/Filters';
 export default function Products(props) {
     const [value, setValue] = React.useState(0);
   
@@ -71,7 +72,9 @@ export default function Products(props) {
                             <TabPanel value={value} index={4}>
                                 <Foods foods = {props.foods} />
                             </TabPanel>
-                            <TabPanel value={value} index={5}>Aquarium Accessories</TabPanel>
+                            <TabPanel value={value} index={5}>
+                                <Filters filters = {props.filters}/>
+                            </TabPanel>
                             <TabPanel value={value} index={6}>indoor plants</TabPanel>
                         </div>
                         {/* <div className="col-12" style={{paddingTop:'20px'}}>

@@ -62,7 +62,7 @@ export default function Home(props) {
                 <Container>
                     <div className="row row-header">
                         <div className="col-12 col-sm-6">
-                            <h1 className="display-3"> 
+                            <h1 className="display-4"> 
                                 <span className="title">
                                     AQUARINA
                                 </span> 
@@ -71,16 +71,16 @@ export default function Home(props) {
                             <h3 className="display-6">Explore the Mysteries of the Deep</h3>
                             <p style={{fontSize:'1.2rem'}}>Our expansive new gallery, Sharks! Predators of the Deep, takes you from fear to fascination as you explore the epic views and experience unique encounters with our fierce new residents.</p>
                         </div>
-                        <div className="col-12 col-sm-6 mb-2"> 
+                        <div className="col-12 col-sm-6 mb-2 mt-5"> 
                             <Container> 
                                <ReactCardFlip isFlipped={isFlipped} flipDirection="horizontal">
-                                    <Card style={{color:'white'}} className="card-flip" onClick={handleFlip} flipSpeedBackToFront="0.9">
+                                    <Card style={{color:'white'}} className="card-flip" onMouseEnter={handleFlip} flipSpeedBackToFront="0.9">
                                         <CardHeader>This is the Front of the card.</CardHeader>
                                         <CardBody style={{color:'white'}}>
                                             Click the Button 
                                         </CardBody>
                                     </Card>
-                                    <Card  style={{color:'black'}} onClick={handleFlip} flipSpeedBackToFront="0.9">
+                                    <Card  style={{color:'black'}} onMouseLeave={handleFlip} flipSpeedBackToFront="0.9">
                                         <CardHeader>This is the back of the card.</CardHeader>
                                         <CardBody>
                                              <div>
