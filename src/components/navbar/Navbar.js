@@ -68,7 +68,7 @@ function NavBar(props){
                                   </NavItem>
                                 <NavItem className='navItem'>
                                   <Tooltip title="About Us">
-                                    <NavLink className="nav-link" to="/products/fishes">
+                                    <NavLink className="nav-link" to="/products">
                                         Products
                                     </NavLink>
                                     </Tooltip>

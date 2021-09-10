@@ -1,11 +1,13 @@
-import { createStore,combineReducers } from "redux";
+import { createStore,combineReducers,applyMiddleware } from "redux";
 import { Categories } from "./categories";
 import { Filters } from "./filters";
 import { Fishes } from "./fishes";
 import { Foods } from "./foods";
 import { Plants } from "./plants";
+import { RecentProducts } from "./recentProducts";
 import { Substrates } from "./substrates";
-
+import thunk from "redux-thunk";
+import logger from "redux-logger";
 export const ConfigureStore = () =>{
     const store = createStore(
         combineReducers({
@@ -14,8 +16,10 @@ export const ConfigureStore = () =>{
             fishes : Fishes,
             foods : Foods,
             plants : Plants,
-            substrates : Substrates
-        })
+            substrates : Substrates,
+            recentProducts : RecentProducts,
+        }),
+        applyMiddleware(thunk,logger)
     );
     return store;
 }

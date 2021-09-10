@@ -8,23 +8,9 @@
 .img-quick:hover .img-q{
     transform: scale(1.1);
 }
-/* .slick-next {
-    background: url('./forward-modified.png') no-repeat!important;
-    background: 'blue';
-}
-.slick-next::before{ 
-    display: none; 
-}
-.slick-prev {
-    background: url('./forward-modified.png') center center no-repeat!important;
-    color: black !important;
-}
-.slick-prev::before{ 
-    display: none; 
-} */
 .slick-prev:before {
     font-size: 1.5rem;
-  color: #080808;
+    color: #080808;
 }
 .slick-next:before{ 
     font-size: 1.5rem;

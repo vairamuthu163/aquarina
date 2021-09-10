@@ -96,6 +96,7 @@ address{
   color: #f8f8f8;
   position: relative;
   overflow: hidden; 
+  border-radius: 50px !important;
   z-index: 1;
   -webkit-transition: color 550ms ease-in-out;
   transition: color 550ms ease-in-out;

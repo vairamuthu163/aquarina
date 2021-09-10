@@ -8,9 +8,9 @@ import {Button} from '@material-ui/core';
 import * as yup from 'yup'; 
 
 const validationSchema =yup.object({
-    date : yup.string().required("Date is Required"), 
-    time : yup.string().required("Please Select the Time"),
-    members : yup.string().required("Please enter the no of members")
+    date : yup.string().required("Please Select the Data!"), 
+    time : yup.string().required("Please Select the Time!"),
+    members : yup.string().required("Please enter the no of members!")
 });
 
 
@@ -30,7 +30,7 @@ function Tickets(props) {
             <div className="container-fluid">
                 <Container style={{color:'#f7f7f7'}}>
                     <div className="row row-contents">
-                        <div className="col-12 col-md-6" style={{marginTop:'130px'}}>
+                        <div className="col-12 col-md-6" style={{marginTop:'90px'}}>
                             <div className="text-center mb-3">
                                 <h1 className="display-5 hover-underline-animation">Get Tickets</h1> 
                             </div>
@@ -72,18 +72,22 @@ function Tickets(props) {
                                                 style={{marginTop:'10px'}}
                                                 placeholder="Please Select a Time"
                                             >
-                                                <option>1</option>
-                                                <option>2</option>
-                                                <option>3</option>
-                                                <option>4</option>
-                                                <option>5</option>
+                                                <option>10:00 AM</option> 
+                                                <option>11:00 AM</option> 
+                                                <option>12:00 PM</option> 
+                                                <option>1:00 PM</option> 
+                                                <option>2:00 PM</option> 
+                                                <option>3:00 PM</option> 
+                                                <option>4:00 PM</option>
+                                                <option>5:00 PM</option>
+                                                <option>6:00 PM</option>
                                             </Input>
                                             <FormFeedback>{formik.errors.time}</FormFeedback>
-                                            <Label htmlFor="members" style={{marginTop:'5px'}}>What day would you like to visit? <span className="text-danger">*</span></Label>
+                                            <Label htmlFor="members" style={{marginTop:'5px'}}>How many will be visiting? <span className="text-danger">*</span></Label>
                                             <Input 
                                                 type="number"
                                                 fullWidth
-                                                placeholder="0"
+                                                placeholder="Number of Guests"
                                                 id="members"
                                                 name="members" 
                                                 value={formik.values.members}
@@ -108,7 +112,7 @@ function Tickets(props) {
                             )}
                             </Formik>
                         </div>
-                        <div className="col-12 offset-md-2 col-md-4" style={{marginTop:'13.2rem'}}>
+                        <div className="col-12 offset-md-2 col-md-4" style={{marginTop:'10.8rem'}}>
                              <Card className="myorder bg-gradient bg-transparent">
                                 <CardHeader className="text-center"><h2 className="hover-underline-animation">My Order</h2></CardHeader>
                                 <CardBody>

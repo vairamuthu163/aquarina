@@ -6,6 +6,7 @@ import Tooltip from '@material-ui/core/Tooltip';
 import ReactCardFlip from 'react-card-flip';
 import { Button } from '@material-ui/core';
 import Fab from '@material-ui/core/Fab';
+import axios from 'axios';
 //custom imports
 import "./style.css";
 import { useAuth } from '../../contexts/AuthContext';
@@ -13,9 +14,23 @@ import NavBar from '../navbar/Navbar';
 import ImageSliders from '../sliders/ImageSliders';
 import {ShippingNav } from '../products/productnav/ProductNav';
 import List from '@material-ui/core/List';
-import {ListItem,ListItemText,Grid,IconButton} from '@material-ui/core';   
+import {ListItem,ListItemText} from '@material-ui/core';   
 import ExpandLessIcon from '@material-ui/icons/ExpandLess';
 import NewProduct from '../products/newProducts/NewProduct';  
+import Experience from './Experience';
+
+
+const RenderRecentProducts = ({recent}) =>{
+    return(
+        <Card className="col-12">
+            <CardImg className="img-q col-3" height="80" width="80" top src={recent.img} alt={recent.caption} />
+            <CardBody className="col-6">
+                <p>{recent.caption}</p>
+            </CardBody>
+        </Card>
+    )
+}
+
 const RenderCategories = ({fish}) =>{
     if(fish!=null){
         return(
@@ -34,6 +49,20 @@ const RenderCategories = ({fish}) =>{
 export default function Home(props) {
     const [isFlipped,setIsFlipped] = useState(false);
 
+
+
+    /* useEffect(()=>{
+        axios.get('http://localhost:3001/categories')
+        .then((response)=>{
+           console.log(response); 
+        })
+        .catch((err)=>{
+          console.log(err);
+        }) 
+    },[]); */
+
+
+
     const handleFlip = (e) =>{
         e.preventDefault();
         setIsFlipped(!isFlipped);
@@ -45,6 +74,15 @@ export default function Home(props) {
             </div>
         )
     });
+
+    const recentProducts = props.recentProducts.map((recent)=>{
+        return(
+            <div key={recent._id}>
+                <RenderRecentProducts recent = {recent} />
+            </div>
+        )
+    })
+
     const history = useHistory();
     const handleClicked = (itemSelected) =>{
         if(itemSelected==0){
@@ -97,19 +135,12 @@ export default function Home(props) {
                     </div>
                 </Container>
             </Jumbotron> 
-            <Container className="position-relative" style={{marginTop:'-60px'}}>
+            <Container className="position-relative h-75" style={{marginTop:'-120px'}}>
                 <div className="row">  
-                    <div className="col mr-sm-3 ml-sm-3 text-dark">
-                        <Card>
-                           <CardBody className="p-5">
-                               Lorem Ipsum is simply dummy text of the printing and typesetting industry.
-                               Lorem Ipsum has been the industry's standard dummy text ever since the
-                               1500s, when an unknown printer took a galley of type and scrambled it to
-                               make a type specimen book. It has survived not only five centuries, but
-                               also the leap into electronic typesetting, remaining essentially
-                               unchanged. It was popularised in the 1960s with the release of Letraset
-                               sheets containing Lorem Ipsum passages, and more recently with desktop
-                               publishing software like Aldus PageMaker including versions of Lorem Ipsum.
+                    <div className="col mr-sm-3 ml-sm-3 text-dark" style={{backgroundColor:'#3f51b5'}}>
+                        <Card style={{minHeight:'400px'}}>
+                           <CardBody className="p-3 text-center">
+                               <Experience />
                            </CardBody>
                         </Card>
                     </div>    
@@ -118,7 +149,7 @@ export default function Home(props) {
             <Container className="position-relative">
                 <div className="row mt-4">
                     <div className="col col-sm-3" style={{paddingTop:'30px',position:'relative'}}>
-                        <Card>
+                        <Card style={{borderRadius:'0px'}}>
                             <CardHeader className="p-3 bg-primary text-white text-center">
                                 <b>Top Categories </b>
                             </CardHeader>
@@ -159,8 +190,11 @@ export default function Home(props) {
                     </div>
                     <div className="row row-contents mt-3">
                         <div className="col col-sm-4">
-                            <h5>Recently Added Products</h5>
+                            <h5>Recently Added Products</h5> 
                             <hr /> 
+                            <div className="col-12">
+                                {recentProducts}
+                            </div>
                         </div>
                         <div className="col col-sm-4">
                             <h5>Best Selling Products</h5>

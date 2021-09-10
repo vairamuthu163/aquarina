@@ -18,7 +18,7 @@ Nav{
 .navItem{
   margin-right: 12px;
 }
-.navItem:hover{
+.navItem:hover{  
   border-radius: 5px;
   background-color: rgb(87, 162, 233);
 } 
