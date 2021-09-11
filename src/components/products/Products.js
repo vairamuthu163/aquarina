@@ -1,11 +1,10 @@
 import React from 'react'
-import { Container, Form , Input,UncontrolledDropdown,Dropdown,DropdownItem,DropdownMenu,DropdownToggle} from 'reactstrap' 
+import { Container, Form ,Input,UncontrolledDropdown,DropdownItem,DropdownMenu,DropdownToggle} from 'reactstrap' 
 import "./style.css"
 import { Button } from '@material-ui/core'; 
 import Fishes from './fishes/Fishes';  
 import AppsIcon from '@material-ui/icons/Apps';
-import DehazeIcon from '@material-ui/icons/Dehaze';
-import { ProductNav } from './productnav/ProductNav';
+import DehazeIcon from '@material-ui/icons/Dehaze'; 
 import Paper from '@material-ui/core/Paper';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
@@ -17,7 +16,7 @@ import Accordian from './accordian/Accordian';
 import NavBar from '../navbar/Navbar';
 import Filters from './filters/Filters';
 export default function Products(props) {
-    const [value, setValue] = React.useState(0);
+    const [value, setValue] = React.useState(2);
   
     const history = useHistory();
     const handleChange = (event, newValue) => {
@@ -29,8 +28,8 @@ export default function Products(props) {
            <div style={{marginTop:'20px'}}>
                <Container>
                     <div className="row" style={{padding:'30px'}}> 
-                        <Form className="col-12 col-sm-6 offset-sm-3 p-3 pt-3">
-                            <div className="d-flex justify-content-center mt-3">
+                        <Form className="col-12 col-sm-6 offset-sm-3 p-3 pt-5">
+                            <div className="d-flex justify-content-center mt-4">
                                 <Input type="search" placeholder="Search here..." className="form-control w-100"/>
                                 <Button
                                  type="submit"
@@ -61,16 +60,32 @@ export default function Products(props) {
                             </Paper>
                             <TabPanel value={value} index={0}>All</TabPanel>
                             <TabPanel value={value} index={1}>
-                                <Substrates substrates = {props.substrates} />
+                                <Substrates 
+                                    substrates = {props.substrates} 
+                                    isLoading = {props.substratesLoading}
+                                    errmess = {props.substrateErr}
+                                />
                             </TabPanel>
                             <TabPanel value={value} index={2}>
-                                <Plants plants={props.plants} />
+                                <Plants
+                                    plants={props.plants} 
+                                    isLoading = {props.plantsLoading}
+                                    errmess = {props.plantsErr} 
+                                    />
                             </TabPanel>
                             <TabPanel value={value} index={3}>
-                                <Fishes fishes={props.fishes}/>
+                                <Fishes 
+                                    fishes={props.fishes}
+                                    isLoading={props.fishesLoading}
+                                    errmess = {props.fishesErr}
+                                />
                             </TabPanel>
                             <TabPanel value={value} index={4}>
-                                <Foods foods = {props.foods} />
+                                <Foods 
+                                    foods = {props.foods} 
+                                    isLoading = {props.foodsLoading}
+                                    errmess = {props.foodsErr}
+                                />
                             </TabPanel>
                             <TabPanel value={value} index={5}>
                                 <Filters filters = {props.filters}/>

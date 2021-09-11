@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Lobster&display=swap');
 *{ 
   box-sizing: border-box;
   padding: 0;
@@ -67,6 +68,8 @@ address{
 .hover-underline-animation {
   display: inline-block;
   position: relative;
+  font-family: 'Lobster', cursive;
+  font-size: 35px;
   color: #ffffff;
 }
 
@@ -122,4 +125,11 @@ color: #fff;
 }
 .fifth:hover:after {
 width: 120%;
+}
+:root{
+  --mainDark: #343a40;
+  --mainGrey: rgba(109,109,109);
+  --mainLightGrey: rgba(172,172,172);
+  --mainWhite: #fff;
+  --mainBlue: #007bff;
 }

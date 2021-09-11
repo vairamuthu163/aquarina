@@ -54,7 +54,7 @@ function NavBar(props){
                 <Navbar dark expand="md" className="fixed-top" style={{backgroundImage:navBackground}}>
                     <div className="container">
                         <NavbarBrand className="mr-auto" href="/">
-                            <h3><img src="assets/images/logo.png" height="30" width="41" alt="aquarina"/><span className="d-none d-sm-inline hover-underline-animation">Aquarina</span></h3>
+                            <h3><img src="logoDolphin.png" height="50" width="80" alt="aquarina"/><span className="d-none d-sm-inline hover-underline-animation">Aquarina</span></h3>
                         </NavbarBrand>
                         <NavbarToggler onClick={toggleNav}></NavbarToggler>
                         <Collapse className="justify-content-end" isOpen={isNavOpen} navbar>
@@ -62,32 +62,32 @@ function NavBar(props){
                                 <NavItem className="navItem">
                                   <Tooltip title="Home">
                                     <NavLink className="nav-link" to="/home">
-                                        <span className="fa fa-home fa-lg"></span> Home
+                                    &nbsp;&nbsp; <span className="fa fa-home fa-lg"></span> Home &nbsp;&nbsp; 
                                     </NavLink>
                                   </Tooltip>
                                   </NavItem>
                                 <NavItem className='navItem'>
                                   <Tooltip title="About Us">
                                     <NavLink className="nav-link" to="/products">
-                                        Products
+                                    &nbsp;&nbsp; Products &nbsp;&nbsp; 
                                     </NavLink>
                                     </Tooltip>
                                 </NavItem>
                                 <NavItem className="navItem">
                                  <Tooltip title="Contact Us">
                                     <NavLink className="nav-link" to="/contactus">
-                                        <span className="fa fa-address-card fa-lg"></span> Contact Us    
+                                    &nbsp;&nbsp;  <span className="fa fa-address-card fa-lg"></span> Contact Us &nbsp;&nbsp;     
                                     </NavLink>
                                   </Tooltip>
                                 </NavItem>
-                                <NavItem className={currentUser ? 'd-none':'navItemSignUp'}>
+                                <NavItem className={currentUser ? 'd-none':'fifth'}>
                                   <Tooltip title="Sign Up">
                                     <NavLink className="nav-link" to="/signup">
-                                      <span className="fa fa-sign-in"></span> Sign Up
+                                    &nbsp;&nbsp; <span className="fa fa-sign-in"></span>&nbsp;&nbsp; Sign Up&nbsp;&nbsp;&nbsp;&nbsp;
                                     </NavLink>
                                   </Tooltip>
                                 </NavItem>
-                                <UncontrolledDropdown nav inNavbar className={currentUser ? 'navItem':'d-none'}>
+                                <UncontrolledDropdown nav inNavbar className={currentUser ? 'navItem mr-2':'d-none'}>
                                   <Tooltip title="Profile"> 
                                     <DropdownToggle nav className="dropDown" caret>
                                       <AccountCircleIcon /> Profile
@@ -108,9 +108,9 @@ function NavBar(props){
                                   </DropdownItem>}
                                 </DropdownMenu>
                               </UncontrolledDropdown>
-                              <NavbarText>
+                              {/* <NavbarText>
                                 <Button disabled></Button>
-                              </NavbarText>
+                              </NavbarText> */}
                               {currentUser && <NavItem>
                                   <Tooltip title="Tickets">
                                      <Link className="text-decoration-none"
@@ -118,9 +118,9 @@ function NavBar(props){
                                      > 
                                        <Button 
                                         variant="outlined"
-                                        className="fifth text-darken"
+                                        className="fifth text-darken ml-2"
                                         style={{color:'white'}}
-                                       >Buy Tickets</Button> 
+                                       >&nbsp;&nbsp;Buy Tickets&nbsp;&nbsp;</Button> 
                                       </Link>
                                     </Tooltip>
                                 </NavItem>}

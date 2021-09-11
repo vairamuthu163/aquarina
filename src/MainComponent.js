@@ -15,11 +15,12 @@ import Fishes from "./components/products/fishes/Fishes";
 import Substrates from './components/products/substrates/Substrates'
 import FishDetails from "./components/products/fishes/fishdetails/FishDetails";
 
-import { fetchRecents } from "./redux/ActionCreators";
+import { fetchFishes, fetchFoods, fetchPlants, fetchRecents, fetchSubstrates } from "./redux/ActionCreators";
 
 import { connect } from "react-redux";
 import Tickets from "./components/tickets/Tickets";
 import ProductDetails from "./components/products/substrates/ProductDetails";
+import Footer from "./components/footer/Footer";
 
 
 const mapStateToProps = (state) =>{
@@ -36,14 +37,25 @@ const mapStateToProps = (state) =>{
 
 const mapDispatchToProps = (dispatch) => ({
   fetchRecents : ()=>{dispatch(fetchRecents())},
+  fetchFishes : ()=>{dispatch(fetchFishes())},
+  fetchPlants : ()=>{dispatch(fetchPlants())},
+  fetchFoods : ()=>{dispatch(fetchFoods())},
+  fetchSubstrates : ()=>{dispatch(fetchSubstrates())},
+
 })
 
 function MainComponent(props) {
 
   useEffect(()=>{
     props.fetchRecents();
+    props.fetchFishes();
+    props.fetchPlants();
+    props.fetchFoods();
+    props.fetchSubstrates();
   },[]);
-
+  useEffect(()=>{
+   console.log(props.substrates.substrates)
+  })
   const FishWithId = ({match}) =>{
     return(
       <FishDetails 
@@ -59,16 +71,30 @@ function MainComponent(props) {
         recentLoading = {props.recentProducts.isLoading}
         recentErrMess = {props.recentProducts.errmess}
         recentProducts = {props.recentProducts.recents}
+
+        substrates = {props.substrates.substrates}
       />
     )
   }
   const ProductsData = () =>{
     return(
       <Products 
-        fishes = {props.fishes}
-        substrates = {props.substrates}
-        plants = {props.plants}
-        foods = {props.foods}
+        fishes = {props.fishes.fishes}
+        fishesLoading = {props.fishes.isLoading}
+        fishesErr = {props.fishes.errmess}
+
+        substrates = {props.substrates.substrates}
+        substratesLoading = {props.substrates.isLoading}
+        substrateErr = {props.substrates.errmess}
+
+        plants = {props.plants.plants}
+        plantsLoading = {props.plants.isLoading}
+        plantsErr = {props.plants.errmess}
+
+        foods = {props.foods.foods}
+        foodsLoading = {props.foods.isLoading}
+        foodsErr = {props.foods.errmess}
+
         filters = {props.filters}
         />
     );
@@ -93,6 +119,7 @@ function MainComponent(props) {
             <Route exact path='/tickets' component={Tickets} /> 
             <Redirect to='/home' /> 
           </Switch> 
+          <Footer />
         </AuthProvider> 
   );
 }

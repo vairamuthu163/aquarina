@@ -18,16 +18,19 @@ import {ListItem,ListItemText} from '@material-ui/core';
 import ExpandLessIcon from '@material-ui/icons/ExpandLess';
 import NewProduct from '../products/newProducts/NewProduct';  
 import Experience from './Experience';
+import SharkInteraction from './SharkInteraction';
 
 
 const RenderRecentProducts = ({recent}) =>{
     return(
-        <Card className="col-12">
-            <CardImg className="img-q col-3" height="80" width="80" top src={recent.img} alt={recent.caption} />
-            <CardBody className="col-6">
-                <p>{recent.caption}</p>
-            </CardBody>
-        </Card>
+        <div>
+            <Card>
+                <CardImg className="img-q" height="80" width="80" top src={recent.img} alt={recent.caption} />
+                <CardBody>
+                    <p>{recent.caption}</p>
+                </CardBody>
+            </Card>
+        </div>
     )
 }
 
@@ -77,12 +80,20 @@ export default function Home(props) {
 
     const recentProducts = props.recentProducts.map((recent)=>{
         return(
-            <div key={recent._id}>
-                <RenderRecentProducts recent = {recent} />
+            <div key={recent._id} className="row">
+                <div className="col-12 col-sm-3">
+                   <RenderRecentProducts recent = {recent} />
+                </div>
             </div>
         )
     })
-
+    /* const recentProducts = props.substrates.map((substrate)=>{
+        return(
+            <div key={substrate._id}>
+                <RenderRecentProducts recent = {substrate} />
+            </div>
+        )
+    }) */
     const history = useHistory();
     const handleClicked = (itemSelected) =>{
         if(itemSelected==0){
@@ -146,6 +157,9 @@ export default function Home(props) {
                     </div>    
                 </div>
             </Container>
+            <Container>
+               
+            </Container>
             <Container className="position-relative">
                 <div className="row mt-4">
                     <div className="col col-sm-3" style={{paddingTop:'30px',position:'relative'}}>
@@ -190,18 +204,18 @@ export default function Home(props) {
                     </div>
                     <div className="row row-contents mt-3">
                         <div className="col col-sm-4">
-                            <h5>Recently Added Products</h5> 
+                            <h6>Recently Added Products</h6> 
                             <hr /> 
                             <div className="col-12">
                                 {recentProducts}
                             </div>
                         </div>
                         <div className="col col-sm-4">
-                            <h5>Best Selling Products</h5>
+                            <h6>Best Selling Products</h6>
                             <hr />
                         </div>
                         <div className="col col-sm-4">
-                            <h5>Featured Products</h5>
+                            <h6>Featured Products</h6>
                             <hr />
                         </div>
                     </div>
