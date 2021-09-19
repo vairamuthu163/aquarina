@@ -52,7 +52,7 @@ export default function SignUp() {
             history.push('/home');
         }
         catch{
-            setError("Failed to create an account");
+            setError("This username already exists");
         }
        setLoading(false)
     }
@@ -61,7 +61,7 @@ export default function SignUp() {
         <Container className="d-flex align-items-center justify-content-center"
         style={{minHeight:"100vh"}}
         >
-            <div className="w-100" style={{maxWidth:'400px'}}>
+            <div className="w-100" style={{maxWidth:'450px'}}>
                 <Card style={{padding:'10px'}}>
                     <Card.Body>
                         <div className={classes.paper}>

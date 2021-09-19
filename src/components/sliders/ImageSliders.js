@@ -43,11 +43,11 @@ export default function ImageSliders() {
     return (
         <>
             <Carousel
-                className="carousel-fade"
+                className="carousel-fade m-0 p-0"
                 interval="3000"
                 activeIndex={activeIndex}
                 next={next}
-                previous={previous}
+                previous={previous} 
             >
                 <CarouselIndicators items={data} activeIndex={activeIndex} onClickHandler={goToIndex} />
                 {slides}

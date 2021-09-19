@@ -11,7 +11,7 @@ function Footer(){
         <div className="container">
         <div className="row">
         <div className="col-md-3 col-sm-6">
-        <h4>Reach Us</h4>
+        <h4 className="footerText">Reach Us</h4>
         <i>
             <ul className="list-unstyled text-muted">
             <li>support@aquarina.com</li>
@@ -22,7 +22,7 @@ function Footer(){
         </i>
         </div>
         <div className="col-md-3 col-sm-6">
-        <h4>MY ACCOUNT</h4>
+        <h4 className="footerText">MY ACCOUNT</h4>
         <ul className="list-unstyled">
             <li><a href="/">My Account</a></li>
             <li><a href="/">Order history</a></li>
@@ -30,7 +30,7 @@ function Footer(){
         </ul>
         </div>
         <div className="col-md-3 col-sm-6">
-        <h4>ABOUT US</h4>
+        <h4 className="footerText">ABOUT US</h4>
         <ul className="list-unstyled">
             <li><a href="/">Contact us</a></li>
             <li><a href="/">About us</a></li>
@@ -39,7 +39,7 @@ function Footer(){
         </ul>
         </div>
         <div className="col-md-3 col-sm-6">
-        <h4>IMPORTANT POLICIES</h4>
+        <h4 className="footerText">IMPORTANT POLICIES</h4>
         <ul className="list-unstyled">
             <li><a href="/">Refund Policy</a></li>
             <li><a href="/">Shipping Policy</a></li>
@@ -51,7 +51,7 @@ function Footer(){
         <div className="col-md-3 col-sm-6"></div> */}
         
         <div className="col-md-3 col-sm-6 offset-sm-6 offset-md-9">
-        <h4 >REACH US</h4>
+        <h4 className="footerText">REACH US</h4>
         <ul className="list-unstyled" style={{marginRight:'100px'}} >
             <FacebookIcon /><a href="/"> FaceBook</a>
             <TwitterIcon /><a href="/"> Twitter</a>
@@ -62,7 +62,7 @@ function Footer(){
         </div>
         <div className="footer-bottom">
             <p className="text-xs-center">
-               <center> &copy;{new Date().getFullYear()} Aqarina Coimbatore App - All Rights Reserved</center>
+               <center> &copy;{new Date().getFullYear()} Aquarina Thalam City App - All Rights Reserved</center>
             </p>
         </div>
         </div>

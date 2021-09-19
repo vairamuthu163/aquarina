@@ -6,6 +6,7 @@ import Tooltip from '@material-ui/core/Tooltip';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import { useAuth } from '../../contexts/AuthContext'; 
 import {Link, NavLink,useHistory} from 'react-router-dom';
+import FormatListBulletedIcon from '@material-ui/icons/FormatListBulleted';
 import "./style.css";
 
 function NavBar(props){ 
@@ -54,7 +55,7 @@ function NavBar(props){
                 <Navbar dark expand="md" className="fixed-top" style={{backgroundImage:navBackground}}>
                     <div className="container">
                         <NavbarBrand className="mr-auto" href="/">
-                            <h3><img src="logoDolphin.png" height="50" width="80" alt="aquarina"/><span className="d-none d-sm-inline hover-underline-animation">Aquarina</span></h3>
+                            <h3><img src="logoDolphin.png" height="50" width="80" alt="aquarina"/><span className="d-none d-sm-inline hover-underline-animation titleText">Aquarina</span></h3>
                         </NavbarBrand>
                         <NavbarToggler onClick={toggleNav}></NavbarToggler>
                         <Collapse className="justify-content-end" isOpen={isNavOpen} navbar>
@@ -69,7 +70,7 @@ function NavBar(props){
                                 <NavItem className='navItem'>
                                   <Tooltip title="About Us">
                                     <NavLink className="nav-link" to="/products">
-                                    &nbsp;&nbsp; Products &nbsp;&nbsp; 
+                                    &nbsp;&nbsp; <FormatListBulletedIcon /> Products &nbsp;&nbsp; 
                                     </NavLink>
                                     </Tooltip>
                                 </NavItem>
@@ -90,7 +91,7 @@ function NavBar(props){
                                 <UncontrolledDropdown nav inNavbar className={currentUser ? 'navItem mr-2':'d-none'}>
                                   <Tooltip title="Profile"> 
                                     <DropdownToggle nav className="dropDown" caret>
-                                      <AccountCircleIcon /> Profile
+                                    &nbsp;&nbsp; <AccountCircleIcon /> Profile&nbsp;&nbsp; 
                                     </DropdownToggle> 
                                   </Tooltip>
                                 <DropdownMenu top>

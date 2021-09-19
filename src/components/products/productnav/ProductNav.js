@@ -86,22 +86,22 @@ export function ProductNav() {
 export function ShippingNav(){
     return( 
         <div>
-            <Navbar className="d-none d-sm-block" style={{backgroundColor:'#f0f0f0'}}>
+            <Navbar className="d-none d-sm-block mt-2" style={{backgroundColor:'#f0f0f0',color:'black'}}>
                 <Container>
                     <Nav className="shipping">
                         <NavItem className="shippingNav-item">
-                            <NavLink className="nav-link" to="/home">
-                               FREE SHIPPING & RETURN
+                            <NavLink className="nav-link text-dark" to="/home">
+                               <b>FREE SHIPPING & RETURN</b>
                             </NavLink>
                         </NavItem>
                         <NavItem className="shippingNav-item">
-                            <NavLink className="nav-link" to="/home">
-                               MONEY BACK GUARANTEE
+                            <NavLink className="nav-link text-dark" to="/home">
+                               <b>MONEY BACK GUARANTEE</b>
                             </NavLink>
                         </NavItem>
                         <NavItem className="shippingNav-item">
-                            <NavLink className="nav-link" aria-disabled to="/home">
-                               DIRECT FROM FARM
+                            <NavLink className="nav-link text-dark" aria-disabled to="/home">
+                               <b>DIRECT FROM FARM</b>
                             </NavLink>
                         </NavItem>
                     </Nav>

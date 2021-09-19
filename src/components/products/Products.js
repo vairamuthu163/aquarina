@@ -2,6 +2,7 @@ import React from 'react'
 import { Container, Form ,Input,UncontrolledDropdown,DropdownItem,DropdownMenu,DropdownToggle} from 'reactstrap' 
 import "./style.css"
 import { Button } from '@material-ui/core'; 
+import {Button as Btn} from 'react-bootstrap'
 import Fishes from './fishes/Fishes';  
 import AppsIcon from '@material-ui/icons/Apps';
 import DehazeIcon from '@material-ui/icons/Dehaze'; 
@@ -88,7 +89,11 @@ export default function Products(props) {
                                 />
                             </TabPanel>
                             <TabPanel value={value} index={5}>
-                                <Filters filters = {props.filters}/>
+                                <Filters 
+                                    filters = {props.filters}
+                                    isLoading = {props.filtersLoading}  
+                                    errmess = {props.filtersErr}  
+                                />
                             </TabPanel>
                             <TabPanel value={value} index={6}>indoor plants</TabPanel>
                         </div>
@@ -112,7 +117,7 @@ function TabPanel(props){
                         <div className="col-12 m-2 d-flex justify-content-between">
                             <div className="p-1 mt-2">
                                 <div className="d-flex">
-                                    <div className="m-3 mt-1">Sort By </div>
+                                    <div className="m-3 mt-2">Sort By </div>
                                     <UncontrolledDropdown>
                                         <DropdownToggle caret>
                                             Position
@@ -126,7 +131,14 @@ function TabPanel(props){
                                     </UncontrolledDropdown>
                                 </div> 
                             </div>
+                            
                             <div className="p-1 mt-2">
+                            <Btn
+                                style={{marginRight:'35px'}}
+                                variant="outline-success"
+                            >
+                               &nbsp;&nbsp;ADD&nbsp;&nbsp;
+                                </Btn>
                                 Show <AppsIcon></AppsIcon> <DehazeIcon></DehazeIcon>
                             </div>
                         </div>

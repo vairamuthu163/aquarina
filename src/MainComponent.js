@@ -15,7 +15,7 @@ import Fishes from "./components/products/fishes/Fishes";
 import Substrates from './components/products/substrates/Substrates'
 import FishDetails from "./components/products/fishes/fishdetails/FishDetails";
 
-import { fetchFishes, fetchFoods, fetchPlants, fetchRecents, fetchSubstrates } from "./redux/ActionCreators";
+import { fetchFilters, fetchFishes, fetchFoods, fetchPlants, fetchRecents, fetchSubstrates } from "./redux/ActionCreators";
 
 import { connect } from "react-redux";
 import Tickets from "./components/tickets/Tickets";
@@ -41,7 +41,7 @@ const mapDispatchToProps = (dispatch) => ({
   fetchPlants : ()=>{dispatch(fetchPlants())},
   fetchFoods : ()=>{dispatch(fetchFoods())},
   fetchSubstrates : ()=>{dispatch(fetchSubstrates())},
-
+  fetchFilters : ()=>{dispatch(fetchFilters())}
 })
 
 function MainComponent(props) {
@@ -52,6 +52,7 @@ function MainComponent(props) {
     props.fetchPlants();
     props.fetchFoods();
     props.fetchSubstrates();
+    props.fetchFilters();
   },[]);
   useEffect(()=>{
    console.log(props.substrates.substrates)
@@ -95,7 +96,9 @@ function MainComponent(props) {
         foodsLoading = {props.foods.isLoading}
         foodsErr = {props.foods.errmess}
 
-        filters = {props.filters}
+        filters = {props.filters.filters}
+        filtersLoading = {props.filters.isLoading}
+        filtersErr = {props.filters.errmess}
         />
     );
   }

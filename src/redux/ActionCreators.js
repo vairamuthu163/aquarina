@@ -119,3 +119,26 @@ export const addFoods = (foods) => ({
     type:ActionTypes.ADD_FOODS,
     payload:foods
 });
+
+//Fetch the Accessories or filters
+export const fetchFilters = () =>(dispatch)=>{
+    dispatch(filtersLoading(true));
+
+    return axios.get('http://localhost:3001/filters') 
+        .then((response)=> response.data)
+        .then(response => dispatch(addFilters(response)))
+        .catch((error)=>dispatch(filtersFailed(error)))
+}
+
+export const filtersLoading = () =>({
+    type:ActionTypes.FILTERS_LOADING
+});
+
+export const filtersFailed = () =>({
+    type:ActionTypes.FILTERS_FAILED
+});
+
+export const addFilters = (filters) => ({
+    type:ActionTypes.ADD_FILTERS,
+    payload:filters
+});

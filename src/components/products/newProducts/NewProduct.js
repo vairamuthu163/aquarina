@@ -68,55 +68,103 @@ export default function NewProduct() {
   
   }; 
   return (
-    <Slider {...settings} style={{backgroundColor:'lightBlue',padding:'3px'}}>
-      <div className="p-3">
-            <Card className="img-quick p-2"> 
+    <Slider {...settings} style={{padding:'3px',height:'350px'}}>
+     {/*  <div>
+            <Card className="img-quick m-3 newProduct" style={{marginBottom:'50px'}}> 
                   <CardImg className="img-q" width="100" height="250" top src="assets/images/shipping-1.jpg" alt="Card image cap" />
                   <CardImgOverlay className="text-white m-3">
                       <b>Aquarium plants</b>
                   </CardImgOverlay> 
             </Card>
-      </div>
-      <div className="p-3">
-          <Card className="img-quick p-2"> 
+      </div> */}
+    {/*   <div>
+          <Card className="img-quick m-3 newProduct" style={{marginBottom:'50px'}}> 
                   <CardImg className="img-q" width="100" height="250" top src="../assets/fishes/thailand_blue_guppy.jpg" alt="Card image cap" />
                   <CardImgOverlay className="text-white m-3">
                       <b>Thailand blue guppy</b>
                   </CardImgOverlay> 
             </Card>
-      </div>
-      <div className="p-3">
-      <Card className="img-quick p-2"> 
-                  <CardImg className="img-q" width="100" height="250" top src="assets/plants/plant-2.jpg" alt="Card image cap" />
-                  <CardImgOverlay className="text-white m-3">
-                      <b>Plants</b>
-                  </CardImgOverlay> 
-            </Card>
-      </div>
-      <div className="p-3">
-      <Card className="img-quick p-2"> 
-                  <CardImg className="img-q" width="100" height="250" top src="assets/fishes/blue-mosaic-guppy.jpg" alt="Card image cap" />
-                  <CardImgOverlay className="text-white m-3">
-                      <b>Blue mosaic guppy</b>
-                  </CardImgOverlay> 
-            </Card>
-      </div>
+      </div> */}
+     {/*  <div>
+        <Card className="img-quick m-3 newProduct" style={{marginBottom:'50px'}}> 
+              <CardImg className="img-q" width="100" height="250" top src="assets/plants/plant-2.jpg" alt="Card image cap" />
+              <CardImgOverlay className="text-white m-3">
+                  <b>Plants</b>
+              </CardImgOverlay> 
+        </Card>
+      </div> */}
+      {/* <div>
+        <Card className="img-quick m-3 newProduct" style={{marginBottom:'50px'}}> 
+              <CardImg className="img-q" width="100" height="250" top src="assets/fishes/blue-mosaic-guppy.jpg" alt="Card image cap" />
+              <CardImgOverlay className="text-white m-3">
+                  <b>Blue mosaic guppy</b>
+              </CardImgOverlay> 
+        </Card>
+      </div> */}
       
-      <div className="p-3">
-          <Card className="img-quick p-2"> 
+     {/*  <div>
+          <Card className="img-quick m-3 newProduct" style={{marginBottom:'50px'}}> 
                   <CardImg className="img-q" width="100" height="250" top src="assets/fishes/thailand_blue_guppy.jpg" alt="Card image cap" />
                   <CardImgOverlay className="text-white m-3">
                       <b>Thailand blue guppy</b>
                   </CardImgOverlay> 
             </Card>
+      </div> */}
+      {/* <div>
+        <Card className="img-quick m-3 newProduct" style={{marginBottom:'50px'}}> 
+              <CardImg className="img-q" width="100" height="250" top src="assets/foods/food-2.jpg" alt="Card image cap" />
+              <CardImgOverlay className="text-white m-3">
+                  <b>fish-foods</b>
+              </CardImgOverlay> 
+        </Card>
+      </div> */}
+      <div>     
+          <Card className="img-quick cardNew mb-5 mt-4" style={{height:'300px',width:'280px'}}>
+              <CardImg className="img-q text-center" top height="220px" src="assets/images/shipping-1.jpg" alt="new-1" />
+              <CardBody>
+                  <h5 style={{fontWeight:'bold',textAlign:'center'}}>Aquarium plants</h5> 
+              </CardBody>
+          </Card>   
       </div>
-      <div className="p-3">
-        <Card className="img-quick p-2"> 
-                  <CardImg className="img-q" width="100" height="250" top src="assets/foods/food-2.jpg" alt="Card image cap" />
-                  <CardImgOverlay className="text-white m-3">
-                      <b>fish-foods</b>
-                  </CardImgOverlay> 
-            </Card>
+      <div>     
+          <Card className="img-quick cardNew mb-5 mt-4" style={{height:'300px',width:'280px'}}>
+              <CardImg className="img-q text-center" top height="220px" src="../assets/fishes/thailand_blue_guppy.jpg" alt="new-1" />
+              <CardBody>
+                  <h5 style={{fontWeight:'bold',textAlign:'center'}}>Thailand blue guppy</h5> 
+              </CardBody>
+          </Card>   
+      </div>
+      <div>     
+          <Card className="img-quick cardNew mb-5 mt-4" style={{height:'300px',width:'280px'}}>
+              <CardImg className="img-q text-center" top height="220px" src="assets/plants/plant-2.jpg" alt="new-1" />
+              <CardBody>
+                  <h5 style={{fontWeight:'bold',textAlign:'center'}}>Plants</h5> 
+              </CardBody>
+          </Card>   
+      </div>
+      <div>     
+          <Card className="img-quick cardNew mb-5 mt-4" style={{height:'300px',width:'280px'}}>
+              <CardImg className="img-q text-center" top height="220px" src="assets/fishes/blue-mosaic-guppy.jpg" alt="new-1" />
+              <CardBody>
+                  <h5 style={{fontWeight:'bold',textAlign:'center'}}>Blue mosaic guppy</h5> 
+              </CardBody>
+          </Card>   
+      </div>
+      <div>     
+          <Card className="img-quick cardNew mb-5 mt-4" style={{height:'300px',width:'280px'}}>
+              <CardImg className="img-q text-center" top height="220px" src="assets/fishes/thailand_blue_guppy.jpg" alt="new-1" />
+              <CardBody>
+                  <h5 style={{fontWeight:'bold',textAlign:'center'}}>Thailand blue guppy</h5> 
+              </CardBody>
+          </Card>   
+      </div>
+      <div>     
+          <Card className="img-quick cardNew mb-5 mt-4" style={{height:'300px',width:'280px'}}>
+              <CardImg className="img-q text-center" top height="220px" src="assets/foods/food-2.jpg" alt="new-1" />
+              <CardBody>
+                  <h5 style={{fontWeight:'bold',textAlign:'center'}}>fish-foods</h5> 
+              </CardBody>
+          </Card>   
       </div>
     </Slider>
   );

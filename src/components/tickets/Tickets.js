@@ -32,7 +32,7 @@ function Tickets(props) {
                     <div className="row row-contents">
                         <div className="col-12 col-md-6" style={{marginTop:'90px'}}>
                             <div className="text-center mb-3">
-                                <h1 className="display-5 hover-underline-animation">Get Tickets</h1> 
+                                <h1 className="display-5 hover-underline-animation titleText">Get Tickets</h1> 
                             </div>
                             <Formik
                                 initialValues={{
@@ -114,7 +114,7 @@ function Tickets(props) {
                         </div>
                         <div className="col-12 offset-md-2 col-md-4" style={{marginTop:'10.8rem'}}>
                              <Card className="myorder bg-gradient bg-transparent">
-                                <CardHeader className="text-center"><h2 className="hover-underline-animation">My Order</h2></CardHeader>
+                                <CardHeader className="text-center"><h2 className="hover-underline-animation titleText">My Order</h2></CardHeader>
                                 <CardBody>
                                     General admission<br />{JSON.stringify(props.data)}
                                     @6.00 PM<br /><br />
@@ -138,11 +138,23 @@ function Tickets(props) {
                                     </Button>
                                 </CardFooter>
                              </Card>
-                        </div>
-                    </div>
+                        </div> 
+                    </div> 
                 </Container>
             </div>
-            
+            <Container>
+                <div className="row row-contents">
+                    <div className="col-12 col-md-8" style={{marginLeft:'auto',marginRight:'auto'}}>
+                        <div className="text-center">
+                            <h2 style={{fontWeight:'bold'}}>Live From the Aquarium</h2> 
+                        </div>
+                        <div className="text-center">
+                            <p>Need a moment of zen or just a daily dose of cuteness? See what our animals are up to in real-time, from anywhere when you live stream Georgia Aquarium galleries.</p>
+                            
+                        </div>
+                    </div>
+                </div>
+            </Container>
             <Modal 
                 scrollable={true} 
                 isOpen={isModalOpen}
