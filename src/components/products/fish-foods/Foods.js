@@ -1,18 +1,26 @@
 import React,{ useState,useEffect } from 'react'
 import { Card,CardBody,CardImg,CardImgOverlay} from 'reactstrap'
-import { Link } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import { Loading } from '../../../shared/Loading'; 
 const RendeFoods = ({food}) =>{
     const [text,setText] = useState(false);
     const handleMouseOver = () =>{
         setText(!text);
     }
+    const history = useHistory();
+    const handleClick = (food) =>{ 
+        history.push({ 
+            pathname: `/products/details/${food.foodName}`,
+            state: {data: food}
+        });
+    }
+    
     return(
         <div className="p-0 m-0">
-            <Card className="img-quick p-2" onMouseEnter={handleMouseOver} onMouseLeave={handleMouseOver}>
+            <Card className="img-quick p-2" onMouseEnter={handleMouseOver} onMouseLeave={handleMouseOver} onClick={()=>handleClick(food)}>
                     <CardImg className="img-q" width="100" height="250" src={food.img} alt={food.foodName} />
                     <CardImgOverlay className="text-dark m-3">
-                        <b>{food.foodName}</b> 
+                        <b>{text && food.foodName}</b> 
                     </CardImgOverlay>
             </Card> 
         </div>
@@ -20,9 +28,9 @@ const RendeFoods = ({food}) =>{
 }
 function Foods(props) { 
     useEffect(()=>{
-        console.log("Foods Component "+props.foods);
+        console.log("Foods Component ",props.foods);
     })
-    const foods = props.foods.map((food)=>{
+    const foods = props.foods.sort(() => Math.random() - 0.5).map((food)=>{
         return ( 
             <div className="col-6 col-sm-3 m-0 p-0" key={food._id}>
                 <RendeFoods food = {food} />

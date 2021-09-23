@@ -1,21 +1,26 @@
 import React,{ useState } from 'react'
 import { Card,CardText,CardBody,CardHeader,CardImg,CardImgOverlay,CardTitle,Container } from 'reactstrap'
-import { Link } from 'react-router-dom';
+import { Link,useHistory } from 'react-router-dom';
 import { Loading } from '../../../shared/Loading';
 const RenderFish = ({fish}) =>{
     const [text,setText] = useState(false);
     const handleMouseOver = () =>{
         setText(!text);
     }
+    const history = useHistory();
+    const handleClick = (fish) =>{ 
+        history.push({ 
+            pathname: `/products/details/${fish.fishName}`,
+            state: {data: fish}
+        });
+    }
     return(
         <div className="p-0 m-0">
-            <Card className="img-quick p-2" onMouseEnter={handleMouseOver} onMouseLeave={handleMouseOver}>
-                <Link to={`/products/fishes/${fish._id}`}>
+            <Card className="img-quick p-2" onMouseEnter={handleMouseOver} onMouseLeave={handleMouseOver} onClick={()=>handleClick(fish)}>
                     <CardImg className="img-q" width="100" height="250" top src={fish.img} alt={fish.fishName} />
                     <CardImgOverlay className="text-white m-3">
-                        <b>{fish.fishName}</b>
+                        <b>{text && fish.fishName}</b>
                     </CardImgOverlay>
-                </Link>
             </Card> 
         </div>
     )
@@ -53,7 +58,6 @@ function Fishes(props) {
             </div>
         ) 
     }
-    
 }
 
 export default Fishes

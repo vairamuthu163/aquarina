@@ -12,9 +12,7 @@ import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import {Container} from 'react-bootstrap';
 import ParticlesBg from "particles-bg";
 import { Link,useHistory } from 'react-router-dom';
-
-
-import Navbar from '../navbar/Navbar';
+ import NavBar from '../navbar/Navbar';
 
 const useStyles = makeStyles((theme) => ({
     paper: { 
@@ -71,10 +69,13 @@ export default function UpdateProfile() {
 
     return (
         <> 
-        <Container className="d-flex align-items-center justify-content-center"
+         <NavBar navbg={'linear-gradient(rgba(0, 0, 0, 0.8),rgba(0, 0, 0, 0.8))'} 
+        img={'logoDolphin.png'}
+        />
+        <Container className="d-flex align-items-center justify-content-center mt-5"
         style={{minHeight:"100vh"}}
         >
-            <div className="w-100" style={{maxWidth:'400px'}}>
+            <div className="w-100" style={{maxWidth:'500px'}}>
                 <Card style={{padding:'10px'}}>
                     <Card.Body>
                         <div className={classes.paper}>

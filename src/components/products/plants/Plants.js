@@ -2,20 +2,28 @@ import React,{ useState } from 'react'
 import { Card,CardText,CardBody,CardHeader,CardImg,CardImgOverlay,CardTitle,Container } from 'reactstrap'
 import { Link } from 'react-router-dom' 
 import { Loading } from '../../../shared/Loading';
+import { useHistory } from 'react-router-dom';
 const RenderPlant = ({plant}) =>{
     const [text,setText] = useState(false);
     const handleMouseOver = () =>{
         setText(!text);
     }
+    const history = useHistory();
+    const handleClick = (plant) =>{ 
+        history.push({ 
+            pathname: `/products/details/${plant.plantName}`,
+            state: {data: plant}
+        });
+    }
     return(
         <div className="p-0 m-0">
-            <Card className="img-quick p-2" onMouseEnter={handleMouseOver} onMouseLeave={handleMouseOver}>
-                <Link to={`/products/plants/${plant._id}`}>
+            <Card className="img-quick p-2" onMouseEnter={handleMouseOver} onMouseLeave={handleMouseOver} onClick={()=>handleClick(plant)}>
+               {/*  <Link to={`/products/plants/${plant._id}`}> */}
                     <CardImg className="img-q" width="100" height="250" top src={plant.img} alt={plant.plantName} />
                     <CardImgOverlay className="text-white m-3">
-                        <b>{plant.plantName}</b>
+                        <b>{text && plant.plantName}</b>
                     </CardImgOverlay>
-                </Link>
+                {/* </Link> */}
             </Card> 
         </div>
     )

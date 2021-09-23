@@ -13,7 +13,7 @@ import {Container} from 'react-bootstrap';
 import ParticlesBg from "particles-bg";
 
 import { Link, useHistory } from 'react-router-dom';
-
+import NavBar from '../navbar/Navbar'
 
 const useStyles = makeStyles((theme) => ({
     paper: { 
@@ -59,6 +59,10 @@ export default function ForgotPassword() {
     }
 
     return (
+        <>
+         <NavBar navbg={'linear-gradient(rgba(0, 0, 0, 0.8),rgba(0, 0, 0, 0.8))'} 
+        img={'logoDolphin.png'}
+        />
         <Container className="d-flex align-items-center justify-content-center"
         style={{minHeight:"100vh"}}
         >
@@ -103,5 +107,6 @@ export default function ForgotPassword() {
             </div>
             <ParticlesBg type="random" bg={true}/>
         </Container>
+        </>
     )
 }

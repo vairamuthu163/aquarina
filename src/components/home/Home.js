@@ -1,6 +1,6 @@
 //default imports
 import React,{useState,useEffect} from 'react' 
-import {Card,CardImg,CardBody,CardImgOverlay,Alert,Jumbotron,Container, CardHeader, CardTitle} from 'reactstrap';
+import {Card,CardImg,CardBody,CardImgOverlay,Alert,Jumbotron,Container, CardTitle} from 'reactstrap';
 import {Link, useHistory} from 'react-router-dom';  
 import { Button } from '@material-ui/core';
 import Fab from '@material-ui/core/Fab'; 
@@ -42,9 +42,9 @@ const RenderRecentProducts = ({recent}) =>{
     return(
         <div className="m-0 p-0">
             <Card className="d-flex flex-row justify-content-center align-items-center m-0 p-2">
-                <CardImg className="img-q" height="100" style={{width:'140px'}} top src={recent.img} alt={recent.caption} />
+                <CardImg className="img-q" height="100" style={{width:'140px'}} top src={recent.img} alt={recent.name} />
                 <CardBody style={{marginLeft:'40px'}}>
-                    <p style={{fontWeight:'bold'}}>{recent.caption}</p>
+                    <p style={{fontWeight:'bold'}}>{recent.caption}{' '}{recent.price}</p>
                 </CardBody>
             </Card>
         </div>
@@ -77,14 +77,16 @@ const RenderFeaturedProducts = ({feature}) =>{
 const RenderCategories = ({fish}) =>{
     if(fish!=null){
         return(
-            <Card className="img-quick p-2" key={fish.id}>
-                <Link to={'/products'+fish.url}>
-                    <CardImg className="img-q" width="150" height="250" top src={fish.img} alt="Card image cap" />
-                    <CardImgOverlay className="text-white m-3">
-                        <b>{fish.caption}</b>
-                    </CardImgOverlay>
-                </Link>
-            </Card>
+            <div key={fish.id}>
+                <Card className="img-quick p-2 m-3 cardCategories" style={{height:'300px'}}>
+                    <Link to={'/products'+fish.url}>
+                        <CardImg className="img-q" width="150" height="281" top src={fish.img} alt="Card image cap" />
+                        <CardImgOverlay className="text-white text-center ml-1" style={{marginTop:'220px'}}>
+                            <b>{fish.caption}</b>
+                        </CardImgOverlay>
+                    </Link>
+                </Card>
+            </div>
         )
     }
 }
@@ -153,7 +155,9 @@ export default function Home(props) {
     }
     return (
         <div>
-            <NavBar navbg={'linear-gradient(rgba(0, 0, 0, 0.0),rgba(0, 0, 0, 0.0))'} />
+            <NavBar navbg={'linear-gradient(rgba(0, 0, 0, 0.0),rgba(0, 0, 0, 0.0))'}
+            img={'logoDolphin.png'}
+            />
             <Jumbotron>
                 <Container>
                     <div className="row row-header">
@@ -205,7 +209,7 @@ export default function Home(props) {
                     </div>
                 </Container>
             </Jumbotron> 
-            <Container className="position-relative h-75" style={{marginTop:'-120px'}}>
+            <Container className="position-relative h-75" style={{marginTop:'-150px'}}>
                 <div className="row">  
                     <div className="col mr-sm-3 ml-sm-3 text-dark" style={{backgroundColor:'#3f51b5'}}>
                         <Card style={{minHeight:'400px'}}>

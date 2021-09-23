@@ -7,6 +7,7 @@ import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import { useAuth } from '../../contexts/AuthContext'; 
 import {Link, NavLink,useHistory} from 'react-router-dom';
 import FormatListBulletedIcon from '@material-ui/icons/FormatListBulleted';
+import Badge from '@material-ui/core/Badge';
 import "./style.css";
 
 function NavBar(props){ 
@@ -54,8 +55,8 @@ function NavBar(props){
             <>
                 <Navbar dark expand="md" className="fixed-top" style={{backgroundImage:navBackground}}>
                     <div className="container">
-                        <NavbarBrand className="mr-auto" href="/">
-                            <h3><img src="logoDolphin.png" height="50" width="80" alt="aquarina"/><span className="d-none d-sm-inline hover-underline-animation titleText">Aquarina</span></h3>
+                        <NavbarBrand className="mr-auto" href="/home">
+                            <h3><img src={props.img} height="50" width="80" /* alt="a" */ /><span className="d-none d-sm-inline hover-underline-animation titleText">Aquarina</span></h3>
                         </NavbarBrand>
                         <NavbarToggler onClick={toggleNav}></NavbarToggler>
                         <Collapse className="justify-content-end" isOpen={isNavOpen} navbar>
@@ -63,29 +64,42 @@ function NavBar(props){
                                 <NavItem className="navItem">
                                   <Tooltip title="Home">
                                     <NavLink className="nav-link" to="/home">
-                                    &nbsp;&nbsp; <span className="fa fa-home fa-lg"></span> Home &nbsp;&nbsp; 
+                                    &nbsp; <span className="fa fa-home fa-lg"></span> Home&nbsp; 
                                     </NavLink>
                                   </Tooltip>
                                   </NavItem>
                                 <NavItem className='navItem'>
                                   <Tooltip title="About Us">
                                     <NavLink className="nav-link" to="/products">
-                                    &nbsp;&nbsp; <FormatListBulletedIcon /> Products &nbsp;&nbsp; 
+                                     &nbsp; <FormatListBulletedIcon /> Products &nbsp; 
                                     </NavLink>
                                     </Tooltip>
-                                </NavItem>
+                                </NavItem> 
                                 <NavItem className="navItem">
                                  <Tooltip title="Contact Us">
-                                    <NavLink className="nav-link" to="/contactus">
-                                    &nbsp;&nbsp;  <span className="fa fa-address-card fa-lg"></span> Contact Us &nbsp;&nbsp;     
+                                    <NavLink className="nav-link" to="/contactUs">
+                                    &nbsp;<span className="fa fa-address-card fa-lg"></span> Contact Us&nbsp;     
                                     </NavLink>
                                   </Tooltip>
                                 </NavItem>
-                                <NavItem className={currentUser ? 'd-none':'fifth'}>
+                               {/*  <NavItem className={currentUser ? 'd-none':'fifth'}>
                                   <Tooltip title="Sign Up">
                                     <NavLink className="nav-link" to="/signup">
                                     &nbsp;&nbsp; <span className="fa fa-sign-in"></span>&nbsp;&nbsp; Sign Up&nbsp;&nbsp;&nbsp;&nbsp;
                                     </NavLink>
+                                  </Tooltip>
+                                </NavItem> */}
+                                <NavItem className={currentUser ? 'd-none':'d-block'}>
+                                  <Tooltip title="Sign Up">
+                                      <Link className="text-decoration-none"
+                                        to='/signup'
+                                      > 
+                                        <Button 
+                                          variant="outlined"
+                                          className="fifth text-darken ml-2"
+                                          style={{color:'white',marginLeft:'5px'}}
+                                        >&nbsp;&nbsp;<span className="fa fa-sign-in" style={{fontSize:'1.2rem',marginRight:'7px'}}> </span> Sign Up&nbsp;&nbsp;</Button> 
+                                        </Link>
                                   </Tooltip>
                                 </NavItem>
                                 <UncontrolledDropdown nav inNavbar className={currentUser ? 'navItem mr-2':'d-none'}>
@@ -100,10 +114,10 @@ function NavBar(props){
                                       Update Profile
                                     </DropdownItem>
                                   </Link>}
-                                  <DropdownItem>
+                                  {/* <DropdownItem>
                                     Option 2
-                                  </DropdownItem>
-                                  <DropdownItem divider />
+                                  </DropdownItem> */}
+                                  {/* <DropdownItem divider /> */}
                                   {currentUser && <DropdownItem onClick={handleLogout}>
                                     log out
                                   </DropdownItem>}
@@ -120,12 +134,21 @@ function NavBar(props){
                                        <Button 
                                         variant="outlined"
                                         className="fifth text-darken ml-2"
-                                        style={{color:'white'}}
+                                        style={{color:'white',marginLeft:'5px'}}
                                        >&nbsp;&nbsp;Buy Tickets&nbsp;&nbsp;</Button> 
                                       </Link>
                                     </Tooltip>
                                 </NavItem>}
-                              
+                                <NavbarText>
+                                  <div className="m-1"></div>
+                              </NavbarText>
+                                <NavItem className="navItem ml-1">
+                                  <Tooltip title="Cart">
+                                    <NavLink className="nav-link mt-0" to="/cart">
+                                      <Badge badgeContent={0} showZero color="secondary"><span className="fa fa-shopping-cart fa-lg"  style={{fontSize:'1.5rem',marginLeft:'4px',marginRight:'4px'}}></span></Badge>
+                                    </NavLink>
+                                  </Tooltip>
+                                </NavItem>
                             </Nav>
                         </Collapse>
                     </div>

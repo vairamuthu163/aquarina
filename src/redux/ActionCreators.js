@@ -1,7 +1,6 @@
 import * as ActionTypes from './ActionTypes'; 
 import axios from 'axios';
-
-
+ 
 //Fetch the Recent Products
 export const fetchRecents = () =>(dispatch)=>{
     dispatch(recentsLoading(true));
@@ -36,6 +35,20 @@ export const fetchFishes = () =>(dispatch)=>{
         .catch((error)=>dispatch(fishesFailed(error)))
 }
 
+export const postFishes = (image,name,price,category) => (dispatch)=>{
+    const product = {
+        image:image,
+        name:name,
+        price:price,
+        catefory:category
+    }
+    return axios.post('http://localhost:3001/fishes',product)
+    .then((response) => {
+        console.log(response.data);
+    }).catch((error) => {
+        console.log(error)
+    });
+}
 export const fishesLoading = () =>({
     type:ActionTypes.FISHES_LOADING
 });

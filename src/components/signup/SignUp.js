@@ -7,7 +7,7 @@ import { Avatar,CssBaseline } from '@material-ui/core';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import { makeStyles } from '@material-ui/core/styles';
 import InfoIcon from '@material-ui/icons/Info';
-
+import NavBar from '../navbar/Navbar'
 
 import {Container} from 'react-bootstrap';
 import ParticlesBg from "particles-bg";
@@ -58,10 +58,14 @@ export default function SignUp() {
     }
 
     return (
-        <Container className="d-flex align-items-center justify-content-center"
+        <>
+        <NavBar navbg={'linear-gradient(rgba(0, 0, 0, 0.8),rgba(0, 0, 0, 0.8))'} 
+        img={'logoDolphin.png'}
+        />
+        <Container className="d-flex align-items-center justify-content-center mt-5"
         style={{minHeight:"100vh"}}
         >
-            <div className="w-100" style={{maxWidth:'450px'}}>
+            <div className="w-100" style={{maxWidth:'500px'}}>
                 <Card style={{padding:'10px'}}>
                     <Card.Body>
                         <div className={classes.paper}>
@@ -118,5 +122,6 @@ export default function SignUp() {
             </div>
             <ParticlesBg type="random" bg={true}/>
         </Container>
+        </>
     )
 }

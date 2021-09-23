@@ -27,7 +27,7 @@ function Accordian(props) {
             <ListItem>
                 <div className="accordian_section">
                     <button className={`accordian ${active} text-center`} onClick={toggleAccordian}>
-                        <p className="accordian_title mt-3">Accordon 1 is the title </p>
+                        <p className="accordian_title mt-3">Accordion</p>
                         <Chevron className={`${rotate}`} width={15} fill={"#777"} />
                         {/* <span className={`${icon}`}></span> */}
                     </button>

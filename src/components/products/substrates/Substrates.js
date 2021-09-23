@@ -1,21 +1,27 @@
 import React,{ useState } from 'react'
 import { Card,CardText,CardBody,CardHeader,CardImg,CardImgOverlay,CardTitle,Container } from 'reactstrap'
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { Loading } from '../../../shared/Loading';
 const RenderSubstrate = ({substrate}) =>{
     const [text,setText] = useState(false);
     const handleMouseOver = () =>{
         setText(!text);
     }
+    const history = useHistory();
+    const handleClick = (substrate) =>{
+        console.log(substrate);
+        history.push({ 
+            pathname: `/products/details/${substrate.substrateName}`,
+            state: {data: substrate}
+        });
+    }
     return(
         <div className="p-0 m-0">
-            <Card className="img-quick p-2" onMouseEnter={handleMouseOver} onMouseLeave={handleMouseOver}>
-                <Link to={`/products/fishes/${substrate._id}`}>
+            <Card className="img-quick p-2" onMouseEnter={handleMouseOver} onMouseLeave={handleMouseOver} onClick={()=>handleClick(substrate)}>
                     <CardImg className="img-q" width="100" height="250" top src={substrate.img} alt={substrate.substrateName} />
                     <CardImgOverlay className="text-dark m-3">
-                        <b>{substrate.substrateName}</b>
-                    </CardImgOverlay>
-                </Link>
+                        <b>{text && substrate.substrateName}</b>
+                    </CardImgOverlay> 
             </Card> 
         </div>
     )

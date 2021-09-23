@@ -16,17 +16,33 @@ const validationSchema =yup.object({
 
 function Tickets(props) {  
     const [isModalOpen,setIsModalOpen] = useState(true); 
-    
+   // const [member,setMember] = useState(1);
+    const [state,setState] = useState({
+        date:null,
+        time:null,
+        members:1
+    })
     const toggleModal=()=>{
          setIsModalOpen(!isModalOpen);
     } 
     const handleSubmit = async(values,{resetForm}) => {
-        await alert(JSON.stringify(values,null,2)); 
+        await setState({
+            date:values.date,
+            time:values.time,
+            members:values.members
+        })
+       // alert(JSON.stringify(state,null,2)); 
+        //setMember(values.members);
         resetForm();   
+    }
+    const handleCheckOut = () =>{
+        
     }
     return (
         <div>
-            <NavBar navbg={'linear-gradient(rgba(0, 0, 0, 0.8),rgba(0, 0, 0, 0.8))'} />
+             <NavBar navbg={'linear-gradient(rgba(0, 0, 0, 0.8),rgba(0, 0, 0, 0.8))'} 
+            img={'logoDolphin.png'}
+            />
             <div className="container-fluid">
                 <Container style={{color:'#f7f7f7'}}>
                     <div className="row row-contents">
@@ -71,7 +87,7 @@ function Tickets(props) {
                                                 helperText={formik.touched.time && formik.errors.time} 
                                                 style={{marginTop:'10px'}}
                                                 placeholder="Please Select a Time"
-                                            >
+                                            > 
                                                 <option>10:00 AM</option> 
                                                 <option>11:00 AM</option> 
                                                 <option>12:00 PM</option> 
@@ -117,16 +133,16 @@ function Tickets(props) {
                                 <CardHeader className="text-center"><h2 className="hover-underline-animation titleText">My Order</h2></CardHeader>
                                 <CardBody>
                                     General admission<br />{JSON.stringify(props.data)}
-                                    @6.00 PM<br /><br />
+                                    @10.30 PM<br /><br />
                                     <div style={{display:'flex',justifyContent:'space-between'}}>
-                                        <b>1 X $36.95</b>
-                                        <b>$36.95</b>
+                                        <b>{state.members} X $36.95</b>
+                                        <b>${parseFloat(state.members*36.95).toPrecision(4)}</b>
                                     </div>
                                 </CardBody>
                                 <CardFooter style={{margin:'20px 0px'}}>
                                     <div style={{display:'flex',justifyContent:'space-between'}}>
                                         <b>SUB TOTAL</b>
-                                        <b>$36.95</b>
+                                        <b>${parseFloat(state.members*36.95).toPrecision(4)}</b>
                                     </div>
                                     <Button
                                         variant="contained"
@@ -136,6 +152,7 @@ function Tickets(props) {
                                     >
                                         Check Out
                                     </Button>
+                                    {JSON.stringify(state)}
                                 </CardFooter>
                              </Card>
                         </div> 

@@ -1,15 +1,12 @@
-import { Formik } from 'formik'
-import React,{Component} from 'react'
+import React from 'react'
 
-
-class MultiStepForm extends Component{
-    render(){
-        return(
-           <div>
-
-           </div> 
-        )
-    }
+function MultiStepForm() {
+    return (
+        <div>
+            ghjghjghjg
+        </div>
+    )
 }
 
 export default MultiStepForm
+
