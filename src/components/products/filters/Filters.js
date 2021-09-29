@@ -1,7 +1,10 @@
-import React,{ useState } from 'react'
+import React,{ useState,useEffect } from 'react'
 import { Card,CardText,CardBody,CardHeader,CardImg,CardImgOverlay,CardTitle,Container } from 'reactstrap'
 import { useHistory} from 'react-router-dom';
 import { Loading } from '../../../shared/Loading';
+import { baseUrl } from '../../../shared/baseUrl';
+import { IconButton } from '@material-ui/core';
+import Pagination from '@material-ui/lab/Pagination';
 const RenderFilters = ({filter}) =>{
     const [text,setText] = useState(false);
     const handleMouseOver = () =>{
@@ -15,22 +18,46 @@ const RenderFilters = ({filter}) =>{
         });
     }
     return(
-        <div className="p-0 m-0">
+        <div className="p-0 m-2">
             <Card className="img-quick p-2" onMouseEnter={handleMouseOver} onMouseLeave={handleMouseOver} onClick={()=>handleClick(filter)}>
-               {/*  <Link to={`/products/plants/${filter._id}`}> */}
-                    <CardImg className="img-q" width="100" height="250" top src={filter.img} alt={filter.filterName} />
-                    <CardImgOverlay className="text-dark m-3">
-                        <b>{text && filter.filterName}</b> 
+                    <CardImg className="img-q" width="100" height="250" top src={baseUrl+filter.img} alt={filter.filterName} />
+                    <CardImgOverlay className="text-white m-2"> 
+                        <b>{text && 
+                            <IconButton
+                                variant="outlined"
+                                color="inherit"
+                                style={{backgroundColor:'#0088cc'}}
+                            >
+                                <i class="fa fa-shopping-bag"></i>
+                            </IconButton>
+                            }</b>
                     </CardImgOverlay>
-               {/*  </Link> */}
+                    <CardImgOverlay className="text-dark text-center" style={{marginTop:'190px'}}>
+                        <b>{text && filter.filterName}</b> 
+                    </CardImgOverlay> 
             </Card> 
         </div>
     )
 }
 function Filters(props) {
-    const filters = props.filters.map((filter)=>{
+    const [page,setPage] = useState(1);
+    const [showPerPage,setShowPerPage] = useState(12);
+    const [paginaton,setPagination] = useState({
+        start:0,
+        end:showPerPage
+    });
+    useEffect(()=>{
+        const value = showPerPage * page;
+        console.log("start : ",value-showPerPage);
+        console.log("end : ",value);
+        setPagination({
+            start:value-showPerPage,
+            end : value
+        })
+    },[page]);
+    const filters = props.filters.slice(paginaton.start,paginaton.end).map((filter)=>{
         return ( 
-            <div className="col-6 col-sm-4 m-0 p-0"  key={filter._id}>
+            <div className="col-6 col-sm-3 m-0 p-0"  key={filter._id}>
                 <RenderFilters filter={filter} />
             </div>
         )
@@ -57,6 +84,17 @@ function Filters(props) {
         return ( 
             <div className="row">
                 {filters}
+                <div className="d-flex justify-content-end align-items-end">
+                    <Pagination  
+                        count={Math.ceil(props.filters.length/showPerPage)}
+                        color={page%2==0 ?"primary":"secondary"}  
+                        shape="rounded"
+                        size="large"
+                        defaultPage={page}
+                        onChange={(event,value)=>setPage(value)}
+                        // showFirstButton="true"
+                    />
+                </div>
             </div>
         ) 
     } 

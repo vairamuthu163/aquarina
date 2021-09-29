@@ -4,22 +4,26 @@ import {Modal,
  import './tickets.css';
  import NavBar from '../navbar/Navbar';  
 import { Formik } from 'formik';
-import {Button} from '@material-ui/core';  
+import {Button} from '@material-ui/core';
+import Badge from '@material-ui/core/Badge';
+import { useAuth } from '../../contexts/AuthContext';  
 import * as yup from 'yup'; 
 
 const validationSchema =yup.object({
     date : yup.string().required("Please Select the Data!"), 
-    time : yup.string().required("Please Select the Time!"),
+    //time : yup.string().required("Please Select the Time!"),
     members : yup.string().required("Please enter the no of members!")
 });
 
 
-function Tickets(props) {  
-    const [isModalOpen,setIsModalOpen] = useState(true); 
+function Tickets(props) { 
+    const {currentUser} = useAuth(); 
+    const [isModalOpen,setIsModalOpen] = useState(false); 
+    const [available,setAvailable]=useState(100); 
    // const [member,setMember] = useState(1);
     const [state,setState] = useState({
         date:null,
-        time:null,
+        //time:null,
         members:1
     })
     const toggleModal=()=>{
@@ -28,20 +32,45 @@ function Tickets(props) {
     const handleSubmit = async(values,{resetForm}) => {
         await setState({
             date:values.date,
-            time:values.time,
+            //time:values.time,
             members:values.members
         })
        // alert(JSON.stringify(state,null,2)); 
         //setMember(values.members);
         resetForm();   
     }
-    const handleCheckOut = () =>{
-        
+    const postUserTic = async() =>{
+        await props.postUserTickets(
+            currentUser.email,
+            state.date,
+            state.members
+        )
+    }
+    const postTic = async() =>{
+        await props.postTickets(
+            state.date,
+            100-state.members,
+            currentUser.email
+        )
+    }
+    //let available = parseInt(props.tickets.available,10)
+    const handleCheckOut = async() =>{
+        setAvailable(available-state.members)
+        if(state.date!=null && state.members!=0){
+            setAvailable(available-state.members)
+            console.log("Available Tickets ",props.tickets.available,state.members,props.tickets.available-state.members);
+            await postTic();
+            await postUserTic();
+        }
+        setState({
+            date:null, 
+            members:1
+        })
+        setIsModalOpen(!isModalOpen);
     }
     return (
         <div>
-             <NavBar navbg={'linear-gradient(rgba(0, 0, 0, 0.8),rgba(0, 0, 0, 0.8))'} 
-            img={'logoDolphin.png'}
+             <NavBar navbg={'linear-gradient(rgba(0, 0, 0, 0.8),rgba(0, 0, 0, 0.8))'}  
             />
             <div className="container-fluid">
                 <Container style={{color:'#f7f7f7'}}>
@@ -53,7 +82,7 @@ function Tickets(props) {
                             <Formik
                                 initialValues={{
                                     date : '',
-                                    time : '',
+                                    //time : '',
                                     members : ''
                                 }}
                                 onSubmit={handleSubmit}
@@ -65,6 +94,7 @@ function Tickets(props) {
                                             <Label htmlFor="date" style={{marginTop:'5px'}}>What day would you like to visit? <span className="text-danger">*</span></Label>
                                             <Input 
                                                 type="date"
+                                                min="2021-09-25"
                                                 placeholder="Please select a date"
                                                 fullWidth
                                                 id="date"
@@ -76,19 +106,19 @@ function Tickets(props) {
                                                 style={{marginTop:'10px'}}  
                                             />
                                             <FormFeedback>{formik.errors.date}</FormFeedback>
-                                            <Label for="time" style={{marginTop:'5px'}}>What time would you like to visit?<span className="text-danger">*</span></Label>
-                                            <Input 
-                                                type="select" 
+                                           {/*  <Label for="time" style={{marginTop:'5px'}}>General Admission</Label> */}
+                                            {/* <Input 
+                                                type="text" 
                                                 id="time"
                                                 name="time" 
-                                                value={formik.values.time}
-                                                onChange={formik.handleChange}
+                                                value="10:30 AM"
+                                                /* onChange={formik.handleChange}
                                                 invalid={formik.touched.time && Boolean(formik.errors.time)}
-                                                helperText={formik.touched.time && formik.errors.time} 
+                                                helperText={formik.touched.time && formik.errors.time}   
                                                 style={{marginTop:'10px'}}
                                                 placeholder="Please Select a Time"
-                                            > 
-                                                <option>10:00 AM</option> 
+                                            >  */}
+                                             {/*    <option>10:00 AM</option> 
                                                 <option>11:00 AM</option> 
                                                 <option>12:00 PM</option> 
                                                 <option>1:00 PM</option> 
@@ -96,9 +126,9 @@ function Tickets(props) {
                                                 <option>3:00 PM</option> 
                                                 <option>4:00 PM</option>
                                                 <option>5:00 PM</option>
-                                                <option>6:00 PM</option>
-                                            </Input>
-                                            <FormFeedback>{formik.errors.time}</FormFeedback>
+                                                <option>6:00 PM</option> */}
+                                          {/*   </Input> */}
+                                           {/*  <FormFeedback>{formik.errors.time}</FormFeedback> */}
                                             <Label htmlFor="members" style={{marginTop:'5px'}}>How many will be visiting? <span className="text-danger">*</span></Label>
                                             <Input 
                                                 type="number"
@@ -111,14 +141,29 @@ function Tickets(props) {
                                                 invalid={formik.touched.members && Boolean(formik.errors.members)}
                                                 helperText={formik.touched.members && formik.errors.members}
                                                 style={{marginTop:'10px'}}  
+                                                min="1"
                                             /> 
                                             <FormFeedback>{formik.errors.members}</FormFeedback>
+                                            <Label for="time" style={{marginTop:'5px'}}>General Admission</Label>
+                                            <Input 
+                                                type="text" 
+                                                id="time"
+                                                name="time" 
+                                                value="10:30 AM"
+                                                /* onChange={formik.handleChange}
+                                                invalid={formik.touched.time && Boolean(formik.errors.time)}
+                                                helperText={formik.touched.time && formik.errors.time}  */
+                                                style={{marginTop:'10px'}}
+                                                placeholder="Please Select a Time"
+                                                onkeydown="return false"
+                                            /> 
                                             <Button 
                                                 fullWidth
                                                 type="submit" 
                                                 color="primary"
                                                 variant="contained"
                                                 style={{marginTop:'30px'}}    
+                                                disable = {props.tickets.available!=100}
                                             >
                                                 Submit
                                             </Button>
@@ -128,7 +173,15 @@ function Tickets(props) {
                             )}
                             </Formik>
                         </div>
-                        <div className="col-12 offset-md-2 col-md-4" style={{marginTop:'10.8rem'}}>
+                        <div className="col-12 offset-md-2 col-md-4" style={{marginTop:'5rem'}}>
+                            <div className="mb-2">
+                                <div className="text-center">
+                                    <h2 className="hover-underline-animation titleText">Today Available</h2>
+                                </div>
+                                <div className="text-center">
+                                    <Button color="secondary" variant="contained" style={{fontSize:'1.5rem',borderRadius:'50px'}}>{props.tickets.available}</Button>
+                                </div>
+                            </div>
                              <Card className="myorder bg-gradient bg-transparent">
                                 <CardHeader className="text-center"><h2 className="hover-underline-animation titleText">My Order</h2></CardHeader>
                                 <CardBody>
@@ -149,6 +202,7 @@ function Tickets(props) {
                                         color="primary"
                                         fullWidth
                                         className="mt-3"
+                                        onClick={handleCheckOut}
                                     >
                                         Check Out
                                     </Button>

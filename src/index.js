@@ -7,12 +7,15 @@ import "font-awesome/css/font-awesome.min.css";
 import "bootstrap-social/bootstrap-social.css";
 import reportWebVitals from './reportWebVitals';
 import "./App.css"
+import { AuthProvider } from './contexts/AuthContext';
 import {BrowserRouter as Router} from 'react-router-dom';
 ReactDOM.render(
   <React.StrictMode>
-    <Router>
-      <App />
-    </Router>
+    <AuthProvider>
+      <Router>
+        <App />
+      </Router>
+    </AuthProvider> 
   </React.StrictMode>,
   document.getElementById('root')
 );

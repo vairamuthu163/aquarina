@@ -3,6 +3,7 @@ import { useLocation,useHistory } from "react-router-dom";
 import { Card, CardBody, CardImg } from "reactstrap";
 import NavBar from "../navbar/Navbar";   
 import { emphasize, withStyles } from '@material-ui/core/styles';
+import { useAuth } from "../../contexts/AuthContext";
 import Breadcrumbs from '@material-ui/core/Breadcrumbs';
 import Chip from '@material-ui/core/Chip';
 import HomeIcon from '@material-ui/icons/Home';
@@ -20,6 +21,7 @@ import FormatListBulletedIcon from '@material-ui/icons/FormatListBulleted';
 import LocalShippingIcon from '@material-ui/icons/LocalShipping';
 import AttachMoneyIcon from '@material-ui/icons/AttachMoney';
 import {Tabs,Tab} from 'react-bootstrap'
+import { baseUrl } from "../../shared/baseUrl";
 const StyledBreadcrumb = withStyles((theme) => ({
   root: {
     backgroundColor: theme.palette.grey[200],
@@ -38,6 +40,7 @@ const StyledBreadcrumb = withStyles((theme) => ({
   },
 }))(Chip);
 function ProductDetails(props) {
+  const {currentUser} = useAuth();
   const [key,setKey] = useState('details');
   const [count,setCount] = useState(1);
   const [value, setValue] = React.useState(0);
@@ -57,11 +60,21 @@ function ProductDetails(props) {
       history.push('/products');
     }
   }
+  const handleCart = async() =>{
+     await props.postCart(
+       currentUser.email,
+       location.state.data._id,
+       name,
+       count,
+       location.state.data.category,
+       location.state.data.img,
+       location.state.data.price
+    );
+  }
   return (
     <>
       <NavBar
-        navbg={"linear-gradient(rgba(0, 0, 0, 0.8),rgba(0, 0, 0, 0.8))"}
-        img={'logoDolphin.png'}
+        navbg={"linear-gradient(rgba(0, 0, 0, 0.8),rgba(0, 0, 0, 0.8))"} 
       />
       <div className="container" style={{ marginTop: "100px" }}>
         <div className="row">
@@ -98,7 +111,7 @@ function ProductDetails(props) {
               <CardImg
                 width="100%"
                 style={{ maxHeight: "500px" }}
-                src={location.state.data.img}
+                src={baseUrl+location.state.data.img}
                 alt={name}
               />
             </Card>
@@ -117,7 +130,7 @@ function ProductDetails(props) {
                <Typography style={{marginLeft:'30px'}}> Be the first to review this product</Typography>
             </Box>
             <div className="mt-3 ruppee">
-                <span className="fa fa-inr"></span>800.0
+                <span className="fa fa-inr"></span>{location.state.data.price+".00"}
             </div>
             <hr />
             <div className="mt-md-4 mb-md-4 d-flex flex-row">
@@ -145,8 +158,9 @@ function ProductDetails(props) {
               </ButtonGroup> 
                 <Button 
                     style={{padding:'10px 10px',backgroundColor:'#0088CC',color:'white',marginLeft:'10px'}}
+                    onClick={handleCart}
                   >
-                    <ShoppingCartIcon />ADD TO CART
+                    <ShoppingCartIcon /> ADD TO CART
                 </Button> 
                 <Button 
                     variant="outlined"

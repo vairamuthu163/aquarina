@@ -8,6 +8,8 @@ import { RecentProducts } from "./recentProducts";
 import { Substrates } from "./substrates";
 import thunk from "redux-thunk";
 import logger from "redux-logger";
+import { User } from "./User";
+import { Tickets } from "./tickets";
 export const ConfigureStore = () =>{
     const store = createStore(
         combineReducers({
@@ -17,7 +19,9 @@ export const ConfigureStore = () =>{
             foods : Foods,
             plants : Plants,
             substrates : Substrates,
-            recentProducts : RecentProducts,
+            recentProducts : RecentProducts, 
+            user:User,
+            tickets : Tickets, 
         }),
         applyMiddleware(thunk,logger)
     );

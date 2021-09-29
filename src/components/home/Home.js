@@ -155,8 +155,7 @@ export default function Home(props) {
     }
     return (
         <div>
-            <NavBar navbg={'linear-gradient(rgba(0, 0, 0, 0.0),rgba(0, 0, 0, 0.0))'}
-            img={'logoDolphin.png'}
+            <NavBar navbg={'linear-gradient(rgba(0, 0, 0, 0.0),rgba(0, 0, 0, 0.0))'} 
             />
             <Jumbotron>
                 <Container>

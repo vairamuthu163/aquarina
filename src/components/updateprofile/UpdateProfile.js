@@ -88,7 +88,7 @@ export default function UpdateProfile() {
                         {error &&<Alert variant="danger"><InfoIcon></InfoIcon> {error}</Alert>}
                         <Form onSubmit={handleSubmit}>
                             <Form.Group id="email">
-                                <Form.Label for="email">Email<span className="text-danger"> *</span></Form.Label>
+                                <Form.Label htmlFor="email">Email<span className="text-danger"> *</span></Form.Label>
                                 <Form.Control 
                                     className="pr-4" 
                                     type="email" 
@@ -98,7 +98,7 @@ export default function UpdateProfile() {
                                 />
                             </Form.Group>
                             <Form.Group id="password" className="mt-2">
-                                <Form.Label for="password">Password<span className="text-danger"> *</span></Form.Label>
+                                <Form.Label htmlFor="password">Password<span className="text-danger"> *</span></Form.Label>
                                 <Form.Control 
                                     type="password" 
                                     ref={passwordRef} 
@@ -107,7 +107,7 @@ export default function UpdateProfile() {
                                 />
                             </Form.Group>
                             <Form.Group id="password-confirm" className="mt-2">
-                                <Form.Label for="password-confirmation">Password-confirmation<span className="text-danger"> *</span></Form.Label>
+                                <Form.Label htmlFor="password-confirmation">Password-confirmation<span className="text-danger"> *</span></Form.Label>
                                 <Form.Control 
                                     type="password" 
                                     ref={passwordConfirmRef} 

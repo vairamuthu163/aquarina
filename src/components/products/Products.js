@@ -21,7 +21,8 @@ import Filters from './filters/Filters';
 import AllProducts from './allproducts/AllProducts';
 import {Form} from 'react-bootstrap'
 import axios from 'axios'
-
+import { baseUrl } from '../../shared/baseUrl';
+import Pagination from '@material-ui/lab/Pagination';
 export default function Products(props) {
     const [value, setValue] = React.useState(0);
     const [imageUpload,setImageUpload]=useState(null);
@@ -37,10 +38,13 @@ export default function Products(props) {
         filteredData:[]
     });
      useEffect(()=>{
-        //console.log('product',props.allProducts);
+        //console.log('product',props.allProducts); 
         state.allData.push(...props.fishes,...props.foods,...props.substrates,...props.plants);
         state.filteredData.push(...props.fishes,...props.foods,...props.substrates,...props.plants);
-     },[]);
+     },[]); 
+     useEffect(()=>{
+
+     },[imageUpload])
     const history = useHistory();
     const handleChange = (event, newValue) => {
       setValue(newValue);
@@ -55,14 +59,6 @@ export default function Products(props) {
     } 
    
      
-    //const [,setAllData] = useState([]);
-   // const [filteredData,setFilteredData] = useState(allData);
-   
-    // setState({
-    //     ...state,
-         //filteredData:state.allData.push(...props.fishes,...props.foods,...props.substrates,...props.plants)
-    // })
-    
     const searchChange = (event) => {
         console.log(event.target.value);
         setState({
@@ -80,7 +76,7 @@ export default function Products(props) {
 
       const handleImageUpload = async(event) =>{
           event.preventDefault();
-          console.log(imageUpload.name,nameRef.current.value,priceRef.current.value,category);
+          //console.log(imageUpload.name,nameRef.current.value,priceRef.current.value,category);
           await save(imageUpload,nameRef.current.value,priceRef.current.value,category);
           toggleModal();
 
@@ -102,22 +98,26 @@ export default function Products(props) {
         // fd.append("price",price);
         // fd.append("image",image);
         // fd.append("category",category);
-        if(category==="Fishes"){
-            props.postFishes(image,name,price,category);
+        if(category==="Fishes"){ 
+             props.postFishes(image,name,price,category);
         }
         if(category==="Plants"){
             console.log(category);
+            props.postPlants(image,name,price,category);
         }
         if(category==="Fish-Foods"){
-            console.log(category);
+            console.log("Fish-Foods Post Command");
+            props.postFoods(image,name,price,category);
         }
         if(category==="Substrates"){
-            console.log(category);
+            console.log("Substrates Post Command"); 
+            props.postSubstrates(image,name,price,category);
         }
         if(category==="Accessories"){
-            console.log(category);
+            console.log("Filters Post command");
+            props.postFilters(image,name,price,category);
         }
-        // fetch("http://localhost:3001/products",{
+        // fetch("http://localhost:3001/fishes",{
         //     method:'POST',
         //     body:fd
         // })
@@ -128,7 +128,7 @@ export default function Products(props) {
       }
     return (
         <>
-           <NavBar navbg={'linear-gradient(rgba(0, 0, 0, 0.8),rgba(0, 0, 0, 0.8))'} img={'logoDolphin.png'} />
+           <NavBar navbg={'linear-gradient(rgba(0, 0, 0, 0.8),rgba(0, 0, 0, 0.8))'} />
            <div style={{marginTop:'20px'}}>
                <Container>
                     <div className="row" style={{padding:'30px'}}> 
@@ -184,7 +184,7 @@ export default function Products(props) {
                                     <Tab label={<b>indoor plants</b>}/>
                                 </Tabs>
                             </Paper>
-                            <TabPanel value={value} index={0}>
+                           {/*  <TabPanel value={value} index={0}>
                                 <AllProducts 
                                     allProducts={state.filteredData}
                                 />
@@ -208,6 +208,7 @@ export default function Products(props) {
                                     fishes={props.fishes}
                                     isLoading={props.fishesLoading}
                                     errmess = {props.fishesErr}
+ 
                                 />
                             </TabPanel>
                             <TabPanel value={value} index={4}>
@@ -224,8 +225,91 @@ export default function Products(props) {
                                     errmess = {props.filtersErr}  
                                 />
                             </TabPanel>
-                            <TabPanel value={value} index={6}>indoor plants</TabPanel>
+                            <TabPanel value={value} index={6}>
+                                <img src={baseUrl+"1632366745057aquarium-2.jpg"} />
+                            </TabPanel> */}
+                     <div className="row">
+                        <div className="col-12 m-2 d-flex justify-content-between">
+                                <div className="p-1 mt-2">
+                                    <div className="d-flex">
+                                        <div className="m-3 mt-2">Sort By </div>
+                                            <UncontrolledDropdown>
+                                                <DropdownToggle caret>
+                                                    Position
+                                                </DropdownToggle>
+                                                <DropdownMenu>
+                                                    <DropdownItem header>Sort By</DropdownItem> 
+                                                    <DropdownItem>Product Name</DropdownItem> 
+                                                    <DropdownItem>Price</DropdownItem> 
+                                                    <DropdownItem>Most viewed</DropdownItem> 
+                                                </DropdownMenu>
+                                            </UncontrolledDropdown>
+                                        </div> 
+                                    </div> 
+                                    <div className="p-1 mt-2">
+                                        Show 
+                                        <IconButton>
+                                            <AppsIcon />
+                                        </IconButton> 
+                                        <IconButton>
+                                            <DehazeIcon />
+                                        </IconButton>
+                                    </div>
+                                </div>
                         </div>
+                        <div className="col-12"> 
+                            {value===0 && 
+                               <AllProducts 
+                                    allProducts={state.filteredData}
+                                />
+                            }
+                            {
+                            value===1 && 
+                                <Substrates 
+                                    substrates = {props.substrates} 
+                                    isLoading = {props.substratesLoading}
+                                    errmess = {props.substrateErr}
+                                />
+                            }
+                            {
+                                value===2 && 
+                                <Plants
+                                    plants={props.plants} 
+                                    isLoading = {props.plantsLoading}
+                                    errmess = {props.plantsErr} 
+                                />
+                            }
+                            {
+                                value===3 && 
+                                <Fishes 
+                                    fishes={props.fishes}
+                                    isLoading={props.fishesLoading}
+                                    errmess = {props.fishesErr}
+ 
+                                />
+                            }
+                            {
+                                value===4 && 
+                                <Foods 
+                                    foods = {props.foods} 
+                                    isLoading = {props.foodsLoading}
+                                    errmess = {props.foodsErr}
+                                />
+                            }
+                            {
+                                value===5 && 
+                                <Filters 
+                                    filters = {props.filters}
+                                    isLoading = {props.filtersLoading}  
+                                    errmess = {props.filtersErr}  
+                                />
+                            }
+                            {
+                                value===6 && 
+                                <h3>Indoor Plants</h3>
+                            }
+                         </div>
+                       </div>
                         {/* <div className="col-12" style={{paddingTop:'20px'}}>
                             <Fishes fishes={props.fishes}/>
                         </div> */}
@@ -238,7 +322,7 @@ export default function Products(props) {
                         backdrop="static"
                         >
                          <ModalHeader toggle={toggleModal} >
-                                <h4 style={{fontWeight:'bold',color:'#0088cc'}}>ADD PRODUCT</h4>
+                                <h4 style={{fontWeight:'bold'}}>ADD PRODUCT</h4>
                           </ModalHeader>
                             <ModalBody>
                                 <Form onSubmit={handleImageUpload} className="row" method="POST" enctype='multipart/form-data'>
@@ -360,13 +444,13 @@ function TabPanel(props){
                                 </IconButton>
                             </div>
                         </div>
-                        <div className="col-3"> 
+                        {/* <div className="col-3"> 
                                 <Accordian />
                                 <Accordian />
                                 <Accordian />
                            
-                        </div>
-                        <div className="col-9">
+                        </div> */}
+                        <div className="col-12"> 
                             {children}
                         </div>
                     </div>

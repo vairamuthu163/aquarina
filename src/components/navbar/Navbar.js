@@ -9,6 +9,7 @@ import {Link, NavLink,useHistory} from 'react-router-dom';
 import FormatListBulletedIcon from '@material-ui/icons/FormatListBulleted';
 import Badge from '@material-ui/core/Badge';
 import "./style.css";
+import { baseUrl } from '../../shared/baseUrl';
 
 function NavBar(props){ 
     const [isNavOpen,setIsNavOpen] = useState(false);
@@ -56,7 +57,7 @@ function NavBar(props){
                 <Navbar dark expand="md" className="fixed-top" style={{backgroundImage:navBackground}}>
                     <div className="container">
                         <NavbarBrand className="mr-auto" href="/home">
-                            <h3><img src={props.img} height="50" width="80" /* alt="a" */ /><span className="d-none d-sm-inline hover-underline-animation titleText">Aquarina</span></h3>
+                            <h3><img src={baseUrl+"logoDolphin.png"} height="50" width="80" /* alt="a" */ /><span className="d-none d-sm-inline hover-underline-animation titleText">Aquarina</span></h3>
                         </NavbarBrand>
                         <NavbarToggler onClick={toggleNav}></NavbarToggler>
                         <Collapse className="justify-content-end" isOpen={isNavOpen} navbar>

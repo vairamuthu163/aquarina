@@ -33,3 +33,14 @@ export const RECENT_FAILED = "RECENT_FAILED";
 export const ADD_PRODUCTS = "ADD_PRODUCTS";
 export const PRODUCTS_LOADING = "PRODUCTS_LOADING";
 export const PRODUCTS_FAILED = "PRODUCTS_FAILED";
+
+
+ //users
+export const FIND_USER = "FIND_USER"
+export const USER_LOADING = "USER_LOADING"
+export const USER_FAILED = "USER_FAILED"
+
+//tickets
+export const ADD_TICKETS = "ADD_TICKETS"
+export const TICKETS_FAILED = "TICKETS_FAILED"
+export const TICKETS_LOADING = "TICKETS_LOADING"

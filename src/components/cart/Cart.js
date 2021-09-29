@@ -1,4 +1,5 @@
-import React from 'react'
+import React,{useState,useEffect} from 'react'
+import { useAuth } from '../../contexts/AuthContext';
 import { Form, Input ,Card, CardImg, CardTitle, CardBody} from 'reactstrap' 
 import { Button, IconButton } from '@material-ui/core'; 
 import Accordion from '@material-ui/core/Accordion';
@@ -10,7 +11,123 @@ import NavBar from '../navbar/Navbar';
 import ClearIcon from '@material-ui/icons/Clear';
 import Checkbox from '@material-ui/core/Checkbox';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
-function Cart() {
+import { baseUrl } from '../../shared/baseUrl';
+
+
+function Cart(props) { 
+    const {currentUser} = useAuth();
+     const tempCart = props.userDetails.filter((user) => user.email === (currentUser.email+"")); 
+    //let userDetails = props.userDetails.filter((user) => user.email === (currentUser.email+""));
+     const [state,setState] = useState({
+         cartDetails:[]
+     }) 
+     var safe = [];
+     useEffect(()=>{
+        tempCart.map((cart)=>{
+            return(
+                cart.cart.map((car)=>{
+                    console.log("car , ",car);
+                    return( 
+                       safe.push(car)
+                    )
+                })
+            ) 
+        })
+        //console.log("useEffect cnsole ",safe);
+
+     },[])
+     useEffect(()=>{
+        setState({
+            cartDetails:safe
+        })
+        console.log("useEffect cnsole ",state.cartDetails);
+     },[]);
+     useEffect(()=>{
+
+     },[state.cartDetails])
+     const callToDelete = async(name) =>{
+         //alert("hi");
+        //await props.deleteCart(currentUser.email,name);
+     }
+   const RenderCartProducts = ({cart}) =>{  
+        
+        const handleDelete = async(name) =>{
+              const sage = state.cartDetails.filter((car)=>car.product_name!==name) 
+              setState({
+                  cartDetails:sage
+              })
+              console.log("deletion state ",state.cartDetails);
+              await callToDelete(name)
+        }
+        return( 
+            <div className="row">
+                <div className="d-flex justify-content-end">
+                    <IconButton color="primary"
+                        onClick = {()=>handleDelete(cart.product_name)}
+                    >
+                        <ClearIcon color="primary"/>
+                    </IconButton>
+                    <IconButton color="primary">
+                        <i class="fa fa-edit"></i>
+                    </IconButton>
+                   {/*  <FormControlLabel
+                        control={
+                        <Checkbox
+                            checked={state.checkedB}
+                            onChange={handleChange}
+                            name="checkedB"
+                            color="primary" 
+                        />
+                        } 
+                    /> */}
+                </div>
+                <Card className="col-4 m-0 p-0">
+                    <CardImg width="100%" style={{height:'250px'}} src={baseUrl+cart.product_img} />
+                </Card> 
+                <div className="col-3 mt-5 pt-5"  style={{marginRight:'25px'}}>
+                    <p className="">{cart.product_name}</p>
+                </div>
+                <div className="col-2 mt-5 pt-5" style={{marginRight:'-26px'}}>
+                    <p> <span className="fa fa-inr"> </span>{cart.price}</p>
+                </div>
+                <div className="col-1 mt-5 pt-5" style={{marginRight:'10px'}}>
+                    <p className="text-center">{cart.count}</p>
+                </div>
+                <div className="col-2 mt-5 pt-5 text-center"  style={{marginRight:'-33px'}}>
+                    <p className="text-center"> <span className="fa fa-inr"> </span>{cart.count*cart.price}</p>
+                </div> 
+                
+            </div> 
+        )
+        }
+    
+        const cartproducts =state.cartDetails.map((cart)=>{
+            return(  
+                <div key={cart._id}> 
+                    <RenderCartProducts cart={cart} />
+                    <hr className="mt-4"/>
+            </div>
+            )  
+        })
+    // const cartproducts =tempCart.map((cart)=>{
+    //     return(
+    //         cart.cart.map((car)=>{
+    //             console.log("car , ",car);
+    //             return( 
+    //                 <div key={car._id}> 
+    //                     <RenderCartProducts car={car} />
+    //                     <hr className="mt-4"/>
+    //                 </div>
+    //             )
+    //         })
+    //     ) 
+    // })
+    const sumOfProducts =props.userDetails.filter((user) => user.email === (currentUser.email+"")).map((cart)=>{
+        return(
+            cart.cart.reduce((a,v) =>  a = a + v.count*v.price , 0 )
+        )
+    })
+    
     return (
         <>
         <NavBar navbg={'linear-gradient(rgba(0, 0, 0, 0.8),rgba(0, 0, 0, 0.8))'} 
@@ -42,13 +159,13 @@ function Cart() {
                 <div className="col-3 text-muted"> 
                     Product
                 </div>
-                <div className="col-2 text-muted">
+                <div className="col-2 text-muted" style={{marginLeft:'-23px'}}>
                     Name
                 </div>
-                <div className="col-1 text-muted">
+                <div className="col-1 text-muted" style={{marginLeft:'12px'}}>
                     Price
                 </div>
-                <div className="col-1 text-muted">
+                <div className="col-1 text-muted" style={{marginLeft:'10px'}}>
                     Qty
                 </div>
                 <div className="col-1 text-muted">
@@ -57,8 +174,10 @@ function Cart() {
                 <hr className="col-8 mt-3"/>
             </div>
             <div className="row">
-                <div className="col-8 mt-3"> 
-                    <div className="row">
+                <div className="col-8 mt-4">
+                   {/*  {cartproducts}  */}
+                   {cartproducts}
+                   {/*  <div className="row">
                         <div className="d-flex justify-content-end">
                             <IconButton color="primary">
                                 <ClearIcon color="primary"/>
@@ -93,7 +212,7 @@ function Cart() {
                         <div className="col-2 mt-5 pt-5 text-center"  style={{marginRight:'-33px'}}>
                             <p className="text-center"> <span className="fa fa-inr"> </span>800.0</p>
                         </div> 
-                    </div>
+                    </div> */}
                 </div>
                 <div className="col-4">
                     <Card> 
@@ -125,7 +244,7 @@ function Cart() {
                                         <p>Subtotal</p>
                                     </div>
                                     <div className="col-3">
-                                        <p><i class="fa fa-inr" aria-hidden="true"></i>880.0</p>
+                                        <p><i class="fa fa-inr" aria-hidden="true"></i>{sumOfProducts}.0</p>
                                     </div>
                                 </div>
                                 <div className="row">
@@ -142,7 +261,7 @@ function Cart() {
                                       <h5 className="text-muted">Order Total</h5>
                                     </div>
                                     <div className="col-3">
-                                    ₹537.10
+                                    ₹{Number(sumOfProducts)+Number(99)}.0
                                     </div>
                                 </div>
                                 <div className="row p-2">
@@ -151,7 +270,7 @@ function Cart() {
                                         variant="contained"
                                         color="primary"
                                     >
-                                        Order Now
+                                        Order Now 
                                     </Button>
                                 </div>
                             </CardBody>

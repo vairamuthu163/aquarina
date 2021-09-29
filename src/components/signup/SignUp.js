@@ -60,7 +60,6 @@ export default function SignUp() {
     return (
         <>
         <NavBar navbg={'linear-gradient(rgba(0, 0, 0, 0.8),rgba(0, 0, 0, 0.8))'} 
-        img={'logoDolphin.png'}
         />
         <Container className="d-flex align-items-center justify-content-center mt-5"
         style={{minHeight:"100vh"}}

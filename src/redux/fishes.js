@@ -7,8 +7,8 @@ export const Fishes = (state={
 },action) =>{
     switch(action.type){
         case ActionTypes.ADD_FISHES:
-            return {...state, isLoading: false, errmess:null, fishes:action.payload}
-        
+            return {...state, isLoading: false, errmess:null, fishes:action.payload} 
+            
         case ActionTypes.FISHES_LOADING:
             return {...state,isLoading:true, errmess:null, fishes:[]}    
         

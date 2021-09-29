@@ -14,7 +14,7 @@ import ParticlesBg from "particles-bg";
 
 import { Link, useHistory } from 'react-router-dom';
 
-
+import axios from 'axios'
 const useStyles = makeStyles((theme) => ({
     paper: { 
       display: 'flex',
@@ -27,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
     },
   }));
 
-export default function Login() {
+export default function Login(props) {
     const emailRef = useRef();
     const passwordRef = useRef(); 
 
@@ -48,6 +48,7 @@ export default function Login() {
             setError('');
             setLoading(true);
             await login(emailRef.current.value, passwordRef.current.value);
+            await props.postUser(emailRef.current.value);
             history.push('/home');
         }
         catch{
@@ -58,8 +59,7 @@ export default function Login() {
 
     return (
         <>
-        <NavBar navbg={'linear-gradient(rgba(0, 0, 0, 0.8),rgba(0, 0, 0, 0.8))'} 
-        img={'logoDolphin.png'}
+        <NavBar navbg={'linear-gradient(rgba(0, 0, 0, 0.8),rgba(0, 0, 0, 0.8))'}  
         />
         <Container className="d-flex align-items-center justify-content-center mt-5"
         style={{minHeight:"100vh"}}
