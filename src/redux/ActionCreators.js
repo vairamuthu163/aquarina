@@ -332,7 +332,7 @@ export const postTickets = (date,available,userId) => (dispatch)=>{
     dispatch(ticketsLoading(true))
     return axios.post('http://localhost:3001/ticket', {
         date:date,
-        available:available,
+        available:parseInt(available,10),
         user_id:userId
     })
     .then((response)=> response.data)

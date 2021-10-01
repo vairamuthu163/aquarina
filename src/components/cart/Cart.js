@@ -23,6 +23,7 @@ function Cart(props) {
      }) 
      var safe = [];
      useEffect(()=>{
+        
         tempCart.map((cart)=>{
             return(
                 cart.cart.map((car)=>{
@@ -48,12 +49,15 @@ function Cart(props) {
      const callToDelete = async(name) =>{
          //alert("hi");
         //await props.deleteCart(currentUser.email,name);
+        await setTimeout(async()=>{
+            await props.deleteCart(currentUser.email,name);
+        },3000);
      }
    const RenderCartProducts = ({cart}) =>{  
         
         const handleDelete = async(name) =>{
               const sage = state.cartDetails.filter((car)=>car.product_name!==name) 
-              setState({
+              await setState({
                   cartDetails:sage
               })
               console.log("deletion state ",state.cartDetails);

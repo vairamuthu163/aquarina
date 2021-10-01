@@ -96,15 +96,9 @@ function MainComponent(props) {
     //   })
     // }) 
     console.log("cart ",props.user.user.filter((user) => user.email === userEmail));
+    console.log("tickets ",props.tickets.tickets);
   }, [])
-  const FishWithId = ({match}) =>{
-    return(
-      <FishDetails 
-        fish = {props.fishes.find((fish)=>fish.id===parseInt(match.params.fishId,10))}
-      />
-    )
-    
-  }
+
   const HomePage = () =>{
     return(
       <Home 
@@ -139,8 +133,8 @@ function MainComponent(props) {
       <Cart  
         //findUser = {props.user.user.filter((user) => user.email === userEmail)}
         deleteCart = {props.deleteCart}
-        userDetails = {props.user.user} 
-        cartDetails = {props.user.user.filter((user) => user.email === userEmail)}
+        userDetails = {props.user.user}  
+        /* cartDetails = {props.user.user.filter((user) => user.email === userEmail)} */
       />
     )
   }

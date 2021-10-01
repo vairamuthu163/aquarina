@@ -5,8 +5,10 @@ import { Loading } from '../../../shared/Loading';
 import { baseUrl } from '../../../shared/baseUrl';
 import {Button, IconButton, Typography} from '@material-ui/core'
 import Pagination from '@material-ui/lab/Pagination';
+import Rating from '@material-ui/lab/Rating'; 
 const RenderFish = ({fish}) =>{
     const [text,setText] = useState(false);
+    const [value,setValue] = useState(0);
     const handleMouseOver = () =>{
         setText(!text);
     }
@@ -19,7 +21,13 @@ const RenderFish = ({fish}) =>{
     }
     return(
         <div className="p-0 m-2">
-            <Card className="img-quick p-2" onMouseEnter={handleMouseOver} onMouseLeave={handleMouseOver} onClick={()=>handleClick(fish)}>
+            <Card 
+                className="img-quick p-2"
+                onMouseEnter={handleMouseOver} 
+                onMouseLeave={handleMouseOver} 
+                onClick={()=>handleClick(fish)}
+                style={{height:'425px'}}  
+            >
                     <CardImg className="img-q" width="100" height="250" top src={baseUrl+fish.img} alt={fish.fishName} />
                     <CardImgOverlay className="text-white m-2"> 
                         <b>{text && 
@@ -32,9 +40,20 @@ const RenderFish = ({fish}) =>{
                             </IconButton>
                             }</b>
                     </CardImgOverlay>
-                    <CardImgOverlay className="text-white text-center" style={{marginTop:'190px'}}>
-                        <b>{text && fish.fishName}</b>
-                    </CardImgOverlay>
+                    <CardBody className="text-center">
+                         <b>{fish.fishName}</b> 
+                            <br /><br />
+                            <Rating
+                                name="simple-controlled"
+                                value={Math.floor(Math.random() * (5 - 1 + 1) + 1)}
+                                onChange={(event, newValue) => {
+                                    setValue(newValue);
+                                }}
+                                style={{fontSize:'1.1rem'}}
+                            />
+                            <br />
+                            <i class="fa fa-inr"></i> <b>{fish.price}.0</b> 
+                    </CardBody>
             </Card> 
         </div>
     )
@@ -42,6 +61,7 @@ const RenderFish = ({fish}) =>{
 function Fishes(props) { 
     const [page,setPage] = useState(1);
     const [showPerPage,setShowPerPage] = useState(12);
+    const [value, setValue] = React.useState(0);
     const [paginaton,setPagination] = useState({
         start:0,
         end:showPerPage

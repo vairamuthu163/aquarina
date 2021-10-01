@@ -3,9 +3,7 @@ import { Card,CardText,CardBody,CardHeader,CardImg,CardImgOverlay,CardTitle,Cont
 import { useHistory} from 'react-router-dom';
 import { Loading } from '../../../shared/Loading';
 import { IconButton } from '@material-ui/core';
-import Rating from '@material-ui/lab/Rating';
-import Typography from '@material-ui/core/Typography';
-import Box from '@material-ui/core/Box';
+import Rating from '@material-ui/lab/Rating'; 
 import Pagination from '@material-ui/lab/Pagination';
 import { baseUrl } from '../../../shared/baseUrl';
 const RenderAllProducts = ({product}) =>{
@@ -15,7 +13,7 @@ const RenderAllProducts = ({product}) =>{
     const history = useHistory();
     useEffect(()=>{
         var value = Object.values(product);
-        //console.log("alue", product)
+       //console.log("alue", value[2])
         setName(value[2]);
     },[]);
     const handleClick = (filter) =>{ 
@@ -32,8 +30,8 @@ const RenderAllProducts = ({product}) =>{
             <Card className="img-quick p-2" 
                 onMouseEnter={handleMouseOver} 
                 onMouseLeave={handleMouseOver} 
-                onClick={()=>handleClick(product)} 
-                
+                onClick={()=>handleClick(product)}
+                style={{height:'425px'}}  
             > 
                     <CardImg 
                         className="img-q" 
@@ -53,25 +51,21 @@ const RenderAllProducts = ({product}) =>{
                                 <i class="fa fa-shopping-bag"></i>
                             </IconButton>
                             }</b>
-                    </CardImgOverlay>
-                   {/*  <CardImgOverlay className="text-center" style={{marginTop:'190px'}}>
-                        <b>{text && name}</b> 
-                    </CardImgOverlay> */}
+                    </CardImgOverlay> 
                     <CardBody className="text-center">
-                         <b>{name}</b>
-                          {/* <Box component="fieldset" mb={3} borderColor="transparent" className="d-flex">  */}
+                         <b>{name}</b> 
                             <br /><br />
                             <Rating
                                 name="simple-controlled"
                                 value={Math.floor(Math.random() * (5 - 1 + 1) + 1)}
-                                onChange={(event, newValue) => {
+                                /* onChange={(event, newValue) => {
                                     setValue(newValue);
-                                }}
+                                }} */
+                                readOnly 
                                 style={{fontSize:'1.1rem'}}
                             />
                             <br />
-                            <i class="fa fa-inr"></i> <b>{product.price}.0</b>
-                        {/* </Box> */}
+                            <i class="fa fa-inr"></i> <b>{product.price}.0</b> 
                     </CardBody>
             </Card> 
         </div>

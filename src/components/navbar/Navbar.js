@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import {Navbar, NavbarBrand,Jumbotron,Nav,NavbarToggler,Collapse,NavItem,Modal,
     ModalBody,ModalHeader,Form,FormGroup,Label,UncontrolledDropdown,Input,NavbarText,Dropdown, DropdownToggle, DropdownMenu, DropdownItem, UncontrolledPopover, PopoverHeader, PopoverBody} from "reactstrap";
 import { Button } from '@material-ui/core';
@@ -10,7 +10,7 @@ import FormatListBulletedIcon from '@material-ui/icons/FormatListBulleted';
 import Badge from '@material-ui/core/Badge';
 import "./style.css";
 import { baseUrl } from '../../shared/baseUrl';
-
+import axios from 'axios';
 function NavBar(props){ 
     const [isNavOpen,setIsNavOpen] = useState(false);
     const [isModalOpen,setIsModalOpen] = useState(false);
@@ -29,6 +29,23 @@ function NavBar(props){
         setError('Failed to Log out');
       }
     }
+/* 
+  let cartCount=0;
+  const [temp,setTemp] = useState();
+  useEffect(() => {
+    axios.get('http://localhost:3001/user')
+    .then((response)=>{
+      const tempCart = response.data.filter((user) => user.email === (currentUser.email+"")); 
+      setTemp(tempCart);
+      cartCount = temp.map(cart => cart.cart.length);
+      console.log("cart count",cartCount[0]);
+
+    })
+    .catch((err)=>{
+      console.log(err);
+    }) 
+  
+  }, []); */
 
     const toggleNav=()=>{
         setIsNavOpen(!isNavOpen);
@@ -146,7 +163,7 @@ function NavBar(props){
                                 <NavItem className="navItem ml-1">
                                   <Tooltip title="Cart">
                                     <NavLink className="nav-link mt-0" to="/cart">
-                                      <Badge badgeContent={0} showZero color="secondary"><span className="fa fa-shopping-cart fa-lg"  style={{fontSize:'1.5rem',marginLeft:'4px',marginRight:'4px'}}></span></Badge>
+                                      <Badge badgeContent={2} color="secondary"><span className="fa fa-shopping-cart fa-lg"  style={{fontSize:'1.5rem',marginLeft:'4px',marginRight:'4px'}}></span></Badge>
                                     </NavLink>
                                   </Tooltip>
                                 </NavItem>

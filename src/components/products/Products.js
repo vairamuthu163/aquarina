@@ -29,6 +29,7 @@ export default function Products(props) {
     const categoryRef = useRef(null);
     const priceRef = useRef();
     const nameRef = useRef();
+    const [name,setName] = useState(); 
 
     const [imagePreview,setImagePreview] = useState('');
      const [category,setCategory] = useState('');
@@ -41,10 +42,25 @@ export default function Products(props) {
         //console.log('product',props.allProducts); 
         state.allData.push(...props.fishes,...props.foods,...props.substrates,...props.plants);
         state.filteredData.push(...props.fishes,...props.foods,...props.substrates,...props.plants);
+        state.filteredData.push(...props.filters)
      },[]); 
      useEffect(()=>{
 
      },[imageUpload])
+
+     const [newState,setNewState] = useState({
+         foods: props.foods,
+         substrates:props.substrates,
+         fishes : props.fishes,
+         filters : props.filters,
+         plants: props.plants
+     },[]);
+
+     
+     useEffect(()=>{
+
+     },[newState])
+
     const history = useHistory();
     const handleChange = (event, newValue) => {
       setValue(newValue);
@@ -61,15 +77,17 @@ export default function Products(props) {
      
     const searchChange = (event) => {
         console.log(event.target.value);
-        setState({
-            ...state,
-             [event.target.name] : event.target.value,
-            
-            filteredData:state.allData.filter(item =>{
-             return Object.keys(item).some(key=>
-               item[key].toString().toLowerCase().includes(event.target.value.toString().toLowerCase()))
-          }),
-        });
+        if(value===0){
+            setState({
+                ...state,
+                [event.target.name] : event.target.value,
+                
+                filteredData:state.allData.filter(item =>{
+                return Object.keys(item).some(key=>
+                item[key].toString().toLowerCase().includes(event.target.value.toString().toLowerCase()))
+            }),
+            });
+        }
          console.log("search ",state.search);
       };
 
@@ -125,7 +143,134 @@ export default function Products(props) {
         // .then((data)=>{
         //     console.log(data);
         // })
+      } 
+      const handleSortByProduct = () =>{
+          if(value===0){ 
+            const temp = state.filteredData.sort((a, b) =>{
+                var val1 = Object.values(a);
+                var val2 = Object.values(b); 
+                return(
+                   (val1[2]+"").toLowerCase() > (val2[2]+"").toLowerCase() ? 1 : -1
+                )
+            })
+            setState({
+                ...state,
+                filteredData:temp
+            })
+          }
+          if(value===1){ 
+            const temp = newState.substrates.sort((a, b) =>{
+                var val1 = Object.values(a);
+                var val2 = Object.values(b); 
+                return(
+                    (val1[2]+"").toLowerCase() > (val2[2]+"").toLowerCase() ? 1 : -1
+                )
+            })
+            setNewState({
+                ...newState,
+                substrates:temp
+            })
+          }
+          if(value===2){ 
+            const temp = newState.plants.sort((a, b) =>{
+                var val1 = Object.values(a);
+                var val2 = Object.values(b); 
+                return(
+                    (val1[2]+"").toLowerCase() > (val2[2]+"").toLowerCase() ? 1 : -1
+                )
+            })
+            setNewState({
+                ...newState,
+                plants:temp
+            })
+          }
+          if(value===3){ 
+            const temp = newState.fishes.sort((a, b) =>{
+                var val1 = Object.values(a);
+                var val2 = Object.values(b); 
+                return(
+                    (val1[2]+"").toLowerCase() > (val2[2]+"").toLowerCase() ? 1 : -1
+                )
+            })
+            setNewState({
+                ...newState,
+                fishes:temp
+            })
+          }
+          if(value===4){ 
+            const temp = newState.foods.sort((a, b) =>{
+                var val1 = Object.values(a);
+                var val2 = Object.values(b); 
+                return(
+                    (val1[2]+"").toLowerCase() > (val2[2]+"").toLowerCase() ? 1 : -1
+                )
+            })
+            setNewState({
+                ...newState,
+                foods:temp
+            })
+          }
+          if(value===5){ 
+            const temp = newState.filters.sort((a, b) =>{
+                var val1 = Object.values(a);
+                var val2 = Object.values(b); 
+                return(
+                    (val1[2]+"").toLowerCase() > (val2[2]+"").toLowerCase() ? 1 : -1
+                )
+            })
+            setNewState({
+                ...newState,
+                filters:temp
+            })
+          }
+          
       }
+      const handleSortByPrice = () =>{
+        if(value===0){ 
+            const temp = [...state.filteredData].sort((a, b) =>(parseFloat(a.price.replace(/,/g, ''))-parseFloat(b.price.replace(/,/g, ''))));
+            setState({
+                ...state,
+                filteredData:temp
+            })
+        }
+        else if(value===1){ 
+            const temp = [...newState.substrates].sort((a, b) => (parseFloat(a.price.replace(/,/g, ''))-parseFloat(b.price.replace(/,/g, ''))));
+            setNewState({
+                ...newState,
+                substrates:temp
+            })
+        }
+        else if(value===2){ 
+            const temp = [...newState.plants].sort((a, b) => (parseFloat(a.price.replace(/,/g, ''))-parseFloat(b.price.replace(/,/g, ''))));
+            setNewState({
+                ...newState,
+                plants:temp
+            })
+        }
+        else if(value===3){ 
+            const temp = [...newState.fishes].sort((a, b) => (parseFloat(a.price.replace(/,/g, ''))-parseFloat(b.price.replace(/,/g, ''))));
+            setNewState({
+                ...newState,
+                fishes:temp
+            })
+        }
+        else if(value===4){ 
+            const temp = [...newState.foods].sort((a, b) => (parseFloat(a.price.replace(/,/g, ''))-parseFloat(b.price.replace(/,/g, ''))));
+            setNewState({
+                ...newState,
+                foods:temp
+            })
+        }
+     //   parseFloat(a.price.replace(/,/g, ''))-parseFloat(b.price.replace(/,/g, ''))
+        if(value===5){  
+            const temp = [...newState.filters].sort((a,b) => (parseFloat(a.price.replace(/,/g, ''))-parseFloat(b.price.replace(/,/g, ''))));
+            setNewState({
+                ...newState,
+                filters:temp
+            })
+        }
+           
+      } 
     return (
         <>
            <NavBar navbg={'linear-gradient(rgba(0, 0, 0, 0.8),rgba(0, 0, 0, 0.8))'} />
@@ -239,9 +384,9 @@ export default function Products(props) {
                                                 </DropdownToggle>
                                                 <DropdownMenu>
                                                     <DropdownItem header>Sort By</DropdownItem> 
-                                                    <DropdownItem>Product Name</DropdownItem> 
-                                                    <DropdownItem>Price</DropdownItem> 
-                                                    <DropdownItem>Most viewed</DropdownItem> 
+                                                    <DropdownItem onClick={handleSortByProduct}>Product Name</DropdownItem> 
+                                                    <DropdownItem onClick={handleSortByPrice}>Price</DropdownItem> 
+                                                    <DropdownItem >Rating</DropdownItem> 
                                                 </DropdownMenu>
                                             </UncontrolledDropdown>
                                         </div> 
@@ -266,7 +411,7 @@ export default function Products(props) {
                             {
                             value===1 && 
                                 <Substrates 
-                                    substrates = {props.substrates} 
+                                    substrates = {newState.substrates} 
                                     isLoading = {props.substratesLoading}
                                     errmess = {props.substrateErr}
                                 />
@@ -274,7 +419,7 @@ export default function Products(props) {
                             {
                                 value===2 && 
                                 <Plants
-                                    plants={props.plants} 
+                                    plants={newState.plants} 
                                     isLoading = {props.plantsLoading}
                                     errmess = {props.plantsErr} 
                                 />
@@ -282,7 +427,7 @@ export default function Products(props) {
                             {
                                 value===3 && 
                                 <Fishes 
-                                    fishes={props.fishes}
+                                    fishes={newState.fishes}
                                     isLoading={props.fishesLoading}
                                     errmess = {props.fishesErr}
  
@@ -291,7 +436,7 @@ export default function Products(props) {
                             {
                                 value===4 && 
                                 <Foods 
-                                    foods = {props.foods} 
+                                    foods = {newState.foods} 
                                     isLoading = {props.foodsLoading}
                                     errmess = {props.foodsErr}
                                 />
@@ -299,7 +444,7 @@ export default function Products(props) {
                             {
                                 value===5 && 
                                 <Filters 
-                                    filters = {props.filters}
+                                    filters = {newState.filters}
                                     isLoading = {props.filtersLoading}  
                                     errmess = {props.filtersErr}  
                                 />

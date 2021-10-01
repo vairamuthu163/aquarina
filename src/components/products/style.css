@@ -1,7 +1,7 @@
 .search-bar{
     display: flex; 
     justify-content: center;
-}
+} 
 
 /* .slick-next {
     background: url('./forward-modified.png') no-repeat!important;

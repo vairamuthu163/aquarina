@@ -21,7 +21,9 @@ import FormatListBulletedIcon from '@material-ui/icons/FormatListBulleted';
 import LocalShippingIcon from '@material-ui/icons/LocalShipping';
 import AttachMoneyIcon from '@material-ui/icons/AttachMoney';
 import {Tabs,Tab} from 'react-bootstrap'
-import { baseUrl } from "../../shared/baseUrl";
+import Snackbar from '@material-ui/core/Snackbar';
+import Alert from '@material-ui/lab/Alert';
+import { baseUrl } from "../../shared/baseUrl"; 
 const StyledBreadcrumb = withStyles((theme) => ({
   root: {
     backgroundColor: theme.palette.grey[200],
@@ -40,6 +42,7 @@ const StyledBreadcrumb = withStyles((theme) => ({
   },
 }))(Chip);
 function ProductDetails(props) {
+  const [open, setOpen] = React.useState(false);
   const {currentUser} = useAuth();
   const [key,setKey] = useState('details');
   const [count,setCount] = useState(1);
@@ -49,7 +52,10 @@ function ProductDetails(props) {
   useEffect(() => {
     var value = Object.values(location.state.data);
     setName(value[2]);
-  }, []);
+  }, [name]);
+  useEffect(()=>{
+
+  },[open]);
   const history = useHistory();
   function handleClick(e,val) { 
     e.preventDefault();
@@ -61,16 +67,43 @@ function ProductDetails(props) {
     }
   }
   const handleCart = async() =>{
-     await props.postCart(
-       currentUser.email,
-       location.state.data._id,
-       name,
-       count,
-       location.state.data.category,
-       location.state.data.img,
-       location.state.data.price
-    );
+    await setOpen(true); 
+    await setTimeout(async () => {
+        await props.postCart(
+            currentUser.email,
+            location.state.data._id,
+            name,
+            count,
+            location.state.data.category,
+            location.state.data.img,
+            location.state.data.price
+          );
+    }, 4000)
+    await setTimeout(async ()=>{
+      await history.push('/cart');
+   },3000)
+    //  await props.postCart(
+    //    currentUser.email,
+    //    location.state.data._id,
+    //    name,
+    //    count,
+    //    location.state.data.category,
+    //    location.state.data.img,
+    //    location.state.data.price
+    // );
+    
   }
+  // const handleClick = () => {
+  //   setOpen(true);
+  // };
+
+  const handleClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setOpen(false);
+  };
   return (
     <>
       <NavBar
@@ -121,7 +154,7 @@ function ProductDetails(props) {
             <Box component="fieldset" mb={3} borderColor="transparent" className="d-flex"> 
                 <Rating
                   name="simple-controlled"
-                  value={value}
+                  value={Math.floor(Math.random() * (5 - 1 + 1) + 1)}
                   onChange={(event, newValue) => {
                     setValue(newValue);
                   }}
@@ -208,6 +241,13 @@ function ProductDetails(props) {
                   </Card>
               </div> 
           </div>
+            <Snackbar open={open} autoHideDuration={3000} onClose={handleClose}
+              anchorOrigin={{vertical: 'top', horizontal: 'right'}}
+            >
+              <Alert onClose={handleClose} severity="success" variant="filled">
+                 Successfully added to your Cart!
+              </Alert>
+            </Snackbar>
         </div>
         <div className="row">
             <div className="col-12 col-md-9">
@@ -218,16 +258,32 @@ function ProductDetails(props) {
                   className="mb-3 tabsPane"
                   variant="pills"
                 >
-                  <Tab eventKey="details" title="Details">
-                    Lorem Ipsum is simply dummy text of the printing and typesetting industry. 
-                    Lorem Ipsum is simply dummy text of the printing and typesetting industry.
-                    Lorem Ipsum has been the industry's standard dummy text ever since the
-                    1500s, when an unknown printer took a galley of type and scrambled it to
-                    make a type specimen book. It has survived not only five centuries, but
-                    also the leap into electronic typesetting, remaining essentially
-                    unchanged. It was popularised in the 1960s with the release of Letraset
-                    sheets containing Lorem Ipsum passages, and more recently with desktop
-                    publishing software like Aldus PageMaker including versions of Lorem Ipsum.
+                  <Tab eventKey="details" title="Details"> 
+                      <textarea
+                        type="textarea"
+                        rows='1'
+                        label="Message"
+                        placeholder="Title..."
+                        className="mt-2 form-control"
+                        required
+                      />
+                      <textarea
+                        type="textarea"
+                        rows='6'
+                        label="Message"
+                        placeholder="Description..."
+                        className="mt-2 form-control"
+                        required
+                      />
+                      <div className="mt-2 text-center">
+                      <Button
+                        style={{maxWidth:'200px'}}
+                        variant="contained"
+                        color="primary"
+                      >
+                        Submit
+                      </Button>
+                      </div>
                   </Tab>
                   <Tab eventKey="reviews" title="Reviews">
                     Lorem Ipsum is simply dummy text of the printing and typesetting industry.
