@@ -43,19 +43,32 @@ const StyledBreadcrumb = withStyles((theme) => ({
 }))(Chip);
 function ProductDetails(props) {
   const [open, setOpen] = React.useState(false);
+  const [open1, setOpen1] = React.useState(false);
   const {currentUser} = useAuth();
   const [key,setKey] = useState('details');
   const [count,setCount] = useState(1);
   const [value, setValue] = React.useState(0);
+
+//for Product Details;
+  const [title,setTitle] = useState();
+  const [contents,setContent] = useState();
+
   const location = useLocation();
   const [name, setName] = useState();
+
+  const [details,setDetails] = useState({
+    data:location.state.data
+  })
+
   useEffect(() => {
+    console.log("custom bal",location.state.data);
     var value = Object.values(location.state.data);
     setName(value[2]);
-  }, [name]);
+    
+  }, [name,location.state.data]);
   useEffect(()=>{
 
-  },[open]);
+  },[open,location.state.data]);
   const history = useHistory();
   function handleClick(e,val) { 
     e.preventDefault();
@@ -79,9 +92,9 @@ function ProductDetails(props) {
             location.state.data.price
           );
     }, 4000)
-    await setTimeout(async ()=>{
-      await history.push('/cart');
-   },3000)
+  //   await setTimeout(async ()=>{
+  //     await history.push('/cart');
+  //  },3000)
     //  await props.postCart(
     //    currentUser.email,
     //    location.state.data._id,
@@ -101,9 +114,71 @@ function ProductDetails(props) {
     if (reason === 'clickaway') {
       return;
     }
-
     setOpen(false);
+    setOpen1(false);
   };
+
+
+  const handleContent = (e) =>{
+    setOpen1(true)
+    e.preventDefault();
+    //alert("sampele\n"+title+"\n"+content); 
+    
+
+    if(location.state.data.category==="Fishes"){ 
+      var id = location.state.data._id;
+      const obj = {
+        id,title,contents
+      }
+      location.state.data.details.push(obj);
+      props.postFishContents(location.state.data._id,title,contents); 
+    }
+
+    if(location.state.data.category==="Plants"){ 
+      var id = location.state.data._id;
+      const obj = {
+        id,title,contents
+      }
+      location.state.data.details.push(obj);
+      props.postPlantContents(location.state.data._id,title,contents); 
+    }
+
+    if(location.state.data.category==="Substrates"){ 
+      var id = location.state.data._id;
+      const obj = {
+        id,title,contents
+      }
+      location.state.data.details.push(obj);
+      props.postSubstrateContents(location.state.data._id,title,contents); 
+    }
+    if(location.state.data.category==="Fish-Foods"){ 
+      var id = location.state.data._id;
+      const obj = {
+        id,title,contents
+      }
+      location.state.data.details.push(obj);
+      props.postFoodContents(location.state.data._id,title,contents); 
+    }
+    if(location.state.data.category==="Accessories"){ 
+      var id = location.state.data._id;
+      const obj = {
+        id,title,contents
+      }
+      location.state.data.details.push(obj);
+      props.postFilterContents(location.state.data._id,title,contents); 
+    }
+    setTitle('');
+    setContent('');
+  }
+
+  const productDetails = location.state.data.details.map((detail)=>{
+    return(
+      <div key={detail._id}>
+        <h3>{detail.title}</h3>
+        <p>{detail.contents}</p>
+      </div>
+    )
+  })
   return (
     <>
       <NavBar
@@ -249,6 +324,13 @@ function ProductDetails(props) {
               </Alert>
             </Snackbar>
         </div>
+          <Snackbar open={open1} autoHideDuration={3000} onClose={handleClose}
+              anchorOrigin={{vertical: 'bottom', horizontal: 'left'}} 
+            >
+              <Alert onClose={handleClose} style={{backgroundColor:'#5c5d5e'}} variant="filled">
+                  Details submitted..
+              </Alert>
+            </Snackbar>
         <div className="row">
             <div className="col-12 col-md-9">
               <Tabs
@@ -259,30 +341,43 @@ function ProductDetails(props) {
                   variant="pills"
                 >
                   <Tab eventKey="details" title="Details"> 
-                      <textarea
-                        type="textarea"
-                        rows='1'
-                        label="Message"
-                        placeholder="Title..."
-                        className="mt-2 form-control"
-                        required
-                      />
-                      <textarea
-                        type="textarea"
-                        rows='6'
-                        label="Message"
-                        placeholder="Description..."
-                        className="mt-2 form-control"
-                        required
-                      />
-                      <div className="mt-2 text-center">
-                      <Button
-                        style={{maxWidth:'200px'}}
-                        variant="contained"
-                        color="primary"
-                      >
-                        Submit
-                      </Button>
+                    <div className="row">
+                      {location.state.data.details && productDetails}
+                    </div>
+                    <div>
+                        <textarea
+                          type="textarea"
+                          rows='1' 
+                          name = "title"
+                          label="Message"
+                          placeholder="Title..."
+                          className="mt-2 form-control"
+                          value={title}
+                          onChange= {(e)=>{setTitle(e.target.value)}}
+                          required
+                        />
+                        <textarea
+                          type="textarea"
+                          rows='6'
+                          label="Message"
+                          name = "message"
+                          placeholder="Description..."
+                          className="mt-2 form-control"
+                          value={contents}
+                          onChange= {(e)=>{setContent(e.target.value)}}
+                          required
+                        />
+                        <div className="mt-2 text-center">
+                          <Button
+                            style={{maxWidth:'200px'}}
+                            variant="contained"
+                            color="primary"
+                            type="submit"
+                            onClick={handleContent}
+                          >
+                            Submit
+                          </Button>
+                        </div>
                       </div>
                   </Tab>
                   <Tab eventKey="reviews" title="Reviews">

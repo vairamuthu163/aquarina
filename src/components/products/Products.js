@@ -2,7 +2,8 @@ import React, { useEffect,useState,useRef } from 'react'
 import { Container,Input,UncontrolledDropdown,DropdownItem,DropdownMenu,DropdownToggle, Modal, ModalHeader, ModalBody,Card,CardImg, Label} from 'reactstrap' 
 import "./style.css"
 import { Button, IconButton } from '@material-ui/core'; 
-import {Button as Btn} from 'react-bootstrap'
+import {Button as Btn} from 'react-bootstrap';
+import { useAuth } from '../../contexts/AuthContext';
 import Fishes from './fishes/Fishes';  
 import AppsIcon from '@material-ui/icons/Apps';
 import DehazeIcon from '@material-ui/icons/Dehaze'; 
@@ -31,6 +32,9 @@ export default function Products(props) {
     const nameRef = useRef();
     const [name,setName] = useState(); 
 
+    const {currentUser} = useAuth();
+   
+
     const [imagePreview,setImagePreview] = useState('');
      const [category,setCategory] = useState('');
      const [state,setState] = useState({
@@ -49,11 +53,17 @@ export default function Products(props) {
      },[imageUpload])
 
      const [newState,setNewState] = useState({
+         search:null,
          foods: props.foods,
+         foodsTemp: props.foods,
          substrates:props.substrates,
+         substratesTemp:props.substrates,
          fishes : props.fishes,
+         fishesTemp : props.fishes,
          filters : props.filters,
-         plants: props.plants
+         filtersTemp : props.filters,
+         plants: props.plants,
+         plantsTemp: props.plants,
      },[]);
 
      
@@ -83,6 +93,61 @@ export default function Products(props) {
                 [event.target.name] : event.target.value,
                 
                 filteredData:state.allData.filter(item =>{
+                return Object.keys(item).some(key=>
+                item[key].toString().toLowerCase().includes(event.target.value.toString().toLowerCase()))
+            }),
+            });
+        }
+        else if(value===1){
+            setNewState({
+                ...newState,
+                [event.target.name] : event.target.value,
+                
+                substrates:newState.substratesTemp.filter(item =>{
+                return Object.keys(item).some(key=>
+                item[key].toString().toLowerCase().includes(event.target.value.toString().toLowerCase()))
+            }),
+            });
+        }
+        else if(value===2){
+            setNewState({
+                ...newState,
+                [event.target.name] : event.target.value,
+                
+                plants:newState.plantsTemp.filter(item =>{
+                return Object.keys(item).some(key=>
+                item[key].toString().toLowerCase().includes(event.target.value.toString().toLowerCase()))
+            }),
+            });
+        }
+        else if(value===3){
+            setNewState({
+                ...newState,
+                [event.target.name] : event.target.value,
+                
+                fishes:newState.fishesTemp.filter(item =>{
+                return Object.keys(item).some(key=>
+                item[key].toString().toLowerCase().includes(event.target.value.toString().toLowerCase()))
+            }),
+            });
+        }
+        else if(value===4){
+            setNewState({
+                ...newState,
+                [event.target.name] : event.target.value,
+                
+                foods:newState.foodsTemp.filter(item =>{
+                return Object.keys(item).some(key=>
+                item[key].toString().toLowerCase().includes(event.target.value.toString().toLowerCase()))
+            }),
+            });
+        }
+        else if(value===5){
+            setNewState({
+                ...newState,
+                [event.target.name] : event.target.value,
+                
+                filters:newState.filtersTemp.filter(item =>{
                 return Object.keys(item).some(key=>
                 item[key].toString().toLowerCase().includes(event.target.value.toString().toLowerCase()))
             }),
@@ -297,7 +362,7 @@ export default function Products(props) {
                             </Form>
                              
                         </div>
-                        <div className="col-3 col-sm-3 p-3 pt-5 mt-4">
+                        {currentUser && currentUser.email==="vairam@gmail.com" && <div className="col-3 col-sm-3 p-3 pt-5 mt-4">
                             <Btn
                                 style={{float:'right'}}
                                 variant="outline-success"
@@ -305,7 +370,7 @@ export default function Products(props) {
                             >
                                 <span className="fa fa-cart-plus fa-lg" style={{marginRight:'9px'}}></span><span className="d-none d-sm-inline-block">ADD</span>
                             </Btn>  
-                        </div>
+                        </div>}
                         
                         {/* <ProductNav className="col-12" />  */}
                         <div className="col-12"> 
@@ -414,6 +479,8 @@ export default function Products(props) {
                                     substrates = {newState.substrates} 
                                     isLoading = {props.substratesLoading}
                                     errmess = {props.substrateErr}
+
+                                    deleteProduct = {props.deleteProduct}
                                 />
                             }
                             {
@@ -422,6 +489,8 @@ export default function Products(props) {
                                     plants={newState.plants} 
                                     isLoading = {props.plantsLoading}
                                     errmess = {props.plantsErr} 
+
+                                    deleteProduct = {props.deleteProduct}
                                 />
                             }
                             {
@@ -430,6 +499,7 @@ export default function Products(props) {
                                     fishes={newState.fishes}
                                     isLoading={props.fishesLoading}
                                     errmess = {props.fishesErr}
+                                    deleteProduct = {props.deleteProduct}
  
                                 />
                             }
@@ -439,6 +509,8 @@ export default function Products(props) {
                                     foods = {newState.foods} 
                                     isLoading = {props.foodsLoading}
                                     errmess = {props.foodsErr}
+
+                                    deleteProduct = {props.deleteProduct}
                                 />
                             }
                             {
@@ -447,6 +519,8 @@ export default function Products(props) {
                                     filters = {newState.filters}
                                     isLoading = {props.filtersLoading}  
                                     errmess = {props.filtersErr}  
+                                    
+                                    deleteProduct = {props.deleteProduct}
                                 />
                             }
                             {

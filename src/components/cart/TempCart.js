@@ -1,3 +1,4 @@
+
 import React,{useState,useEffect} from 'react'
 import { useAuth } from '../../contexts/AuthContext';
 import { Form, Input ,Card, CardImg, CardTitle, CardBody} from 'reactstrap' 
@@ -12,94 +13,75 @@ import ClearIcon from '@material-ui/icons/Clear';
 import Checkbox from '@material-ui/core/Checkbox';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import { baseUrl } from '../../shared/baseUrl';
-import axios from 'axios';
-function Cart(props) { 
+
+
+function TempCart(props) { 
     const {currentUser} = useAuth();
-      
+     
+   // let userDetails = props.userDetails.filter((user) => user.email === (currentUser.email+""));
      const [state,setState] = useState({
          cartDetails:[]
      }) 
-     var safe = [];
-     var tempCart;
-     useEffect(()=>{
-        tempCart = props.user.filter((user) => user.email === (currentUser&&currentUser.email)); 
-        tempCart.map((cart)=>{
+    //  var safe = [];
+    //  var tempCart;
+    //  useEffect(()=>{
+    //     tempCart = props.user.filter((user) => user.email === (currentUser.email+"")); 
+    //     tempCart.map((cart)=>{
+    //         return(
+    //             cart.cart.map((car)=>{
+    //                 console.log("car , ",car);
+    //                 return( 
+    //                    safe.push(car)
+    //                 )
+    //             })
+    //         ) 
+    //     })
+    //     //console.log("useEffect cnsole ",safe);
+
+    //  },[])
+    //  useEffect(()=>{
+    //     setState({
+    //         cartDetails:safe
+    //     })
+    //     console.log("useEffect cnsole ",state.cartDetails);
+    //  },[]);
+    //  useEffect(()=>{
+
+    //  },[state.cartDetails])
+    let findUser;
+    useEffect(()=>{ 
+        console.log("cart user",props.usser);
+        SetCart(props.usser);
+    },[state.cartDetails]);
+    const SetCart = (findUser) =>{ 
+        let tempCart = findUser.map((cart)=>{
             return(
-                cart.cart.map((car)=>{ 
+                cart.cart.map((car)=>{
+                    console.log("car , ",car);
                     return( 
-                       safe.push(car)
+                        car
                     )
                 })
             ) 
-        }) 
-        setState({
-            cartDetails:safe
         })
-        console.log("find user",props.findUser);
-     },[])
-    
-     useEffect(()=>{
+        setState({
+            cartDetails:tempCart[0]
+        })
+        console.log("set State",state.cartDetails);
+    }
+    useEffect(()=>{
 
-     },[state.cartDetails]);
-
-     const sumOfProducts =props.user.filter((user) => user.email === (currentUser&&currentUser.email)).map((cart)=>{
-        return(
-            cart.cart.reduce((a,v) =>  a = a + v.count*v.price , 0 )
-        )
-    })
-
-
-     const callToDelete = async(name) =>{ 
+    },[state.cartDetails])
+     const callToDelete = async(name) =>{
+         //alert("hi");
+        //await props.deleteCart(currentUser.email,name);
+        await setTimeout(async()=>{
             await props.deleteCart(currentUser.email,name);
-        await window.location.reload(); 
-     }
-
-
-     const razorPayHandler = async(e) =>{
-        e.preventDefault();
-        const orderUrl = "http://localhost:3001/razorpay/order";
-        const obj = {
-            total : parseFloat(Number(sumOfProducts)+Number(99)),
-        }
-        const response = await axios.post(orderUrl,obj);
-
-        const {data} = response;
-        const options = {
-            key: 'rzp_test_Si2SPfoE6JBi45',
-            name : currentUser && currentUser.email.split("@")[0],
-            description : 'Test Transaction',
-            order_id: data.id,
-            image : baseUrl+"logoDolphin.png",
-            handler : async(response)=>{
-                try{
-                    const paymentId = response.razorpay_payment_id;
-                    const url = `http://localhost:3001/razorpay/capture/${paymentId}`
-                    const captureResponse = await axios.post(url, {obj})
-                    const successObj = JSON.parse(captureResponse.data)
-                    const captured = successObj.captured;
-                    console.log("App -> razorPayPaymentHandler -> captured", successObj)
-                    if(captured){
-                        console.log('payment success')
-                    }
-                }
-                catch(err){
-                    console.log(err);
-                }
-            },
-            prefill: {
-                name: "Vairamuthu",
-                email: currentUser && currentUser.email, 
-            },
-            theme: {
-                color: "#686CFD",
-              },
-        };
-        const rzp = new window.Razorpay(options);
-        rzp.open();
+        },3000);
      }
    const RenderCartProducts = ({cart}) =>{  
         
-        const handleDelete = async(name) =>{ 
+        const handleDelete = async(name) =>{
               const sage = state.cartDetails.filter((car)=>car.product_name!==name) 
               await setState({
                   cartDetails:sage
@@ -117,7 +99,17 @@ function Cart(props) {
                     </IconButton>
                     <IconButton color="primary">
                         <i class="fa fa-edit"></i>
-                    </IconButton> 
+                    </IconButton>
+                   {/*  <FormControlLabel
+                        control={
+                        <Checkbox
+                            checked={state.checkedB}
+                            onChange={handleChange}
+                            name="checkedB"
+                            color="primary" 
+                        />
+                        } 
+                    /> */}
                 </div>
                 <Card className="col-4 m-0 p-0">
                     <CardImg width="100%" style={{height:'250px'}} src={baseUrl+cart.product_img} />
@@ -160,7 +152,11 @@ function Cart(props) {
     //         })
     //     ) 
     // })
-    
+    const sumOfProducts =props.usser.map((cart)=>{
+        return(
+            cart.cart.reduce((a,v) =>  a = a + v.count*v.price , 0 )
+        )
+    })
     
     return (
         <>
@@ -208,7 +204,8 @@ function Cart(props) {
                 <hr className="col-8 mt-3"/>
             </div>
             <div className="row">
-                <div className="col-8 mt-4"> 
+                <div className="col-8 mt-4">
+                   {/*  {cartproducts}  */}
                    {cartproducts}
                    {/*  <div className="row">
                         <div className="d-flex justify-content-end">
@@ -302,7 +299,6 @@ function Cart(props) {
                                         fullWidth
                                         variant="contained"
                                         color="primary"
-                                        onClick={razorPayHandler}
                                     >
                                         Order Now 
                                     </Button>
@@ -317,4 +313,4 @@ function Cart(props) {
     )
 }
 
-export default Cart
+export default TempCart

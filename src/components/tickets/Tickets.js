@@ -6,19 +6,22 @@ import {Modal,
 import {Button} from '@material-ui/core';
 import Badge from '@material-ui/core/Badge';
 import { useAuth } from '../../contexts/AuthContext'; 
-
-
+import axios from 'axios';
+import { baseUrl } from '../../shared/baseUrl'; 
 export default function LiveFrom(props) { 
     const dateRef = useRef();
     const membersRef = useRef();
     const {currentUser} = useAuth(); 
     const [isModalOpen,setIsModalOpen] = useState(false);  
-    const [loading,setLoading] = useState(false)
-
+    const [loading,setLoading] = useState(false) 
     const [error,setError] = useState('');
     useEffect(()=>{
         console.log("demo ",props.tickets)
-    },[])
+    },[]);
+
+
+    
+
 
     const [state,setState] = useState({
         date:'', 
@@ -69,7 +72,7 @@ export default function LiveFrom(props) {
         if(state.date!=null && state.members!=0){ 
             console.log("date dfgdf",state.date,state.members)
             await postTic();
-            await postUserTic();
+            await postUserTic(); 
         }
         await setTimeout(()=>{
 
@@ -80,6 +83,52 @@ export default function LiveFrom(props) {
         })
         setIsModalOpen(!isModalOpen);
     }
+
+
+    const razorPayHandler = async(e) =>{
+        e.preventDefault(); 
+        await handleCheckOut();
+        const orderUrl = "http://localhost:3001/razorpay/order";
+        const obj = {
+            total : parseFloat(state.members*699),
+        }
+        const response = await axios.post(orderUrl,obj);
+
+        const {data} = response;
+        const options = {
+            key: 'rzp_test_Si2SPfoE6JBi45',
+            name : currentUser && currentUser.email.split("@")[0],
+            description : 'Ticket Booking',
+            order_id: data.id,
+            image : baseUrl+"logoDolphin.png",
+            handler : async(response)=>{
+                try{
+                    const paymentId = response.razorpay_payment_id;
+                    const url = `http://localhost:3001/razorpay/capture/${paymentId}`
+                    const captureResponse = await axios.post(url, {obj})
+                    const successObj = JSON.parse(captureResponse.data)
+                    const captured = successObj.captured;
+                    console.log("App -> razorPayPaymentHandler -> captured", successObj)
+                    if(successObj.captured){
+                        console.log('payment success')
+                    }
+                }
+                catch(err){
+                    console.log(err);
+                }
+            },
+            prefill: {
+                name: "Vairamuthu",
+                email: currentUser && currentUser.email, 
+            },
+            theme: {
+                color: "#686CFD",
+              },
+        };
+        const rzp = new window.Razorpay(options);
+        rzp.open();
+     }
+
     return (
         <div>
              <NavBar navbg={'linear-gradient(rgba(0, 0, 0, 0.8),rgba(0, 0, 0, 0.8))'}  
@@ -138,7 +187,7 @@ export default function LiveFrom(props) {
                                                 style={{marginTop:'30px'}}    
                                                 disabled={loading}
                                             >
-                                                Go to checkout
+                                                Go to checkout &nbsp; &nbsp; <i className="fa fa-arrow-right fa-1x" aria-hidden="true"></i>
                                             </Button>
                                             </CardBody>
                                     </Card>
@@ -159,21 +208,21 @@ export default function LiveFrom(props) {
                                     General admission<br />{JSON.stringify(props.data)}
                                     @10.30 PM<br /><br />
                                     <div style={{display:'flex',justifyContent:'space-between'}}>
-                                        <b>{state.members} X $36.95</b>
-                                        <b>${parseFloat(state.members*36.95).toPrecision(4)}</b>
+                                        <b>{state.members} X ₹ 699.0</b>
+                                        <b>₹{parseFloat(state.members*699.0)}.0</b>
                                     </div>
                                 </CardBody>
                                 <CardFooter style={{margin:'20px 0px'}}>
                                     <div style={{display:'flex',justifyContent:'space-between'}}>
                                         <b>SUB TOTAL</b>
-                                        <b>${parseFloat(state.members*36.95).toPrecision(4)}</b>
+                                        <b>₹{parseFloat(state.members*699.0)}.0</b>
                                     </div>
                                     <Button
                                         variant="contained"
                                         color="primary"
                                         fullWidth
                                         className="mt-3"
-                                        onClick={handleCheckOut}
+                                        onClick={razorPayHandler}
                                     >
                                         Check Out
                                     </Button> 

@@ -15,7 +15,7 @@ import Products from "./components/products/Products";
 // import Substrates from './components/products/substrates/Substrates'
 import FishDetails from "./components/products/details/FishDetails";
 
-import { deleteCart, fetchFilters, fetchFishes, fetchFoods, fetchPlants, fetchRecents, fetchSubstrates, getTickets, getUser, postCart, postFilters, postFishes, postFoods, postPlants, postSubstrates, postTickets, postUser, postUserTickets } from "./redux/ActionCreators";
+import { deleteCart, fetchFilters, fetchFishes, fetchFoods, fetchPlants, fetchRecents, fetchSubstrates, getTickets, getUser, postCart, postFishContents, postFilters, postFishes, postFoods, postPlants, postSubstrates, postTickets, postUser, postUserTickets, postPlantContents, postSubstrateContents, postFoodContents, postFilterContents, deleteProduct } from "./redux/ActionCreators";
  
 import { connect } from "react-redux";
 import Tickets from "./components/tickets/Tickets"; 
@@ -58,7 +58,13 @@ const mapDispatchToProps = (dispatch) => ({
   fetchFoods : ()=>{dispatch(fetchFoods())},
   fetchSubstrates : ()=>{dispatch(fetchSubstrates())},
   fetchFilters : ()=>{dispatch(fetchFilters())},
-  getTickets : ()=>{dispatch(getTickets())}
+  getTickets : ()=>{dispatch(getTickets())},
+  postFishContents : (id,title,content) =>{dispatch(postFishContents(id,title,content))},
+  postPlantContents : (id,title,content) =>{dispatch(postPlantContents(id,title,content))},
+  postSubstrateContents : (id,title,content) =>{dispatch(postSubstrateContents(id,title,content))},
+  postFoodContents : (id,title,content) =>{dispatch(postFoodContents(id,title,content))},
+  postFilterContents : (id,title,content) =>{dispatch(postFilterContents(id,title,content))},
+  deleteProduct : (id,category) => {dispatch(deleteProduct(id,category))}
 })
 
 function MainComponent(props) {
@@ -124,16 +130,21 @@ function MainComponent(props) {
     return(
       <ProductDetails 
         postCart = {props.postCart}
+        postFishContents = {props.postFishContents}
+        postPlantContents = {props.postPlantContents}
+        postSubstrateContents = {props.postSubstrateContents}
+        postFoodContents = {props.postFoodContents}
+        postFilterContents = {props.postFilterContents}
       />
     )
   }
-  const CartWithDetails = () =>{
-    let userEmail = currentUser && ""+currentUser.email;
+  const CartWithDetails = () =>{ 
+
     return (
       <Cart  
-        //findUser = {props.user.user.filter((user) => user.email === userEmail)}
+        findUser = {props.user.user.filter((user) => user.email === (currentUser&&currentUser.email))}
         deleteCart = {props.deleteCart}
-        userDetails = {props.user.user}  
+        user = {props.user.user}  
         /* cartDetails = {props.user.user.filter((user) => user.email === userEmail)} */
       />
     )
@@ -169,6 +180,7 @@ function MainComponent(props) {
         postPlants = {props.postPlants}
         postFoods = {props.postFoods}
 
+        deleteProduct = {props.deleteProduct}
         />
     );
   }

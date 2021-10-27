@@ -29,23 +29,21 @@ function NavBar(props){
         setError('Failed to Log out');
       }
     }
-/* 
-  let cartCount=0;
-  const [temp,setTemp] = useState();
-  useEffect(() => {
+  const [count,setCount] = useState(0);
+ 
+  let tem = [];
+   useEffect(() => { 
     axios.get('http://localhost:3001/user')
     .then((response)=>{
-      const tempCart = response.data.filter((user) => user.email === (currentUser.email+"")); 
-      setTemp(tempCart);
-      cartCount = temp.map(cart => cart.cart.length);
-      console.log("cart count",cartCount[0]);
-
+      tem = response.data.filter((user) => user.email === (currentUser.email+"")).map((cart)=>cart.cart); 
+      console.log("cart",tem[0].length); 
+      setCount(parseInt(tem[0].length,10)); 
     })
     .catch((err)=>{
       console.log(err);
-    }) 
-  
-  }, []); */
+    })  
+   console.log("count cart",count);
+  }, []);  
 
     const toggleNav=()=>{
         setIsNavOpen(!isNavOpen);
@@ -163,7 +161,7 @@ function NavBar(props){
                                 <NavItem className="navItem ml-1">
                                   <Tooltip title="Cart">
                                     <NavLink className="nav-link mt-0" to="/cart">
-                                      <Badge badgeContent={2} color="secondary"><span className="fa fa-shopping-cart fa-lg"  style={{fontSize:'1.5rem',marginLeft:'4px',marginRight:'4px'}}></span></Badge>
+                                      <Badge badgeContent={count} color="secondary"><span className="fa fa-shopping-cart fa-lg"  style={{fontSize:'1.5rem',marginLeft:'4px',marginRight:'4px'}}></span></Badge>
                                     </NavLink>
                                   </Tooltip>
                                 </NavItem>

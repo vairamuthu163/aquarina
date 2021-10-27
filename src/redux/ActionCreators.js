@@ -1,6 +1,106 @@
 import * as ActionTypes from './ActionTypes'; 
 import axios from 'axios';
  
+export const postFishContents = (id,title,content) => (dispatch) =>{
+    dispatch(fishesLoading(true));
+    return axios.put('http://localhost:3001/fishes/details', {
+        id:id,
+        title:title,
+        content:content
+    })
+    .then((response)=> response.data) 
+    .then(response => dispatch(addFishes(response)))
+    .catch((error)=>dispatch(fishesFailed(error)))
+}
+export const postPlantContents =  (id,title,content) => (dispatch) =>{
+    dispatch(plantsLoading(true));
+    return axios.put('http://localhost:3001/plants/details', {
+        id:id,
+        title:title,
+        content:content
+    })
+        .then((response)=> response.data)
+        .then(response => dispatch(addPlants(response)))
+        .catch((error)=>dispatch(plantsFailed(error)))
+}
+
+export const postSubstrateContents = (id,title,content) => (dispatch) =>{
+    dispatch(substratesLoading(true));
+
+    return axios.put('http://localhost:3001/substrate/details', {
+        id:id,
+        title:title,
+        content:content
+    }) 
+        .then((response)=> response.data)
+        .then(response => dispatch(addSubstrates(response)))
+        .catch((error)=>dispatch(substratesFailed(error)))
+}
+export const postFoodContents = (id,title,content) => (dispatch) =>{
+    dispatch(foodsLoading(true));
+
+    return axios.put('http://localhost:3001/fishfoods/details', {
+        id:id,
+        title:title,
+        content:content
+    }) 
+        .then((response)=> response.data)
+        .then(response => dispatch(addFoods(response)))
+        .catch((error)=>dispatch(foodsFailed(error)))
+} 
+export const postFilterContents = (id,title,content) => (dispatch) =>{
+    dispatch(filtersLoading(true));
+
+    return axios.put('http://localhost:3001/filters/details', {
+        id:id,
+        title:title,
+        content:content
+    }) 
+        .then((response)=> response.data)
+        .then(response => dispatch(addFilters(response)))
+        .catch((error)=>dispatch(filtersFailed(error)))
+}
+
+
+//delete product
+export const deleteProduct = (id,category) => (dispatch) =>{ 
+    if(category==="Fishes"){
+        dispatch(fishesLoading(true))
+        return axios.put(`http://localhost:3001/delete/fishes`,{id:id}) 
+        .then((response)=> response.data) 
+        .then(response => dispatch(addFishes(response)))
+        .catch((error)=>dispatch(fishesFailed(error)))
+    }  
+    if(category==="Fish-Foods") {
+        dispatch(foodsLoading(true))
+        return axios.put(`http://localhost:3001/delete/fishfoods`,{id:id})
+        .then((response)=> response.data)
+        .then(response => dispatch(addFoods(response)))
+        .catch((error)=>dispatch(foodsFailed(error)))
+    }
+    if(category==="Substrates"){
+        dispatch(substratesLoading(true));
+        return axios.put(`http://localhost:3001/delete/substrates`,{id:id})
+        .then((response)=> response.data)
+        .then(response => dispatch(addSubstrates(response)))
+        .catch((error)=>dispatch(substratesFailed(error)))
+    }
+    if(category==="Accessories"){
+        dispatch(filtersLoading(true));
+        return axios.put(`http://localhost:3001/delete/filters`,{id:id})
+        .then((response)=> response.data)
+        .then(response => dispatch(addFilters(response)))
+        .catch((error)=>dispatch(filtersFailed(error)))
+    }
+    if(category==="Plants"){
+        dispatch(plantsLoading(true));
+        return axios.put(`http://localhost:3001/delete/plants`,{id:id})
+        .then((response)=> response.data)
+        .then(response => dispatch(addPlants(response)))
+        .catch((error)=>dispatch(plantsFailed(error)))
+    }
+}
+
 
 export const postFishes = (image,name,price,category) => (dispatch)=>{ 
     var fd = new FormData();
@@ -240,6 +340,14 @@ export const addUserr = (user) => ({
     type:ActionTypes.FIND_USER,
     payload:user
 });
+//Post User Cart
+export const postCart = (email,product_id,product_name,count,category,img,price) => (dispatch)=>{ 
+    dispatch(userLoading(true))
+    return axios.put('http://localhost:3001/user/cart', {email:email,product_id:product_id,product_name:product_name,count:count,category:category,img:img,price:price})
+    .then((response)=> response.data)
+    .then(response => dispatch(addUser(response)))
+    .catch((error)=>dispatch(userFailed(error))) 
+} 
 //user
 export const postUser = (email) => (dispatch)=>{ 
     dispatch(userLoading(true))
@@ -262,32 +370,32 @@ export const addUser = (user) => ({
     payload:user
 });
 
-//Post User Cart
-export const postCart = (email,product_id,product_name,count,category,img,price) => (dispatch)=>{ 
-    dispatch(userLoading2(true))
-    return axios.post('http://localhost:3001/user/cart', {email:email,product_id:product_id,product_name:product_name,count:count,category:category,img:img,price:price})
-    .then((response)=> response.data)
-    .then(response => dispatch(addUser2(response)))
-    .catch((error)=>dispatch(userFailed2(error))) 
-} 
+// //Post User Cart
+// export const postCart = (email,product_id,product_name,count,category,img,price) => (dispatch)=>{ 
+//     dispatch(userLoading2(true))
+//     return axios.put('http://localhost:3001/user/cart', {email:email,product_id:product_id,product_name:product_name,count:count,category:category,img:img,price:price})
+//     .then((response)=> response.data)
+//     .then(response => dispatch(addUser2(response)))
+//     .catch((error)=>dispatch(userFailed2(error))) 
+// } 
 
-export const userLoading2 = () =>({
-    type:ActionTypes.USER_LOADING
-});
+// export const userLoading2 = () =>({
+//     type:ActionTypes.USER_LOADING
+// });
 
-export const userFailed2 = () =>({
-    type:ActionTypes.USER_FAILED
-});
+// export const userFailed2 = () =>({
+//     type:ActionTypes.USER_FAILED
+// });
 
-export const addUser2 = (user) => ({
-    type:ActionTypes.FIND_USER,
-    payload:user
-});
+// export const addUser2 = (user) => ({
+//     type:ActionTypes.FIND_USER,
+//     payload:user
+// });
 
 //delete the cart products
 export const deleteCart = (email,name) => (dispatch)=>{ 
     dispatch(userLoading3(true))
-    return axios.post('http://localhost:3001/user/cart/delete', {email:email,name:name})
+    return axios.put('http://localhost:3001/user/cart/delete', {email:email,name:name})
     .then((response)=> response.data)
     .then(response => dispatch(addUser3(response)))
     .catch((error)=>dispatch(userFailed3(error))) 
@@ -309,7 +417,7 @@ export const addUser3 = (user) => ({
 //post user Tickets
 export const postUserTickets = (email,date,members) => (dispatch)=>{ 
     dispatch(userLoading1(true))
-    return axios.post('http://localhost:3001/user/ticket', {email:email,date:date,members:members})
+    return axios.put('http://localhost:3001/user/ticket', {email:email,date:date,members:members})
     .then((response)=> response.data)
     .then(response => dispatch(addUser1(response)))
     .catch((error)=>dispatch(userFailed1(error))) 

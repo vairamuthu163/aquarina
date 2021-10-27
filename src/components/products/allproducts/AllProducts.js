@@ -1,12 +1,13 @@
 import React,{ useState,useEffect } from 'react'
-import { Card,CardText,CardBody,CardHeader,CardImg,CardImgOverlay,CardTitle,Container } from 'reactstrap'
+import { Card,CardBody,CardImg,CardImgOverlay,Modal,ModalBody } from 'reactstrap'
 import { useHistory} from 'react-router-dom';
 import { Loading } from '../../../shared/Loading';
-import { IconButton } from '@material-ui/core';
+import { IconButton,Button } from '@material-ui/core';
 import Rating from '@material-ui/lab/Rating'; 
 import Pagination from '@material-ui/lab/Pagination';
 import { baseUrl } from '../../../shared/baseUrl';
-const RenderAllProducts = ({product}) =>{
+import DeleteIcon from '@material-ui/icons/Delete';
+const RenderAllProducts = ({product,deleteProduct}) =>{
     const [text,setText] = useState(false);
     const [name,setName] = useState();
     const [value, setValue] = React.useState(4);
@@ -25,12 +26,25 @@ const RenderAllProducts = ({product}) =>{
     const handleMouseOver = () =>{
         setText(!text);
     }
+
+    const [isModalOpen,setIsModalOpen] = useState(false);
+
+    const handleDelete = (id) =>{
+        console.log("sdfsdf",id);
+        deleteProduct(id,product.category)
+        toggleModal();
+    }
+    const handleModal = () =>{
+        toggleModal();
+    }
+    const toggleModal = () =>{
+        setIsModalOpen(!isModalOpen)
+    }
     return(
         <div className="p-0 m-2">
             <Card className="img-quick p-2" 
                 onMouseEnter={handleMouseOver} 
-                onMouseLeave={handleMouseOver} 
-                onClick={()=>handleClick(product)}
+                onMouseLeave={handleMouseOver}  
                 style={{height:'425px'}}  
             > 
                     <CardImg 
@@ -41,17 +55,30 @@ const RenderAllProducts = ({product}) =>{
                         alt={product.name} 
                         
                     /> 
-                    <CardImgOverlay className="text-white m-2"> 
-                        <b>{text && 
-                            <IconButton
-                                variant="outlined"
-                                color="inherit"
-                                style={{backgroundColor:'#0088cc'}}
-                            >
-                                <i class="fa fa-shopping-bag"></i>
-                            </IconButton>
+                    <CardImgOverlay className="text-white m-2 row"> 
+                        <div className="col-12">
+                            <b>{text && 
+                                <IconButton
+                                    variant="outlined"
+                                    color="inherit"
+                                    style={{backgroundColor:'#0088cc'}}
+                                    onClick={()=>handleClick(product)}
+                                >
+                                    <i class="fa fa-shopping-bag"></i>
+                                </IconButton>
+                                }</b>
+                            <b style={{marginLeft:'4px'}}>{text && 
+                                <IconButton
+                                    variant="outlined"
+                                    color="inherit"
+                                    style={{backgroundColor:'#e32040'}}
+                                    onClick={handleModal}
+                                >
+                                   <DeleteIcon style={{fontSize:'26px'}}/>
+                                </IconButton>
                             }</b>
-                    </CardImgOverlay> 
+                        </div> 
+                    </CardImgOverlay>
                     <CardBody className="text-center">
                          <b>{name}</b> 
                             <br /><br />
@@ -68,6 +95,35 @@ const RenderAllProducts = ({product}) =>{
                             <i class="fa fa-inr"></i> <b>{product.price}.0</b> 
                     </CardBody>
             </Card> 
+            <Modal
+                isOpen={isModalOpen}
+                toggle={toggleModal} 
+                centered
+                >
+                <ModalBody className="row p-4">
+                    <div className="col-12 text-center">
+                        <h4 style={{color:'#d42059'}}><b>You Can't Undo this operation</b></h4>
+                        <img width="220" height="170" src="https://i.pinimg.com/originals/ff/fa/9b/fffa9b880767231e0d965f4fc8651dc2.gif" />
+                    </div>
+                    <div className="col-12 text-center"> 
+                        <h5><b>Are you sure want to Delete?</b></h5>
+                        <Button
+                            onClick={()=>handleDelete(product._id)}
+                            variant="contained"
+                            color="secondary"
+                        >
+                            Yes
+                        </Button>
+                        <Button 
+                            onClick={toggleModal}
+                            variant="contained"
+                           style={{backgroundColor:'#807c7c',marginLeft:'6px',color:'white'}}
+                        >
+                            No
+                        </Button>
+                    </div>
+                </ModalBody>
+            </Modal>
         </div>
     )
 }
@@ -91,7 +147,7 @@ function AllProducts(props) {
     const allProducts = props.allProducts.slice(paginaton.start,paginaton.end).map((product)=>{
         return (
             <div className="col-6 col-sm-3 m-0 p-0"  key={product._id}>
-                <RenderAllProducts product={product} />
+                <RenderAllProducts product={product} deleteProduct = {props.deleteProduct} />
             </div>
         )
     })

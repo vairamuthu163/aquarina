@@ -79,7 +79,7 @@ const RenderCategories = ({fish}) =>{
         return(
             <div key={fish.id}>
                 <Card className="img-quick p-2 m-3 cardCategories" style={{height:'300px'}}>
-                    <Link to={'/products'+fish.url}>
+                    <Link to={'/products'}>
                         <CardImg className="img-q" width="150" height="281" top src={fish.img} alt="Card image cap" />
                         <CardImgOverlay className="text-white text-center ml-1" style={{marginTop:'220px'}}>
                             <b>{fish.caption}</b>
