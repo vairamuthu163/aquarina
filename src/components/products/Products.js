@@ -30,6 +30,7 @@ export default function Products(props) {
     const categoryRef = useRef(null);
     const priceRef = useRef();
     const nameRef = useRef();
+    const stockRef = useRef();
     const [name,setName] = useState(); 
 
     const {currentUser} = useAuth();
@@ -159,8 +160,8 @@ export default function Products(props) {
 
       const handleImageUpload = async(event) =>{
           event.preventDefault();
-          //console.log(imageUpload.name,nameRef.current.value,priceRef.current.value,category);
-          await save(imageUpload,nameRef.current.value,priceRef.current.value,category);
+          //console.log(imageUpload.name,nameRef.current.value,priceRef.current.value,category,stockRef.current.value);
+          await save(imageUpload,nameRef.current.value,priceRef.current.value,category,stockRef.current.value);
           toggleModal();
 
       }
@@ -175,30 +176,30 @@ export default function Products(props) {
             setImagePreview(URL.createObjectURL(file));
       }
 
-      const save = (image,name,price,category) =>{
+      const save = (image,name,price,category,stock) =>{
         // var fd = new FormData();
         // fd.append("name",name);
         // fd.append("price",price);
         // fd.append("image",image);
         // fd.append("category",category);
         if(category==="Fishes"){ 
-             props.postFishes(image,name,price,category);
+             props.postFishes(image,name,price,category,stock);
         }
         if(category==="Plants"){
             console.log(category);
-            props.postPlants(image,name,price,category);
+            props.postPlants(image,name,price,category,stock);
         }
         if(category==="Fish-Foods"){
             console.log("Fish-Foods Post Command");
-            props.postFoods(image,name,price,category);
+            props.postFoods(image,name,price,category,stock);
         }
         if(category==="Substrates"){
             console.log("Substrates Post Command"); 
-            props.postSubstrates(image,name,price,category);
+            props.postSubstrates(image,name,price,category,stock);
         }
         if(category==="Accessories"){
             console.log("Filters Post command");
-            props.postFilters(image,name,price,category);
+            props.postFilters(image,name,price,category,stock);
         }
         // fetch("http://localhost:3001/fishes",{
         //     method:'POST',
@@ -471,6 +472,7 @@ export default function Products(props) {
                             {value===0 && 
                                <AllProducts 
                                     allProducts={state.filteredData}
+                                    deleteProduct = {props.deleteProduct} 
                                 />
                             }
                             {
@@ -480,7 +482,7 @@ export default function Products(props) {
                                     isLoading = {props.substratesLoading}
                                     errmess = {props.substrateErr}
 
-                                    deleteProduct = {props.deleteProduct}
+                                    deleteProduct = {props.deleteProduct} 
                                 />
                             }
                             {
@@ -585,6 +587,16 @@ export default function Products(props) {
                                                     type="text" 
                                                     ref={priceRef} 
                                                     placeholder="Price" 
+                                                    required
+                                                />
+                                            </Form.Group>
+                                            <Form.Group id="stock">
+                                                <Form.Label for="stock" className="mt-3">Stock Count <span className="text-danger"> *</span></Form.Label>
+                                                <Form.Control 
+                                                    className="pr-4" 
+                                                    type="text" 
+                                                    ref={stockRef} 
+                                                    placeholder="Stock count" 
                                                     required
                                                 />
                                             </Form.Group>

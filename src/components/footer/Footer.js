@@ -4,6 +4,7 @@ import FacebookIcon from '@material-ui/icons/Facebook';
 import InstagramIcon from '@material-ui/icons/Instagram';
 import TwitterIcon from '@material-ui/icons/Twitter';
 import YouTubeIcon from '@material-ui/icons/YouTube';
+import { Button } from 'react-bootstrap';
 function Footer(){
     return(
         <FooterContainer className="main-footer">
@@ -49,8 +50,11 @@ function Footer(){
         {/* <div className="col-md-3 col-sm-6"></div>
         <div className="col-md-3 col-sm-6"></div>
         <div className="col-md-3 col-sm-6"></div> */}
-        
-        <div className="col-md-3 col-sm-6 offset-sm-6 offset-md-9">
+        <div className="col-md-3 offset-md-6">
+            <h5 style={{fontWeight:"400",marginBottom:"25x"}}>Subscribe For getting Updates and Offers </h5>
+            <input type="text" id="email" placeholder="Enter your email" style={{height: "41px"}}/><Button variant="danger border-none" style={{height: "41px",marginTop:'-2px'}}>Subscribe</Button>
+        </div>
+        <div className="col-md-3 col-sm-6">
         <h4 className="footerText">REACH US</h4>
         <ul className="list-unstyled" style={{marginRight:'100px'}} >
             <FacebookIcon /><a href="/"> FaceBook</a>

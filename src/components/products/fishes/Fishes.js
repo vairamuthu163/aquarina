@@ -3,7 +3,7 @@ import { Card,CardText,CardBody,CardHeader,CardImg,CardImgOverlay,CardTitle,Cont
 import { Link,useHistory } from 'react-router-dom';
 import { Loading } from '../../../shared/Loading';
 import { baseUrl } from '../../../shared/baseUrl';
-import {Button, IconButton, Typography} from '@material-ui/core'
+import {Button, IconButton, Typography, withWidth} from '@material-ui/core'
 import Pagination from '@material-ui/lab/Pagination';
 import Rating from '@material-ui/lab/Rating'; 
 import { useAuth } from '../../../contexts/AuthContext';
@@ -24,10 +24,11 @@ const RenderFish = ({fish,deleteProduct}) =>{
     }
     const [isModalOpen,setIsModalOpen] = useState(false);
 
-    const handleDelete = (id) =>{
+    const handleDelete = async(id) =>{
         console.log("sdfsdf",id);
-        deleteProduct(id,fish.category)
-        toggleModal();
+        await deleteProduct(id,fish.category)
+        await toggleModal();
+        await window.location.reload();
     }
     const handleModal = () =>{
         toggleModal();
@@ -70,7 +71,19 @@ const RenderFish = ({fish,deleteProduct}) =>{
                             }</b>}
                         </div> 
                     </CardImgOverlay>
-                    <CardBody className="text-center">
+                    <CardBody className="text-center"> 
+                         <p><b>{fish.fishName}</b></p>  
+                            <Rating  
+                                className="mt-0"
+                                name="simple-controlled" 
+                                value={fish.rating}
+                                readOnly
+                                style={{fontSize:'1.3rem'}}
+                            />&nbsp; | <i className="mt-1" style={{fontSize:'13px',marginTop:'-10px'}}> {fish.ratingCount} &nbsp; reviews</i>
+                           
+                            <h5 className="mt-1"><b><i className="fa fa-inr"></i>{fish.price}.0</b></h5> 
+                    </CardBody>
+                   {/*  <CardBody className="text-center">
                          <b>{fish.fishName}</b> 
                             <br /><br />
                             <Rating
@@ -84,7 +97,7 @@ const RenderFish = ({fish,deleteProduct}) =>{
                             />
                             <br />
                             <i class="fa fa-inr"></i> <b>{fish.price}.0</b> 
-                    </CardBody>
+                    </CardBody> */}
             </Card> 
             <Modal
                 isOpen={isModalOpen}
@@ -93,11 +106,11 @@ const RenderFish = ({fish,deleteProduct}) =>{
                 >
                 <ModalBody className="row p-4">
                     <div className="col-12 text-center">
-                        <h4 style={{color:'#d42059'}}><b>You Can't Undo this operation</b></h4>
+                        {/* <h4 style={{color:'#d42059'}}><b>You Can't Undo this operation</b></h4> */}
                         <img width="220" height="170" src="https://i.pinimg.com/originals/ff/fa/9b/fffa9b880767231e0d965f4fc8651dc2.gif" />
                     </div>
                     <div className="col-12 text-center"> 
-                        <h5>Are you sure to Delete?</h5>
+                        <h5><b>Are you sure to Delete?</b></h5>
                         <Button
                             onClick={()=>handleDelete(fish._id)}
                             variant="contained"

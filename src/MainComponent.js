@@ -15,7 +15,7 @@ import Products from "./components/products/Products";
 // import Substrates from './components/products/substrates/Substrates'
 import FishDetails from "./components/products/details/FishDetails";
 
-import { deleteCart, fetchFilters, fetchFishes, fetchFoods, fetchPlants, fetchRecents, fetchSubstrates, getTickets, getUser, postCart, postFishContents, postFilters, postFishes, postFoods, postPlants, postSubstrates, postTickets, postUser, postUserTickets, postPlantContents, postSubstrateContents, postFoodContents, postFilterContents, deleteProduct } from "./redux/ActionCreators";
+import { deleteCart, fetchFilters, fetchFishes, fetchFoods, fetchPlants, fetchRecents, fetchSubstrates, getTickets, getUser, postCart, postFishContents, postFilters, postFishes, postFoods, postPlants, postSubstrates, postTickets, postUser, postUserTickets, postPlantContents, postSubstrateContents, postFoodContents, postFilterContents, deleteProduct, starRating } from "./redux/ActionCreators";
  
 import { connect } from "react-redux";
 import Tickets from "./components/tickets/Tickets"; 
@@ -25,6 +25,7 @@ import ContactUs from "./components/contactus/ContactUs";
 import ScrollToTop from "./components/scrollTop/ScrollToTop";
 import Cart from "./components/cart/Cart";
 import MultiStepForm from "./components/tickets/stepper/MultiStepForm";
+import OrderHistory from "./components/order/OrderHistory";
 
 const mapStateToProps = (state) =>{
   return {
@@ -41,11 +42,11 @@ const mapStateToProps = (state) =>{
 }
 
 const mapDispatchToProps = (dispatch) => ({
-  postFishes : (image,name,price,category)=>{dispatch(postFishes(image,name,price,category))},
-  postFilters : (image,name,price,category)=>{dispatch(postFilters(image,name,price,category))},
-  postSubstrates : (image,name,price,category)=>{dispatch(postSubstrates(image,name,price,category))},
-  postPlants : (image,name,price,category)=>{dispatch(postPlants(image,name,price,category))},
-  postFoods : (image,name,price,category)=>{dispatch(postFoods(image,name,price,category))},
+  postFishes : (image,name,price,category,stock)=>{dispatch(postFishes(image,name,price,category,stock))},
+  postFilters : (image,name,price,category,stock)=>{dispatch(postFilters(image,name,price,category,stock))},
+  postSubstrates : (image,name,price,category,stock)=>{dispatch(postSubstrates(image,name,price,category,stock))},
+  postPlants : (image,name,price,category,stock)=>{dispatch(postPlants(image,name,price,category,stock))},
+  postFoods : (image,name,price,category,stock)=>{dispatch(postFoods(image,name,price,category,stock))},
   postTickets : (date,available,user_id) => {dispatch(postTickets(date,available,user_id))},
   postUserTickets : (email,date,members)=> {dispatch(postUserTickets(email,date,members))},
   postCart : (email,product_id,product_name,count,category,img,price)=> {dispatch(postCart(email,product_id,product_name,count,category,img,price))},
@@ -64,7 +65,8 @@ const mapDispatchToProps = (dispatch) => ({
   postSubstrateContents : (id,title,content) =>{dispatch(postSubstrateContents(id,title,content))},
   postFoodContents : (id,title,content) =>{dispatch(postFoodContents(id,title,content))},
   postFilterContents : (id,title,content) =>{dispatch(postFilterContents(id,title,content))},
-  deleteProduct : (id,category) => {dispatch(deleteProduct(id,category))}
+  deleteProduct : (id,category) => {dispatch(deleteProduct(id,category))},
+  starRating : (email,id,category,author,rating,ratingCount,comment,date) => {dispatch(starRating(email,id,category,author,rating,ratingCount,comment,date))},
 })
 
 function MainComponent(props) {
@@ -135,6 +137,7 @@ function MainComponent(props) {
         postSubstrateContents = {props.postSubstrateContents}
         postFoodContents = {props.postFoodContents}
         postFilterContents = {props.postFilterContents}
+        starRating = {props.starRating}
       />
     )
   }
@@ -210,6 +213,7 @@ function MainComponent(props) {
               <Route exact path='/tickets' component={TicketsDetails} />
               <Route exact path='/cart' component={CartWithDetails} />
               <Route exact path='/allProducts' component={MultiStepForm} />
+              <Route exact path="/order-history" component={OrderHistory} />
               <Redirect to='/home' /> 
             </Switch> 
           </ScrollToTop>

@@ -31,21 +31,26 @@ export default function LiveFrom(props) {
          setIsModalOpen(!isModalOpen);
     } 
     const postUserTic = async() =>{
-         
-        await props.postUserTickets(
-            currentUser.email,
-            state.date,
-            state.members
-        )
+        setTimeout(async()=>{
+            await props.postUserTickets(
+                currentUser.email,
+                state.date,
+                state.members
+            )
+        },2000)
+        
     }
     const postTic = async() =>{
         //console.log("clog ",100-state.members);
         let avail = parseInt(props.tickets.available) - state.members;
-        await props.postTickets(
-            state.date,
-            avail,
-            currentUser.email
-        )
+        setTimeout(async()=>{
+            await props.postTickets(
+                state.date,
+                avail,
+                currentUser.email
+            )
+        },2000)
+        
         console.log("checknig ",avail);
     }  
     
@@ -88,6 +93,7 @@ export default function LiveFrom(props) {
     const razorPayHandler = async(e) =>{
         e.preventDefault(); 
         await handleCheckOut();
+
         const orderUrl = "http://localhost:3001/razorpay/order";
         const obj = {
             total : parseFloat(state.members*699),
@@ -100,7 +106,7 @@ export default function LiveFrom(props) {
             name : currentUser && currentUser.email.split("@")[0],
             description : 'Ticket Booking',
             order_id: data.id,
-            image : baseUrl+"logoDolphin.png",
+            image : baseUrl+"logo.png",
             handler : async(response)=>{
                 try{
                     const paymentId = response.razorpay_payment_id;
@@ -109,7 +115,7 @@ export default function LiveFrom(props) {
                     const successObj = JSON.parse(captureResponse.data)
                     const captured = successObj.captured;
                     console.log("App -> razorPayPaymentHandler -> captured", successObj)
-                    if(successObj.captured){
+                    if(captured){
                         console.log('payment success')
                     }
                 }

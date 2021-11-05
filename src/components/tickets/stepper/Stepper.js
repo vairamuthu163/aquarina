@@ -25,52 +25,13 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function getSteps() {
-  return ['Select campaign settings', 'Create an ad group', 'Create an ad'];
-}
-
-function getStepContent(step) {
-  switch (step) {
-    case 0:
-      return (
-        <div>
-              For each ad campaign that you create, you can control how much
-              you're willing to spend on clicks and conversions, which networks
-              and geographical locations you want your ads to show on, and more.
-        </div>
-      );
-    case 1:
-      return (
-        <div>
-          An ad group contains one or more ads which target a shared set of keywords.
-        </div>
-      );
-    case 2:
-      return (
-        <div>
-          Try out different ad text to see what brings in the most customers,
-              and learn how to enhance your ads using features like ad extensions.
-              If you run into any problems with your ads, find out how to tell if
-              they're running and how to resolve approval issues.
-        </div>
-      );
-    default:
-      return(
-        <div>
-          Unknown step
-        </div>
-
-      );
-  }
-}
-
 export default function StepperComponent() {
 
   const {register,handleSubmit,errors} = useForm();
 
   const classes = useStyles();
   const [activeStep, setActiveStep] = React.useState(0);
-  const steps = getSteps();
+ 
 
   const handleNext = () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
@@ -89,26 +50,19 @@ export default function StepperComponent() {
   }
   return (
     <Paper className={classes.root} onSubmit={handleSubmit(onSubmit)}>
-      <Stepper activeStep={activeStep} orientation="vertical">
-        
-        {steps.map((label, index) => (
-          <Step key={label}>
-            <StepLabel>{label}</StepLabel>
+      <Stepper activeStep={activeStep} alternativeLabel> 
+          <Step>
+            <StepLabel>Select campaign settings</StepLabel>
             <StepContent>
-              <Typography>
-              {getStepContent(index)}
+              <Typography> 
                 <Input 
-                  type={index==0?'date':(index==1)?"text":"number"}
-                  name={index==0?'selectDate':(index==1)?"selectTime":"selectMembers"}
-                  {...register(index==0?'selectDate':(index==1)?"selectTime":"selectMembers", {
-                    required: "Required",
-                  })}
+                  type="text"
+                  name="selectMembers" 
                 />
               </Typography>
               <div className={classes.actionsContainer}>
                 <div>
-                  <Button
-                    disabled={activeStep === 0}
+                  <Button 
                     onClick={handleBack}
                     className={classes.button}
                   >
@@ -120,22 +74,71 @@ export default function StepperComponent() {
                     onClick={handleNext}
                     className={classes.button}
                   >
-                    {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
+                    {activeStep === 4 - 1 ? 'Finish' : 'Next'}
                   </Button>
                 </div>
               </div>
             </StepContent>
-          </Step>
-        ))}
-      </Stepper>
-      {activeStep === steps.length && (
-        <Paper square elevation={0} className={classes.resetContainer}>
-          <Typography>All steps completed - you&apos;re finished</Typography>
-          <Button onClick={handleReset} className={classes.button}>
-            Reset
-          </Button>
-        </Paper>
-      )}
+          </Step> 
+          <Step>
+            <StepLabel>Select comapamy</StepLabel>
+            <StepContent>
+              <Typography> 
+                <Input 
+                  type="text"
+                  name="selectMembers" 
+                />
+              </Typography>
+              <div className={classes.actionsContainer}>
+                <div>
+                  <Button 
+                    onClick={handleBack}
+                    className={classes.button}
+                  >
+                    Back
+                  </Button>
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    onClick={handleNext}
+                    className={classes.button}
+                  >
+                    {activeStep === 4 - 1 ? 'Finish' : 'Next'}
+                  </Button>
+                </div>
+              </div>
+            </StepContent>
+          </Step> 
+          <Step>
+            <StepLabel>Select campaign contact</StepLabel>
+            <StepContent>
+              <Typography> 
+                <Input 
+                  type="text"
+                  name="selectMembers" 
+                />
+              </Typography>
+              <div className={classes.actionsContainer}>
+                <div>
+                  <Button 
+                    onClick={handleBack}
+                    className={classes.button}
+                  >
+                    Back
+                  </Button>
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    onClick={handleNext}
+                    className={classes.button}
+                  >
+                    {activeStep === 4 - 1 ? 'Finish' : 'Next'}
+                  </Button>
+                </div>
+              </div>
+            </StepContent>
+          </Step> 
+      </Stepper> 
     </Paper>
   );
 }

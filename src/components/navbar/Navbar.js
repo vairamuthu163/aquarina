@@ -36,13 +36,13 @@ function NavBar(props){
     axios.get('http://localhost:3001/user')
     .then((response)=>{
       tem = response.data.filter((user) => user.email === (currentUser.email+"")).map((cart)=>cart.cart); 
-      console.log("cart",tem[0].length); 
+      //console.log("cart",tem[0].length); 
       setCount(parseInt(tem[0].length,10)); 
     })
     .catch((err)=>{
       console.log(err);
     })  
-   console.log("count cart",count);
+ //console.log("count cart",count);
   }, []);  
 
     const toggleNav=()=>{
@@ -130,9 +130,11 @@ function NavBar(props){
                                       Update Profile
                                     </DropdownItem>
                                   </Link>}
-                                  {/* <DropdownItem>
-                                    Option 2
-                                  </DropdownItem> */}
+                                  {currentUser && <Link to='/order-history' style={{textDecoration:'none'}}> 
+                                    <DropdownItem>
+                                        Order history 
+                                    </DropdownItem>
+                                  </Link>}
                                   {/* <DropdownItem divider /> */}
                                   {currentUser && <DropdownItem onClick={handleLogout}>
                                     log out

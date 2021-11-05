@@ -1,7 +1,7 @@
 import React,{useState,useEffect} from 'react'
 import { useAuth } from '../../contexts/AuthContext';
-import { Form, Input ,Card, CardImg, CardTitle, CardBody} from 'reactstrap' 
-import { Button, IconButton } from '@material-ui/core'; 
+import { Form, Input ,Card, CardImg, CardTitle, CardBody,Modal,ModalHeader,ModalBody, Row, FormGroup, Label, Col, ModalFooter} from 'reactstrap' 
+import { Button, Grid, IconButton } from '@material-ui/core'; 
 import Accordion from '@material-ui/core/Accordion';
 import AccordionSummary from '@material-ui/core/AccordionSummary';
 import AccordionDetails from '@material-ui/core/AccordionDetails';
@@ -12,18 +12,35 @@ import ClearIcon from '@material-ui/icons/Clear';
 import Checkbox from '@material-ui/core/Checkbox';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import { baseUrl } from '../../shared/baseUrl';
+import MuiAlert from '@material-ui/lab/Alert';  
 import axios from 'axios';
+import Snackbar from '@material-ui/core/Snackbar';
+import CircularProgress from '@material-ui/core/CircularProgress';
+function Alert(props) {
+    return <MuiAlert elevation={6} variant="filled" {...props} />;
+  }
+
 function Cart(props) { 
     const {currentUser} = useAuth();
-      
+      const [isModalOpen,setIsModalOpen] = useState();
+      const [open,setOpen] = useState(false);
+      const [loading,setLoading] = useState(false);
      const [state,setState] = useState({
          cartDetails:[]
      }) 
+     const [contactInfo,setContactInfo] = useState({
+         user_name:'',
+         address:'',
+         contactno:'',
+         country:'',
+         state:''
+     })
+     const [checkData,setCheckData] = useState();
      var safe = [];
-     var tempCart;
+     var tempCart,ans;
      useEffect(()=>{
-        tempCart = props.user.filter((user) => user.email === (currentUser&&currentUser.email)); 
-        tempCart.map((cart)=>{
+        tempCart = props.findUser
+        .map((cart)=>{
             return(
                 cart.cart.map((car)=>{ 
                     return( 
@@ -31,137 +48,263 @@ function Cart(props) {
                     )
                 })
             ) 
-        }) 
+        })   
         setState({
             cartDetails:safe
-        })
-        console.log("find user",props.findUser);
+        });
+        let arr=[]
+        let anss = props.findUser.map((data)=>data.cart.map((item)=>{return(item)}));
+        anss.map((data)=>data.map((a)=>{return(arr.push(a))}))
+        //arr.map((item)=>console.log(item.product_id));
+        setCheckData(arr.map((data)=>{
+            return{
+                select:false,
+                id:data._id,
+                price:data.price,
+                count:data.count,
+                category:data.category,
+                product_img:data.product_img,
+                product_name:data.product_name,
+                product_id:data.product_id
+            }
+        }) );
+        console.log("find user",state.cartDetails);
      },[])
     
      useEffect(()=>{
 
      },[state.cartDetails]);
 
-     const sumOfProducts =props.user.filter((user) => user.email === (currentUser&&currentUser.email)).map((cart)=>{
-        return(
-            cart.cart.reduce((a,v) =>  a = a + v.count*v.price , 0 )
-        )
-    })
-
+    //  const sumOfProducts =props.user.filter((user) => user.email === (currentUser&&currentUser.email)).map((cart)=>{
+    //     return(
+    //         cart.cart.reduce((a,v) =>  a = a + v.count*v.price , 0 )
+    //     )
+    // })
+    const sumOfProducts = checkData&&checkData.filter((data)=>data.select&&data).reduce((a,v) =>  a = a + v.count*v.price , 0 );
+    
+    // const listOfItems =state.cartDetails.map((cart)=>{ 
+    //     const handleChange = (e) =>{
+    //        let checkedVal = e.target.checked;
+            
+    //        setCheckData(checkData.map((data)=>{
+    //             if(cart._id===data.id){
+    //                 data.select = checkedVal;
+    //             }
+    //             return data;
+    //         }));
+    //        console.log("checked ",checkData); 
+    //     }
+    //     return(  
+    //         <div key={cart._id} className="col-12"> 
+    //         <FormControlLabel
+    //             control={
+    //             <Checkbox
+    //                 checked={checkData.select}
+    //                 onChange={handleChange}
+    //                 name="checkedB"
+    //                 color="primary" 
+    //             />
+    //             } 
+    //         />
+    //          <span>{cart.product_name}</span> 
+    //        </div>
+    //     )  
+    // })
 
      const callToDelete = async(name) =>{ 
             await props.deleteCart(currentUser.email,name);
-        await window.location.reload(); 
+         window.location.reload(); 
      }
 
+     const handleSubmitDetails = () =>{
 
+     }
      const razorPayHandler = async(e) =>{
         e.preventDefault();
-        const orderUrl = "http://localhost:3001/razorpay/order";
-        const obj = {
-            total : parseFloat(Number(sumOfProducts)+Number(99)),
-        }
-        const response = await axios.post(orderUrl,obj);
+        setLoading(true);
+        await handleSubmitDetails();
+        setTimeout(async()=>{ 
+            if(contactInfo.user_name!==''){
+                const orderUrl = "http://localhost:3001/razorpay/order";
+                const obj = {
+                    total : parseFloat(Number(sumOfProducts)+Number(99)),
+                }
+                const response = await axios.post(orderUrl,obj);
+    
+                const {data} = response;
+                const options = {
+                    key: 'rzp_test_Si2SPfoE6JBi45',
+                    name : contactInfo.user_name,
+                    description : 'Test Transaction',
+                    order_id: data.id,
+                    image : baseUrl+"logo.png",
+                    handler : async(response)=>{
+                        try{
+                            const paymentId = response.razorpay_payment_id;
+                            const url = `http://localhost:3001/razorpay/capture/${paymentId}`
+                            const captureResponse = await axios.post(url, {obj})
+                            const successObj = JSON.parse(captureResponse.data)
+                            const captured = successObj.captured;
+                            console.log("App -> razorPayPaymentHandler -> captured", successObj)
+                            if(captured){
+                                console.log('payment success')
+                            }
+                        }
+                        catch(err){
+                            console.log(err);
+                        }
+                    },
+                    prefill: {
+                        name: "Vairamuthu",
+                        email: currentUser && currentUser.email, 
+                    },
+                    theme: {
+                        color: "#686CFD",
+                    },
+                };
+                const rzp = new window.Razorpay(options);
+                rzp.open();
+            }
+            else{
+                setOpen(true)
+            }
 
-        const {data} = response;
-        const options = {
-            key: 'rzp_test_Si2SPfoE6JBi45',
-            name : currentUser && currentUser.email.split("@")[0],
-            description : 'Test Transaction',
-            order_id: data.id,
-            image : baseUrl+"logoDolphin.png",
-            handler : async(response)=>{
-                try{
-                    const paymentId = response.razorpay_payment_id;
-                    const url = `http://localhost:3001/razorpay/capture/${paymentId}`
-                    const captureResponse = await axios.post(url, {obj})
-                    const successObj = JSON.parse(captureResponse.data)
-                    const captured = successObj.captured;
-                    console.log("App -> razorPayPaymentHandler -> captured", successObj)
-                    if(captured){
-                        console.log('payment success')
-                    }
-                }
-                catch(err){
-                    console.log(err);
-                }
-            },
-            prefill: {
-                name: "Vairamuthu",
-                email: currentUser && currentUser.email, 
-            },
-            theme: {
-                color: "#686CFD",
-              },
-        };
-        const rzp = new window.Razorpay(options);
-        rzp.open();
-     }
-   const RenderCartProducts = ({cart}) =>{  
+            setLoading(false)
+        },3000); 
+           
+         
         
-        const handleDelete = async(name) =>{ 
-              const sage = state.cartDetails.filter((car)=>car.product_name!==name) 
-              await setState({
-                  cartDetails:sage
-              })
-              console.log("deletion state ",state.cartDetails);
-              await callToDelete(name)
+     }
+     const handleClose = (event, reason) => {
+        if (reason === 'clickaway') {
+          return;
         }
-        return( 
-            <div className="row">
-                <div className="d-flex justify-content-end">
-                    <IconButton color="primary"
-                        onClick = {()=>handleDelete(cart.product_name)}
-                    >
-                        <ClearIcon color="primary"/>
-                    </IconButton>
-                    <IconButton color="primary">
-                        <i class="fa fa-edit"></i>
-                    </IconButton> 
-                </div>
-                <Card className="col-4 m-0 p-0">
-                    <CardImg width="100%" style={{height:'250px'}} src={baseUrl+cart.product_img} />
-                </Card> 
-                <div className="col-3 mt-5 pt-5"  style={{marginRight:'25px'}}>
-                    <p className="">{cart.product_name}</p>
-                </div>
-                <div className="col-2 mt-5 pt-5" style={{marginRight:'-26px'}}>
-                    <p> <span className="fa fa-inr"> </span>{cart.price}</p>
-                </div>
-                <div className="col-1 mt-5 pt-5" style={{marginRight:'10px'}}>
-                    <p className="text-center">{cart.count}</p>
-                </div>
-                <div className="col-2 mt-5 pt-5 text-center"  style={{marginRight:'-33px'}}>
-                    <p className="text-center"> <span className="fa fa-inr"> </span>{cart.count*cart.price}</p>
-                </div> 
+        setOpen(false); 
+      };
+//    const RenderCartProducts = ({cart}) =>{  
+        
+//         const handleDelete = async(name) =>{ 
+//               const sage = state.cartDetails.filter((car)=>car.product_name!==name) 
+//               await setState({
+//                   cartDetails:sage
+//               })
+//               console.log("deletion state ",state.cartDetails);
+//               await callToDelete(name)
+//         } 
+//         return( 
+//             <div className="row">
+//                 <div className="d-flex justify-content-end">
+//                     <IconButton color="primary"
+//                         onClick = {()=>handleDelete(cart.product_name)}
+//                     >
+//                         <ClearIcon color="primary"/>
+//                     </IconButton>
+//                     <IconButton color="primary">
+//                         <i class="fa fa-edit"></i>
+//                     </IconButton> 
+//                 </div>
+//                 <Card className="col-4 m-0 p-0">
+//                     <CardImg width="100%" style={{height:'250px'}} src={baseUrl+cart.product_img} />
+//                 </Card> 
+//                 <div className="col-3 mt-5 pt-5"  style={{marginRight:'25px'}}>
+//                     <p className="">{cart.product_name}</p>
+//                 </div>
+//                 <div className="col-2 mt-5 pt-5" style={{marginRight:'-26px'}}>
+//                     <p> <span className="fa fa-inr"> </span>{cart.price}.0</p>
+//                 </div>
+//                 <div className="col-1 mt-5 pt-5" style={{marginRight:'10px'}}>
+//                     <p className="text-center">{cart.count}</p>
+//                 </div>
+//                 <div className="col-2 mt-5 pt-5 text-center"  style={{marginRight:'-33px'}}>
+//                     <p className="text-center"> <span className="fa fa-inr"> </span>{cart.count*cart.price}.0</p>
+//                 </div> 
                 
-            </div> 
-        )
-        }
+//             </div> 
+//         )
+//         }
     
         const cartproducts =state.cartDetails.map((cart)=>{
+            const handleDelete = async(name) =>{ 
+                const sage = state.cartDetails.filter((car)=>car.product_name!==name) 
+                await setState({
+                    cartDetails:sage
+                })
+                console.log("deletion state ",state.cartDetails);
+                await callToDelete(name)
+          } 
+          const handleChange = (e) =>{
+            let checkedVal = e.target.checked;
+             
+            setCheckData(checkData.map((data)=>{
+                 if(cart._id===data.id){
+                     data.select = checkedVal;
+                 }
+                 return data;
+             }));
+            console.log("checked ",checkData);
+            if(checkData.select){
+                console.log(checkData.id,"sdfsd");
+            }
+         }
             return(  
                 <div key={cart._id}> 
-                    <RenderCartProducts cart={cart} />
+                    <div className="row">
+                        <div className="d-flex justify-content-end">
+                            <IconButton color="primary"
+                                onClick = {()=>handleDelete(cart.product_name)}
+                            >
+                                <ClearIcon color="primary"/>
+                            </IconButton>
+                            {/* <IconButton color="primary">
+                                <i class="fa fa-edit"></i>
+                            </IconButton>  */}
+                            <FormControlLabel
+                                control={
+                                <Checkbox
+                                    checked={checkData.select}
+                                    onChange={handleChange}
+                                    name="checkedB"
+                                    color="primary" 
+                                />
+                                } 
+                            />
+                        </div>
+                        <Card className="col-4 m-0 p-0">
+                            <CardImg width="100%" style={{height:'250px'}} src={baseUrl+cart.product_img} />
+                        </Card> 
+                        <div className="col-3 mt-5 pt-5"  style={{marginRight:'25px'}}>
+                            <p className="">{cart.product_name}</p>
+                        </div>
+                        <div className="col-2 mt-5 pt-5" style={{marginRight:'-26px'}}>
+                            <p> <span className="fa fa-inr"> </span>{cart.price}.0</p>
+                        </div>
+                        <div className="col-1 mt-5 pt-5" style={{marginRight:'10px'}}>
+                            <p className="text-center">{cart.count}</p>
+                        </div>
+                        <div className="col-2 mt-5 pt-5 text-center"  style={{marginRight:'-33px'}}>
+                            <p className="text-center"> <span className="fa fa-inr"> </span>{cart.count*cart.price}.0</p>
+                        </div> 
+                        
+                    </div> 
                     <hr className="mt-4"/>
             </div>
             )  
         })
-    // const cartproducts =tempCart.map((cart)=>{
-    //     return(
-    //         cart.cart.map((car)=>{
-    //             console.log("car , ",car);
-    //             return( 
-    //                 <div key={car._id}> 
-    //                     <RenderCartProducts car={car} />
-    //                     <hr className="mt-4"/>
-    //                 </div>
-    //             )
-    //         })
-    //     ) 
-    // })
     
-    
+    const handleChangeInfo = (e) =>{
+        const value = e.target.value;
+        setContactInfo({  
+            ...contactInfo,
+            [e.target.name]: value 
+        })
+    }
+    const toggleModal = () =>{
+        setIsModalOpen(!isModalOpen)
+    }
+    const handleSubmitContactInfo = () =>{
+        console.log(contactInfo);
+        toggleModal();
+    }
     return (
         <>
         <NavBar navbg={'linear-gradient(rgba(0, 0, 0, 0.8),rgba(0, 0, 0, 0.8))'} 
@@ -258,17 +401,25 @@ function Cart(props) {
                                     elevation={0}
                                 >
                                     <AccordionSummary
-                                    expandIcon={<ExpandMoreIcon />}
-                                    aria-controls="panel1a-content"
-                                    id="panel1a-header"
+                                        expandIcon={<ExpandMoreIcon />}
+                                        aria-controls="panel1a-content"
+                                        id="panel1a-header"
                                     >
-                                    <Typography>Estimate Shipping and Tax</Typography>
+                                        <Typography>Fill Your Order Details <span className="text-danger">*</span></Typography>
                                     </AccordionSummary>
                                     <AccordionDetails>
-                                    <Typography>
-                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse malesuada lacus ex,
-                                        sit amet blandit leo lobortis eget.
-                                    </Typography>
+                                        <Grid md={12}> 
+                                                <div>
+                                                    <Button
+                                                        variant="contained"
+                                                        color="secondary"
+                                                        onClick={toggleModal}
+                                                        fullWidth
+                                                    >
+                                                        Order Info
+                                                    </Button>
+                                                </div> 
+                                        </Grid>
                                     </AccordionDetails>
                                 </Accordion>
                                 <hr />
@@ -285,7 +436,7 @@ function Cart(props) {
                                         <p>Shipping (Shipping Table Rates - Shipping across India (Blue Dart & other leading couriers))</p>
                                     </div>
                                     <div className="col-3">
-                                        <h6><i class="fa fa-inr" aria-hidden="true"></i>99.00</h6>
+                                        <h6><i class="fa fa-inr" aria-hidden="true"></i>99.0</h6>
                                     </div>
                                 </div>
                                 <hr />
@@ -294,7 +445,7 @@ function Cart(props) {
                                       <h5 className="text-muted">Order Total</h5>
                                     </div>
                                     <div className="col-3">
-                                    ₹{Number(sumOfProducts)+Number(99)}.0
+                                    ₹{sumOfProducts ? Number(sumOfProducts)+Number(99):0}.0
                                     </div>
                                 </div>
                                 <div className="row p-2">
@@ -303,14 +454,125 @@ function Cart(props) {
                                         variant="contained"
                                         color="primary"
                                         onClick={razorPayHandler}
+                                        disabled = {loading}
                                     >
-                                        Order Now 
+                                       {loading ? <CircularProgress /> : "Order now"} 
                                     </Button>
                                 </div>
                             </CardBody>
                     </Card>  
                 </div>
-
+                <Snackbar open={open} autoHideDuration={3000} onClose={handleClose}
+                    anchorOrigin={{vertical: 'top', horizontal: 'right'}}
+                    >
+                    <Alert onClose={handleClose} severity="error" variant="filled">
+                        Please Provide your Order Details!
+                    </Alert>
+                </Snackbar>
+                <Modal scrollable isOpen={isModalOpen} toggle={toggleModal} backdrop="static" centered className="modal-lg">
+                    <ModalHeader toggle={toggleModal}>
+                        <h4><b>Order Info</b></h4>
+                    </ModalHeader>
+                    <ModalBody className="row mt-0"> 
+                        <div className="col-12">
+                            <form className="row" autoComplete="off">
+                                <Row>
+                                    <Col>
+                                        <FormGroup>
+                                            <Label htmlFor="name">Name <span className="text-danger"> *</span></Label>
+                                            <Input 
+                                            className="mt-2"
+                                                type = "text"
+                                                name = "user_name"
+                                                placeholder="Name"
+                                                value={contactInfo.user_name}
+                                                onChange={handleChangeInfo}
+                                            />
+                                        </FormGroup>
+                                    </Col>
+                                </Row>
+                                <Row className="mt-2">
+                                    <Col>
+                                        <FormGroup>
+                                            <Label htmlFor="contactno">Contact No<span className="text-danger">*</span></Label>
+                                            <Input 
+                                                className="mt-2"
+                                                type = "text"
+                                                name = "contactno"
+                                                placeholder="Contact Number"
+                                                value={contactInfo.contactno}
+                                                onChange={handleChangeInfo}
+                                            />
+                                        </FormGroup>
+                                    </Col>
+                                </Row>
+                                <Row className="mt-2">
+                                    <Col>
+                                        <FormGroup>
+                                            <Label htmlFor="address">Address<span className="text-danger"> *</span></Label>
+                                            <textarea 
+                                                rows="2"
+                                                className="mt-2 form-control"
+                                                type = "text"
+                                                name = "address"
+                                                placeholder="address"
+                                                value={contactInfo.address}
+                                                onChange={handleChangeInfo}
+                                            />
+                                        </FormGroup>
+                                    </Col>
+                                </Row>
+                                
+                                <Row className="mt-2">
+                                    <Col>
+                                        <FormGroup>
+                                            <Label htmlFor="country">Country <span className="text-danger"> *</span></Label>
+                                            <Input 
+                                                className="mt-2"
+                                                type = "text"
+                                                name = "country"
+                                                placeholder="Country"
+                                                value={contactInfo.country}
+                                                onChange={handleChangeInfo}
+                                            />
+                                        </FormGroup>
+                                    </Col>
+                                </Row>
+                                <Row className="mt-2">
+                                    <Col>
+                                        <FormGroup>
+                                            <Label htmlFor="state">State <span className="text-danger"> *</span></Label>
+                                            <Input 
+                                                className="mt-2"
+                                                type = "text"
+                                                name = "state"
+                                                placeholder="State"
+                                                value={contactInfo.state}
+                                                onChange={handleChangeInfo}
+                                            />
+                                        </FormGroup> 
+                                    </Col>
+                                </Row>
+                            </form> 
+                        </div> 
+                    </ModalBody> 
+                    <ModalFooter>
+                        <Button
+                            variant="contained" 
+                            style={{marginRight:'6px',color:'white',backgroundColor:'#918d8d'}}
+                            onClick={toggleModal}
+                            >
+                                Cancel
+                        </Button>
+                        <Button
+                            variant="contained"
+                            color="secondary"
+                            onClick={handleSubmitContactInfo}
+                            >
+                                submit
+                        </Button>
+                    </ModalFooter>
+                </Modal>        
             </div>
         </div>
         </>
@@ -318,3 +580,81 @@ function Cart(props) {
 }
 
 export default Cart
+{/* <form className="row" autoComplete="off">
+                                                <Row>
+                                                    <Col>
+                                                        <FormGroup>
+                                                            <Label htmlFor="name">Name <span className="text-danger"> *</span></Label>
+                                                            <Input 
+                                                            className="mt-2"
+                                                                type = "text"
+                                                                name = "user_name"
+                                                                placeholder="Name"
+                                                                value={contactInfo.user_name}
+                                                                onChange={handleChangeInfo}
+                                                            />
+                                                        </FormGroup>
+                                                    </Col>
+                                                </Row>
+                                                <Row className="mt-2">
+                                                    <Col>
+                                                        <FormGroup>
+                                                            <Label htmlFor="address">Address<span className="text-danger"> *</span></Label>
+                                                            <textarea 
+                                                                rows="2"
+                                                                className="mt-2 form-control"
+                                                                type = "text"
+                                                                name = "address"
+                                                                placeholder="address"
+                                                                value={contactInfo.address}
+                                                                onChange={handleChangeInfo}
+                                                            />
+                                                        </FormGroup>
+                                                    </Col>
+                                                </Row>
+                                                <Row className="mt-2">
+                                                    <Col>
+                                                        <FormGroup>
+                                                            <Label htmlFor="contactno">Contact No<span className="text-danger">*</span></Label>
+                                                            <Input 
+                                                               className="mt-2"
+                                                                type = "text"
+                                                                name = "contactno"
+                                                                placeholder="Contact Number"
+                                                                value={contactInfo.contactno}
+                                                                onChange={handleChangeInfo}
+                                                            />
+                                                        </FormGroup>
+                                                    </Col>
+                                                </Row>
+                                                <Row className="mt-2">
+                                                    <Col>
+                                                        <FormGroup>
+                                                            <Label htmlFor="country">Country <span className="text-danger"> *</span></Label>
+                                                            <Input 
+                                                                className="mt-2"
+                                                                type = "text"
+                                                                name = "country"
+                                                                placeholder="Country"
+                                                                value={contactInfo.country}
+                                                                onChange={handleChangeInfo}
+                                                            />
+                                                        </FormGroup>
+                                                    </Col>
+                                                </Row>
+                                                <Row className="mt-2">
+                                                    <Col>
+                                                        <FormGroup>
+                                                            <Label htmlFor="state">State <span className="text-danger"> *</span></Label>
+                                                            <Input 
+                                                                className="mt-2"
+                                                                type = "text"
+                                                                name = "state"
+                                                                placeholder="State"
+                                                                value={contactInfo.state}
+                                                                onChange={handleChangeInfo}
+                                                            />
+                                                        </FormGroup> 
+                                                    </Col>
+                                                </Row>
+                                            </form>  */}

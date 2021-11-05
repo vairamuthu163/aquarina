@@ -1,6 +1,89 @@
 import * as ActionTypes from './ActionTypes'; 
 import axios from 'axios';
  
+
+//Star rating :
+export const starRating = (email,id,category,author,rating,ratingCount,comment,date) => (dispatch) =>{ 
+    console.log("values for Star rating ",email,id,category,author,rating,ratingCount,comment,date);
+    if(category==="Fishes"){
+       // dispatch(fishesLoading(true))
+        return axios.put(`http://localhost:3001/rating/fishes`,{
+            email,
+            id,
+            category,
+            author,
+            rating,
+            ratingCount,
+            comment,
+            date
+        })  
+        .then((response)=> console.log(response.data)) 
+        .catch((error)=>console.log(error));
+    }  
+    if(category==="Fish-Foods") {
+        //dispatch(foodsLoading(true))
+        return axios.put(`http://localhost:3001/rating/foods`,{
+            email,
+            id,
+            category,
+            author,
+            rating,
+            ratingCount,
+            comment,
+            date
+        })  
+        .then((response)=> console.log(response.data)) 
+        .catch((error)=>console.log(error));
+    }
+    if(category==="Substrates"){
+       // dispatch(substratesLoading(true));
+        return axios.put(`http://localhost:3001/rating/substrates`,{
+            email,
+            id,
+            category,
+            author,
+            rating,
+            ratingCount,
+            comment,
+            date
+        })  
+        .then((response)=> console.log(response.data)) 
+        .catch((error)=>console.log(error));
+    }
+    if(category==="Accessories"){
+       // dispatch(filtersLoading(true));
+        return axios.put(`http://localhost:3001/rating/filters`,{
+            email,
+            id,
+            category,
+            author,
+            rating,
+            ratingCount,
+            comment,
+            date
+        })  
+        .then((response)=> console.log(response.data)) 
+        .catch((error)=>console.log(error));
+    }
+    if(category==="Plants"){
+       // dispatch(plantsLoading(true));
+        return axios.put(`http://localhost:3001/rating/plants`,{
+            email,
+            id,
+            category,
+            author,
+            rating,
+            ratingCount,
+            comment,
+            date
+        })  
+        .then((response)=> console.log(response.data)) 
+        .catch((error)=>console.log(error));
+    }
+}
+
+
+
 export const postFishContents = (id,title,content) => (dispatch) =>{
     dispatch(fishesLoading(true));
     return axios.put('http://localhost:3001/fishes/details', {
@@ -102,12 +185,13 @@ export const deleteProduct = (id,category) => (dispatch) =>{
 }
 
 
-export const postFishes = (image,name,price,category) => (dispatch)=>{ 
+export const postFishes = (image,name,price,category,stock) => (dispatch)=>{ 
     var fd = new FormData();
     fd.append("name",name);
     fd.append("price",price);
     fd.append("image",image);
-    fd.append("category",category); 
+    fd.append("category",category);
+    fd.append("stock",stock); 
     console.log(image,name,price,category);
     return axios.post('http://localhost:3001/fishes', fd)
     .then((response)=> response.data)
@@ -175,12 +259,13 @@ export const addFishes = (fishes) => ({
 });
 
 //Post the Plants
-export const postPlants = (image,name,price,category) => (dispatch)=>{ 
+export const postPlants = (image,name,price,category,stock) => (dispatch)=>{ 
     var fd = new FormData();
     fd.append("name",name);
     fd.append("price",price);
     fd.append("image",image);
     fd.append("category",category); 
+    fd.append("stock",stock);
     console.log(image,name,price,category);
     return axios.post('http://localhost:3001/plants', fd)
     .then((response)=> response.data)
@@ -211,12 +296,13 @@ export const addPlants = (plants) => ({
 });
 
 //Post the Substrates
-export const postSubstrates = (image,name,price,category) => (dispatch)=>{ 
+export const postSubstrates = (image,name,price,category,stock) => (dispatch)=>{ 
     var fd = new FormData();
     fd.append("name",name);
     fd.append("price",price);
     fd.append("image",image);
     fd.append("category",category); 
+    fd.append("stock",stock);
     console.log(image,name,price,category);
     return axios.post('http://localhost:3001/substrates', fd)
     .then((response)=> response.data)
@@ -247,12 +333,13 @@ export const addSubstrates = (substrates) => ({
 });
 
 //Post the Fish-Foods
-export const postFoods = (image,name,price,category) => (dispatch)=>{ 
+export const postFoods = (image,name,price,category,stock) => (dispatch)=>{ 
     var fd = new FormData();
     fd.append("name",name);
     fd.append("price",price);
     fd.append("image",image);
     fd.append("category",category); 
+    fd.append("stock",stock);
     console.log(image,name,price,category);
     return axios.post('http://localhost:3001/fishfoods', fd)
     .then((response)=> response.data)
@@ -284,13 +371,14 @@ export const addFoods = (foods) => ({
 });
 
 //Post the Accessories or Filters
-export const postFilters = (image,name,price,category) => (dispatch)=>{ 
+export const postFilters = (image,name,price,category,stock) => (dispatch)=>{ 
     var fd = new FormData();
     fd.append("name",name);
     fd.append("price",price);
     fd.append("image",image);
     fd.append("category",category); 
-    console.log(image,name,price,category);
+    fd.append("stock",stock);
+    console.log(image,name,price,category,stock);
     return axios.post('http://localhost:3001/filters', fd)
     .then((response)=> response.data)
     .then(response => dispatch(addFilters(response)))
