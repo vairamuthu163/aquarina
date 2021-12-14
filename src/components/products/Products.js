@@ -24,6 +24,7 @@ import {Form} from 'react-bootstrap'
 import axios from 'axios'
 import { baseUrl } from '../../shared/baseUrl';
 import Pagination from '@material-ui/lab/Pagination';
+import {Fade,Zoom,Bounce} from 'react-reveal';
 export default function Products(props) {
     const [value, setValue] = React.useState(0);
     const [imageUpload,setImageUpload]=useState(null);
@@ -337,6 +338,21 @@ export default function Products(props) {
         }
            
       } 
+      const handleSortByReviews = () =>{
+        if(value===0){ 
+            const temp = state.filteredData.sort((a, b) =>{
+                var val1 = Object.values(a);
+                var val2 = Object.values(b); 
+                return(
+                   val1[5] > val2[5] ? -1 : 1
+                )
+            })
+            setState({
+                ...state,
+                filteredData:temp
+            })
+          }
+      }
     return (
         <>
            <NavBar navbg={'linear-gradient(rgba(0, 0, 0, 0.8),rgba(0, 0, 0, 0.8))'} />
@@ -344,6 +360,7 @@ export default function Products(props) {
                <Container>
                     <div className="row" style={{padding:'30px'}}> 
                         <div className="col-8 col-sm-6 offset-sm-3 p-3 pt-5">
+                            <Fade top>
                             <Form>
                                 <div className="d-flex justify-content-center mt-4">
                                     <Input type="search" placeholder="Search here..." 
@@ -361,7 +378,7 @@ export default function Products(props) {
                                     >Search&nbsp;&nbsp;</Button>
                                 </div>
                             </Form>
-                             
+                            </Fade>
                         </div>
                         {currentUser && currentUser.email==="vairam@gmail.com" && <div className="col-3 col-sm-3 p-3 pt-5 mt-4">
                             <Btn
@@ -374,11 +391,12 @@ export default function Products(props) {
                         </div>}
                         
                         {/* <ProductNav className="col-12" />  */}
-                        <div className="col-12"> 
+                        <div className="col-12">  
                             <Paper elevation={3}>
                                 <Tabs
                                     value={value}
                                     indicatorColor="secondary"
+                                
                                     textColor="primary"
                                     onChange={handleChange}
                                     aria-label="disabled tabs example"
@@ -391,10 +409,9 @@ export default function Products(props) {
                                     <Tab label={<b>Aquarium Plants</b>}/>
                                     <Tab label={<b>Fishes</b>}/>
                                     <Tab label={<b>Fish Food</b>}/>
-                                    <Tab label={<b>Aquarium Accessories</b>} />
-                                    <Tab label={<b>indoor plants</b>}/>
+                                    <Tab label={<b>Aquarium Accessories</b>} /> 
                                 </Tabs>
-                            </Paper>
+                            </Paper> 
                            {/*  <TabPanel value={value} index={0}>
                                 <AllProducts 
                                     allProducts={state.filteredData}
@@ -452,7 +469,7 @@ export default function Products(props) {
                                                     <DropdownItem header>Sort By</DropdownItem> 
                                                     <DropdownItem onClick={handleSortByProduct}>Product Name</DropdownItem> 
                                                     <DropdownItem onClick={handleSortByPrice}>Price</DropdownItem> 
-                                                    <DropdownItem >Rating</DropdownItem> 
+                                                    <DropdownItem onClick = {handleSortByReviews}>Rating</DropdownItem> 
                                                 </DropdownMenu>
                                             </UncontrolledDropdown>
                                         </div> 
@@ -470,13 +487,16 @@ export default function Products(props) {
                         </div>
                         <div className="col-12"> 
                             {value===0 && 
-                               <AllProducts 
-                                    allProducts={state.filteredData}
-                                    deleteProduct = {props.deleteProduct} 
-                                />
+                                <Fade clear>
+                                    <AllProducts 
+                                            allProducts={state.filteredData}
+                                            deleteProduct = {props.deleteProduct} 
+                                        />
+                                </Fade>
                             }
                             {
                             value===1 && 
+                                <Fade left>
                                 <Substrates 
                                     substrates = {newState.substrates} 
                                     isLoading = {props.substratesLoading}
@@ -484,19 +504,23 @@ export default function Products(props) {
 
                                     deleteProduct = {props.deleteProduct} 
                                 />
+                                </Fade>
                             }
                             {
                                 value===2 && 
-                                <Plants
-                                    plants={newState.plants} 
-                                    isLoading = {props.plantsLoading}
-                                    errmess = {props.plantsErr} 
+                                <Fade right>
+                                    <Plants
+                                        plants={newState.plants} 
+                                        isLoading = {props.plantsLoading}
+                                        errmess = {props.plantsErr} 
 
-                                    deleteProduct = {props.deleteProduct}
-                                />
+                                        deleteProduct = {props.deleteProduct}
+                                    />
+                                </Fade>
                             }
                             {
                                 value===3 && 
+                                <Fade bottom>
                                 <Fishes 
                                     fishes={newState.fishes}
                                     isLoading={props.fishesLoading}
@@ -504,9 +528,11 @@ export default function Products(props) {
                                     deleteProduct = {props.deleteProduct}
  
                                 />
+                                </Fade>
                             }
                             {
                                 value===4 && 
+                                <Fade left>
                                 <Foods 
                                     foods = {newState.foods} 
                                     isLoading = {props.foodsLoading}
@@ -514,9 +540,11 @@ export default function Products(props) {
 
                                     deleteProduct = {props.deleteProduct}
                                 />
+                                </Fade>
                             }
                             {
-                                value===5 && 
+                                value===5 &&
+                                <Fade right>
                                 <Filters 
                                     filters = {newState.filters}
                                     isLoading = {props.filtersLoading}  
@@ -524,6 +552,7 @@ export default function Products(props) {
                                     
                                     deleteProduct = {props.deleteProduct}
                                 />
+                                </Fade> 
                             }
                             {
                                 value===6 && 

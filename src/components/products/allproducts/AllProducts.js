@@ -7,10 +7,12 @@ import Rating from '@material-ui/lab/Rating';
 import Pagination from '@material-ui/lab/Pagination';
 import { baseUrl } from '../../../shared/baseUrl';
 import DeleteIcon from '@material-ui/icons/Delete';
+import { useAuth } from '../../../contexts/AuthContext';
 const RenderAllProducts = ({product,deleteProduct}) =>{
     const [text,setText] = useState(false);
     const [name,setName] = useState();
     const [value, setValue] = React.useState(4);
+    const {currentUser} = useAuth();
     const history = useHistory();
     useEffect(()=>{
         var value = Object.values(product);
@@ -68,7 +70,7 @@ const RenderAllProducts = ({product,deleteProduct}) =>{
                                     <i class="fa fa-shopping-bag"></i>
                                 </IconButton>
                                 }</b>
-                            <b style={{marginLeft:'4px'}}>{text && 
+                            {currentUser && currentUser.email==="vairam@gmail.com" && <b style={{marginLeft:'4px'}}>{text && 
                                 <IconButton
                                     variant="outlined"
                                     color="inherit"
@@ -77,7 +79,7 @@ const RenderAllProducts = ({product,deleteProduct}) =>{
                                 >
                                    <DeleteIcon style={{fontSize:'26px'}}/>
                                 </IconButton>
-                            }</b>
+                            }</b>}
                         </div> 
                     </CardImgOverlay>
                     <CardBody className="text-center"> 

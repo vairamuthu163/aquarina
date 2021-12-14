@@ -6,6 +6,7 @@ import {Form} from 'react-bootstrap';
 import NavBar from "../navbar/Navbar";   
 import { emphasize, withStyles } from '@material-ui/core/styles';
 import { useAuth } from "../../contexts/AuthContext";
+import ReactImageMagnify from 'react-image-magnify';
 import Breadcrumbs from '@material-ui/core/Breadcrumbs';
 import Chip from '@material-ui/core/Chip';
 import HomeIcon from '@material-ui/icons/Home';
@@ -50,6 +51,7 @@ const StyledBreadcrumb = withStyles((theme) => ({
   },
 }))(Chip);
 function ProductDetails(props) {
+  //const findUser = {props.user.user.filter((user) => user.email === (currentUser&&currentUser.email))}
   const [open, setOpen] = React.useState(false);
   const [open1, setOpen1] = React.useState(false); 
   const {currentUser} = useAuth();
@@ -73,24 +75,33 @@ function ProductDetails(props) {
     comments:'',
     ratingcount:0
   })
+  const [isGiveComment,setIsGiveComment] = useState(false)
   
-  
-  useEffect(async() => {
-   console.log("custom bal",location.state.data);
+  useEffect(async() => { 
     var valu = Object.values(location.state.data);
+    //console.log("sample",props.findUser)
     setName(valu[2]); 
     setVal(location.state.data.rating);
     const found = await location.state.data.reviews.filter((revie)=>revie.email===(currentUser&&currentUser.email))
-    let re = parseInt(location.state.data.reviews.length)
+    let re = location.state.data.reviews.length;
     setRateC(re)
-    if(parseInt(found.length)!==0){
-      setIsRated(!isRated)
+    if(found.length!==0){
+      setIsRated(!isRated);
     }
     else{
       console.log("You have Reviewed this product");
     }
-    console.log(location.state.data.ratingCount,"review count",rateC)
-    
+    //console.log(location.state.data.ratingCount,"review count",rateC)
+    await props.findUser.map((data)=>{
+      data.orders.map((da)=>{ 
+        if(da.product_img===location.state.data.img){
+          setIsGiveComment(!isGiveComment); 
+        }
+      })
+    })
+     
+    console.log(isGiveComment);
+    console.log(found.length,isRated,"please work me");
   }, []);
   
   useEffect(async()=>{
@@ -101,6 +112,7 @@ function ProductDetails(props) {
    // console.log(rateCount,"dsfs");
   },[])
  
+  
   const history = useHistory();
   function handleClick(e,val) { 
     e.preventDefault();
@@ -256,7 +268,7 @@ function ProductDetails(props) {
   }
    
   const handleSubmitReview = async(e) =>{
-     e.preventDefault();   
+     e.preventDefault();    
      setState({
        ratingcount:parseInt(state.ratingcount)+1
      })  
@@ -296,7 +308,7 @@ function ProductDetails(props) {
         state.author,
         calc, //for rating
         te, //for ratingCount
-        state.comment,
+        state.comments,
         today.toDateString()
     ) } 
     setIsRated(!isRated);
@@ -309,7 +321,7 @@ function ProductDetails(props) {
     setState({
       ...state,
       [e.target.name]: value
-    });
+    }); 
   }
   return (
     <>
@@ -347,14 +359,34 @@ function ProductDetails(props) {
           <div className="col-12 col-md-5 mt-4">
             <p>{name}</p>
             {/*  <img src={location.state.data.img} alt={name} /> */}
-            <Card className="p-2">
+            {/* <Card className="p-2">
               <CardImg
                 width="100%"
                 style={{ maxHeight: "500px" }}
                 src={baseUrl+location.state.data.img}
                 alt={name}
               />
-            </Card>
+            </Card>  */}
+            <Card className="p-2" style={{zIndex:'1000'}}>
+              <div style={{width:'800px',height:'450px'}}>
+                <ReactImageMagnify {...{
+                        smallImage: {
+                            alt: 'Wristwatch by Ted Baker London',
+                            //isFluidWidth: true,
+                            src: baseUrl+location.state.data.img,
+                            width: 510,
+                            height: 453
+                        },
+                        largeImage: {
+                            src:baseUrl+location.state.data.img,
+                            width: 1200,
+                            height: 1800, 
+                        },
+                        shouldUsePositiveSpaceLens: true
+                    }} /> 
+                  </div>
+            </Card> 
+              
           </div>
           <div className="col-12 col-md-4 mt-md-5 mb-md-5">
             <h2 className="mt-4" style={{fontWeight:'bold'}}>{name}</h2>
@@ -377,7 +409,7 @@ function ProductDetails(props) {
                 <Button 
                   style={{padding:'10px 10px'}}
                   onClick={()=>{setCount(count-1)}}
-                  disabled={count===0}
+                  disabled={count===1}
                   >
                     <RemoveIcon />
                 </Button>
@@ -500,7 +532,7 @@ function ProductDetails(props) {
                     <div className="row">
                       {location.state.data.details && productDetails}
                     </div>
-                    <div>
+                    {currentUser&&currentUser.email==="vairam@gmail.com" && <div>
                         <textarea
                           type="textarea"
                           rows='1' 
@@ -534,28 +566,28 @@ function ProductDetails(props) {
                             Submit
                           </Button>
                         </div>
-                      </div>
+                      </div>}
                   </Tab>
                   <Tab eventKey="reviews" title="Reviews">
                     <h3><b className="m-3">Customer Reviews</b></h3>
                     <div className="row m-3">
-                      {parseInt(location.state.data.reviews.length) ? reviewDetails :
+                      {parseInt(location.state.data.reviews.length)!==0 ? reviewDetails :
                         <div className="col-12">
+                         {/*  <Allert variant="info"><InfoIcon></InfoIcon>&nbsp;&nbsp;No Reviews</Allert>  */}
                           <Allert variant="info"><InfoIcon></InfoIcon>&nbsp;&nbsp;No Reviews</Allert>
                         </div>
                       }
                       <div className="col-12 text-center">  
-                       {isRated ?
-                        <div className="row">
+                        {/* <div className="row">
                           <div className="mr-2 ml-2">
-                            <Allert variant="danger"><InfoIcon></InfoIcon>you are no longer to review this product again!</Allert>
+                             <Allert variant="danger"><InfoIcon></InfoIcon>you are no longer to review this product again!</Allert>
                           </div>
-                        </div>
-                       :<Button
+                        </div> */}
+                        {isRated || isGiveComment&&<Button
                           color="secondary"
                           variant="contained"
                           onClick={toggleModal}
-                           
+                          className={isGiveComment? "d-block":"d-none"}
                         >
                          <i class="fa fa-pencil" aria-hidden="true"></i> &nbsp;&nbsp;Review 
                         </Button>}

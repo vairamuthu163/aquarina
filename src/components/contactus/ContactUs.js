@@ -28,15 +28,15 @@ function ContactUs() {
     e.preventDefault(); 
     setLoading(true);
     console.log(form.current);
-    //  setTimeout(async()=>{
-    //   await emailjs.sendForm('service_yn7je2f', 'template_fp5dwa5', form.current, 'user_UF8rhjh7CkRFcx5i2YNov')
-    //   .then((result) => {
-    //       console.log(result);
-    //   }, (error) => {
-    //       console.log(error);
-    //   });
-    //   form.current.reset();
-    // },3000)
+     setTimeout(async()=>{
+      await emailjs.sendForm('service_yn7je2f', 'template_fp5dwa5', form.current, 'user_UF8rhjh7CkRFcx5i2YNov')
+      .then((result) => {
+          console.log(result);
+      }, (error) => {
+          console.log(error);
+      });
+      form.current.reset();
+    },3000)
     setTimeout(async()=>{
       await setOpen(true); 
       setLoading(false);
@@ -131,7 +131,10 @@ function ContactUs() {
                   fullWidth 
                   disabled = {loading}
                 >
-                  {loading ?<CircularProgress /> : "submit"}
+                  {loading ?<CircularProgress
+                                        size="30px"
+                                        thickness = "4.5"
+                                       />  : "submit"}
                 </Button>
               </Grid>
             </form>

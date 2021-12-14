@@ -5,8 +5,10 @@ import InstagramIcon from '@material-ui/icons/Instagram';
 import TwitterIcon from '@material-ui/icons/Twitter';
 import YouTubeIcon from '@material-ui/icons/YouTube';
 import { Button } from 'react-bootstrap';
+import Fade from 'react-reveal/Fade';
 function Footer(){
     return(
+       <Fade bottom>
         <FooterContainer className="main-footer">
         <div className="footer-middle">
         <div className="container">
@@ -72,6 +74,7 @@ function Footer(){
         </div>
         </div>
         </FooterContainer>
+        </Fade>
     );
 }
 export default Footer;

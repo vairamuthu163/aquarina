@@ -49,7 +49,7 @@ export default function SignUp() {
             setError('')
             setLoading(true)
             await signUp(emailRef.current.value, passwordRef.current.value);
-            history.push('/home');
+            history.push('/login');
         }
         catch{
             setError("This username already exists");

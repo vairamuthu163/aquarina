@@ -4,6 +4,8 @@ import { Form, Input ,Card, CardImg, CardTitle, CardBody,Modal,ModalHeader,Modal
 import { Button, Grid, IconButton } from '@material-ui/core'; 
 import Accordion from '@material-ui/core/Accordion';
 import AccordionSummary from '@material-ui/core/AccordionSummary';
+import emailjs from 'emailjs-com';
+import { Alert as AlertComponent } from 'reactstrap';
 import AccordionDetails from '@material-ui/core/AccordionDetails';
 import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
@@ -37,7 +39,7 @@ function Cart(props) {
      })
      const [checkData,setCheckData] = useState();
      var safe = [];
-     var tempCart,ans;
+     var tempCart,orderid;
      useEffect(()=>{
         tempCart = props.findUser
         .map((cart)=>{
@@ -116,13 +118,34 @@ function Cart(props) {
          window.location.reload(); 
      }
 
-     const handleSubmitDetails = () =>{
-
+     const handleSubmitDetails = async() =>{
+         setTimeout(async()=>{
+            await checkData&&checkData.map(async(data)=>{
+                let newObj = { 
+                    email:currentUser&&currentUser.email,
+                    price:data.price,
+                    count:data.count, 
+                    user_name:contactInfo.user_name,
+                    contactno : contactInfo.contactno,
+                    address:contactInfo.address,
+                    state:contactInfo.state,
+                    country:contactInfo.country,
+                    product_img:data.product_img,
+                    product_name:data.product_name,
+                 }
+                 if(data.select){
+                    await props.postOrder(newObj);
+                 }
+             })
+         },2000) 
      }
      const razorPayHandler = async(e) =>{
         e.preventDefault();
         setLoading(true);
-        await handleSubmitDetails();
+        if(contactInfo.user_name!==""){
+            await handleSubmitDetails();
+            await SendToEmail();
+        }
         setTimeout(async()=>{ 
             if(contactInfo.user_name!==''){
                 const orderUrl = "http://localhost:3001/razorpay/order";
@@ -151,7 +174,7 @@ function Cart(props) {
                             }
                         }
                         catch(err){
-                            console.log(err);
+                            console.log("error found,",err);
                         }
                     },
                     prefill: {
@@ -162,18 +185,41 @@ function Cart(props) {
                         color: "#686CFD",
                     },
                 };
+                orderid  = options.order_id
                 const rzp = new window.Razorpay(options);
-                rzp.open();
+                rzp.open();  
             }
             else{
-                setOpen(true)
+                setOpen(true); 
             }
 
             setLoading(false)
-        },3000); 
-           
+        },3000);   
          
         
+     }
+
+     const SendToEmail = async() =>{
+         await setTimeout(async()=>{
+            var dt = new Date();
+            dt.setDate(dt.getDate() + 10); 
+            var te =Number(sumOfProducts)+Number(99);
+            const obj = {
+                orderid:orderid.split("_")[1],
+                user_name : contactInfo.user_name,
+                arr_date : dt.toDateString(),
+                address : contactInfo.address,
+                today_date : new Date().toDateString(),
+                order_amount : te,
+                user_email : currentUser&&currentUser.email
+            } 
+            await emailjs.send('service_yn7je2f', 'template_hw47nyi', obj, 'user_UF8rhjh7CkRFcx5i2YNov')
+            .then((result) => {
+                console.log(result);
+            }, (error) => {
+                console.log(error);
+            });
+         },12000) 
      }
      const handleClose = (event, reason) => {
         if (reason === 'clickaway') {
@@ -234,17 +280,13 @@ function Cart(props) {
           } 
           const handleChange = (e) =>{
             let checkedVal = e.target.checked;
-             
             setCheckData(checkData.map((data)=>{
                  if(cart._id===data.id){
                      data.select = checkedVal;
                  }
                  return data;
              }));
-            console.log("checked ",checkData);
-            if(checkData.select){
-                console.log(checkData.id,"sdfsd");
-            }
+            console.log("checked ",checkData); 
          }
             return(  
                 <div key={cart._id}> 
@@ -265,6 +307,7 @@ function Cart(props) {
                                     onChange={handleChange}
                                     name="checkedB"
                                     color="primary" 
+                                    disabled = {contactInfo.user_name===''}
                                 />
                                 } 
                             />
@@ -330,6 +373,7 @@ function Cart(props) {
                 <h2 style={{fontWeight:'bold',color:'#0088CC'}}>Shopping Cart</h2>
             </div>
             <div className="row mt-5">
+                <p><AlertComponent color='warning'> <i class="fa fa-warning" aria-hidden="true"></i> Please fill your Order details first before ordering!</AlertComponent></p>
                 <h5 style={{fontWeight:'bold'}} className="text-muted">Free Delivery above INR 499 for Aquarium Plants & Accessories</h5>
             </div>
             <div className="row mt-3">
@@ -454,9 +498,13 @@ function Cart(props) {
                                         variant="contained"
                                         color="primary"
                                         onClick={razorPayHandler}
-                                        disabled = {loading}
+                                        disabled = {loading} 
+                                        
                                     >
-                                       {loading ? <CircularProgress /> : "Order now"} 
+                                       {loading ? <CircularProgress
+                                        size="30px"
+                                        thickness = "4.5"
+                                       /> : "Order now"} 
                                     </Button>
                                 </div>
                             </CardBody>
@@ -479,7 +527,7 @@ function Cart(props) {
                                 <Row>
                                     <Col>
                                         <FormGroup>
-                                            <Label htmlFor="name">Name <span className="text-danger"> *</span></Label>
+                                            <Label htmlFor="name">Full Name <span className="text-danger"> *</span></Label>
                                             <Input 
                                             className="mt-2"
                                                 type = "text"

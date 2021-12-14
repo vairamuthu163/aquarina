@@ -5,6 +5,15 @@ import {Link, useHistory} from 'react-router-dom';
 import { Button } from '@material-ui/core';
 import Fab from '@material-ui/core/Fab'; 
 import { Scrollbars } from 'react-custom-scrollbars';
+
+import Slide from 'react-reveal/Slide';
+import Fade from 'react-reveal/Fade';
+import Bounce from 'react-reveal/Bounce';
+import Flip from 'react-reveal/Flip';
+import Zoom from 'react-reveal/Zoom';
+import Jump from 'react-reveal/Jump';
+import LightSpeed from 'react-reveal/LightSpeed';
+import HeadShake from 'react-reveal/HeadShake';
 //custom imports
 import "./style.css";
 import { useAuth } from '../../contexts/AuthContext';
@@ -115,7 +124,9 @@ export default function Home(props) {
     const fishes = props.categories.map((fish)=>{
         return ( 
             <div key={fish.id} className="col-12 col-md-3 m-0 p-0">
-                <RenderCategories fish = {fish} />
+                <Slide left>
+                    <RenderCategories fish = {fish} />
+                </Slide>
             </div>
         )
     });
@@ -154,21 +165,25 @@ export default function Home(props) {
         }
     }
     return (
-        <div>
-            <NavBar navbg={'linear-gradient(rgba(0, 0, 0, 0.0),rgba(0, 0, 0, 0.0))'} 
-            />
+        <div> 
+                <NavBar navbg={'linear-gradient(rgba(0, 0, 0, 0.0),rgba(0, 0, 0, 0.0))'} 
+                /> 
             <Jumbotron>
                 <Container>
                     <div className="row row-header">
                         <div className="col-12 col-md-6">
-                            <h1 className="display-4"> 
-                                <span className="title" style={{fontWeight:'bold'}}>
-                                    AQUARINA
-                                </span> 
-                            </h1>
+                            <Jump>
+                                <h1 className="display-4"> 
+                                    <span className="title" style={{fontWeight:'bold'}}>
+                                        AQUARINA
+                                    </span> 
+                                </h1>
+                            </Jump>
                             <br />
-                            <h3 className="display-6">Explore the Mysteries of the Deep</h3>
-                            <p style={{fontSize:'1.2rem'}}>Our expansive new gallery, Sharks! Predators of the Deep, takes you from fear to fascination as you explore the epic views and experience unique encounters with our fierce new residents.</p>
+                            <Fade left>
+                                <h3 className="display-6">Explore the Mysteries of the Deep</h3>
+                                <p style={{fontSize:'1.2rem'}}>Our expansive new gallery, Sharks! Predators of the Deep, takes you from fear to fascination as you explore the epic views and experience unique encounters with our fierce new residents.</p>
+                            </Fade>
                         </div>
                         <div className="col-12 col-md-6 mb-2"> 
                             <Container style={{color:'black'}}>  
@@ -213,14 +228,18 @@ export default function Home(props) {
                     <div className="col mr-sm-3 ml-sm-3 text-dark" style={{backgroundColor:'#3f51b5'}}>
                         <Card style={{minHeight:'400px'}}>
                            <CardBody className="p-3 text-center">
-                               <Experience />
+                               <Fade right>
+                                    <Experience />
+                               </Fade>
                            </CardBody>
                         </Card>
                     </div>    
                 </div>
             </Container> 
             <div className="container">
+                <Zoom>
                 <Shark className="mb-2" />
+                </Zoom>
                 <div className="col-12 mt-5 mb-2">
                     <div className="text-center" style={{marginLeft:'auto',marginRight:'auto'}}>
                         <Button
@@ -237,6 +256,7 @@ export default function Home(props) {
             <div className="container">
                 <div className="row mt-5">
                     <div className="col">
+                        <Fade left>
                         <div className="row mt-5 mb-5"> 
                             <div className="col-12 col-md-5">
                                 <h5 className="text-darken-3 text-muted" style={{fontWeight:'bold'}}>HAPPENING TODAY </h5>
@@ -461,10 +481,12 @@ export default function Home(props) {
                                 <img src="https://www.georgiaaquarium.org/wp-content/uploads/2021/03/open-to-the-public-visit-today-georgia-aquarium-located-in-downtown-atlanta-georgia-10-750x500.png" alt="Whale Shark" style={{marginLeft:'-200px'}}/>
                             </div>
                         </div> 
+                        </Fade>
                     </div>
                     <div className="col-12 text-center mt-5">
                         <h2 className="col-12" style={{fontWeight:'bold'}}>What's new With the Aquarium</h2>
-                    </div>                   
+                    </div>
+                    <Fade left>                
                     <div className="col-6 col-md-3 mt-5">     
                         <Card className="cardNew" style={{height:'380px'}}>
                             <CardImg top height="220px" src="https://www.georgiaaquarium.org/wp-content/uploads/2021/08/discovery-and-georgia-aquarium-enter-into-all-new-multi-platform-content-partnership.jpg" alt="new-1" />
@@ -485,6 +507,8 @@ export default function Home(props) {
                             </CardBody>
                         </Card>   
                     </div>
+                    </Fade>
+                    <Fade right>
                     <div className="col-6 col-md-3 mt-5">     
                         <Card className="cardNew" style={{height:'380px'}}>
                             <CardImg top height="220px" src="https://www.georgiaaquarium.org/wp-content/uploads/2018/10/Dive_680x680.jpg" alt="new-1" />
@@ -517,10 +541,14 @@ export default function Home(props) {
                             </Button>
                         </div>
                     </div>
+                    </Fade> 
+                    <Fade left> 
                     <div className="col-12 text-center mt-5">
                         <h2 style={{fontWeight:'bold'}}>There's Plenty of fun in the Ocean</h2>
                         <p>Check out some new and upcoming things to do for ocean lovers and animal fans alike.</p>
                     </div>
+                    </Fade>
+                    <Fade left>
                     <div className="col-12 col-md-6 mt-4">
                         <Card className="border-0 img-quick">
                             <CardImg className="img-q" height="450px" src="https://www.georgiaaquarium.org/wp-content/uploads/2018/10/penguin-encounter-7-1060x735.jpg" alt="plenty-1" />
@@ -531,6 +559,8 @@ export default function Home(props) {
                             </CardBody>
                         </Card>
                     </div>
+                    </Fade>
+                    <Fade right>
                     <div className="col-12 col-md-6 mt-4">
                         <Card className="border-0 img-quick">
                             <CardImg className="img-q" height="450px" src="https://www.georgiaaquarium.org/wp-content/uploads/2018/08/dolphin-encounter-5-578x385@2x.jpg" alt="plenty-2" />
@@ -541,10 +571,12 @@ export default function Home(props) {
                             </CardBody>
                         </Card>
                     </div> 
+                    </Fade> 
                 </div>
             </div>
             <div className="container" style={{marginTop:'90px',marginBottom:'90px'}}>
                 <div className="row mt-5">
+                    <HeadShake>
                     <div className="col-12 col-md-5 mt-2 mb-2 d-flex flex-column align-items-center justify-content-center">
                         <h2 style={{fontWeight:'bold'}}>Get an Original Painting by Our Animal Artists</h2>
                         <p className="mt-3">Our playful and curious animals have been busy creating masterpieces. The artists-in-residence include dolphins, beluga whales, sea lions, and penguins. Each purchase supports the Aquarium's research, awareness, and conservation efforts. Order yours today!</p>
@@ -557,9 +589,12 @@ export default function Home(props) {
                                 <b style={{letterSpacing: '2.77px',fontSize:'0.9rem'}}> Shop Animal Artwork </b>
                             </Button>
                     </div>
-                    <div className="col-12 offset-sm-1 col-md-6">
-                        <img className="artwork" height="500px" width="100%" src="https://www.georgiaaquarium.org/wp-content/uploads/2021/03/open-to-the-public-visit-today-georgia-aquarium-located-in-downtown-atlanta-georgia-29-1060x783.jpg" />
-                    </div>
+                    </HeadShake>
+                    <Fade right>
+                        <div className="col-12 offset-sm-1 col-md-6">
+                            <img className="artwork" height="500px" width="100%" src="https://www.georgiaaquarium.org/wp-content/uploads/2021/03/open-to-the-public-visit-today-georgia-aquarium-located-in-downtown-atlanta-georgia-29-1060x783.jpg" />
+                        </div>
+                    </Fade>
                 </div>
             </div>
             <Container className="position-relative">
@@ -569,8 +604,10 @@ export default function Home(props) {
                         {/* <ImageSliders /> */}
                     </div> 
                     <div className="col-12 mt-4">
+                        <Fade clear>
                         <ShippingNav />
                         <h2 className="text-center m-2 mt-3" style={{fontWeight:'bold'}}>Top Categories</h2>
+                        </Fade>
                     </div> 
                    {/*  <div className="col-12 col-md-3 mt-4" style={{position:'relative'}}>
                         <Card style={{borderRadius:'0px'}}>
@@ -596,8 +633,11 @@ export default function Home(props) {
                         </Card>
                     </div> */}
                     <div className="row col-12 col-md-12 mt-4">
+                        <Slide> 
                         {fishes}
+                        </Slide>
                     </div>
+                    <Fade clear>
                     <div className="mt-5">
                         <h3 className="text-center" style={{fontWeight:'bold'}}>AQUARIUM PLANTS, ACCESSORIES & FISHES</h3>
                         <div className="mt-5 mb-5">
@@ -606,7 +646,9 @@ export default function Home(props) {
                             <NewProduct />
                         </div>
                     </div>
+                    </Fade>
                     <div className="row row-contents mt-3">
+                        <Fade left>
                         <div className="col-12 col-sm-4">
                             <h5 style={{fontWeight:'bold'}}>Recently Added Products</h5> 
                             <hr /> 
@@ -614,16 +656,21 @@ export default function Home(props) {
                              {recentProducts}
                              
                         </div>
+                        </Fade>
+                        <Fade clear>
                         <div className="col-12 col-sm-4">
                             <h5 style={{fontWeight:'bold'}}>Best Selling Products</h5>
                             <hr />
                             {bestProducts}
                         </div>
+                        </Fade>
+                        <Fade right>
                         <div className="col-12 col-sm-4">
                             <h5 style={{fontWeight:'bold'}}>Featured Products</h5>
                             <hr />
                             {featuredProducts}
                         </div>
+                        </Fade>
                     </div>
                 </div>
                 <div>

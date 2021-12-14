@@ -428,6 +428,29 @@ export const addUserr = (user) => ({
     type:ActionTypes.FIND_USER,
     payload:user
 });
+
+
+//for order history
+export const postOrder = (obj) => (dispatch)=>{ 
+    dispatch(userLoading(true))
+    return axios.put('http://localhost:3001/user/order', {
+        email:obj.email,
+        price:obj.price,
+        count:obj.count, 
+        user_name:obj.user_name,
+        contactno : obj.contactno,
+        address:obj.address,
+        state:obj.state,
+        country:obj.country,
+        product_img:obj.product_img,
+        product_name:obj.product_name
+    })
+    .then((response)=> response.data)
+    .then(response => dispatch(addUser(response)))
+    .catch((error)=>dispatch(userFailed(error))) 
+}
+
+
 //Post User Cart
 export const postCart = (email,product_id,product_name,count,category,img,price) => (dispatch)=>{ 
     dispatch(userLoading(true))

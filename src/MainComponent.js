@@ -15,7 +15,7 @@ import Products from "./components/products/Products";
 // import Substrates from './components/products/substrates/Substrates'
 import FishDetails from "./components/products/details/FishDetails";
 
-import { deleteCart, fetchFilters, fetchFishes, fetchFoods, fetchPlants, fetchRecents, fetchSubstrates, getTickets, getUser, postCart, postFishContents, postFilters, postFishes, postFoods, postPlants, postSubstrates, postTickets, postUser, postUserTickets, postPlantContents, postSubstrateContents, postFoodContents, postFilterContents, deleteProduct, starRating } from "./redux/ActionCreators";
+import { deleteCart, fetchFilters, fetchFishes, fetchFoods, fetchPlants, fetchRecents, fetchSubstrates, getTickets, getUser, postCart, postFishContents, postFilters, postFishes, postFoods, postPlants, postSubstrates, postTickets, postUser, postUserTickets, postPlantContents, postSubstrateContents, postFoodContents, postFilterContents, deleteProduct, starRating, postOrder } from "./redux/ActionCreators";
  
 import { connect } from "react-redux";
 import Tickets from "./components/tickets/Tickets"; 
@@ -67,6 +67,7 @@ const mapDispatchToProps = (dispatch) => ({
   postFilterContents : (id,title,content) =>{dispatch(postFilterContents(id,title,content))},
   deleteProduct : (id,category) => {dispatch(deleteProduct(id,category))},
   starRating : (email,id,category,author,rating,ratingCount,comment,date) => {dispatch(starRating(email,id,category,author,rating,ratingCount,comment,date))},
+  postOrder : (obj)=>{dispatch(postOrder(obj))}
 })
 
 function MainComponent(props) {
@@ -138,6 +139,7 @@ function MainComponent(props) {
         postFoodContents = {props.postFoodContents}
         postFilterContents = {props.postFilterContents}
         starRating = {props.starRating}
+        findUser = {props.user.user.filter((user) => user.email === (currentUser&&currentUser.email))}
       />
     )
   }
@@ -147,7 +149,8 @@ function MainComponent(props) {
       <Cart  
         findUser = {props.user.user.filter((user) => user.email === (currentUser&&currentUser.email))}
         deleteCart = {props.deleteCart}
-        user = {props.user.user}  
+        user = {props.user.user} 
+        postOrder ={props.postOrder}
         /* cartDetails = {props.user.user.filter((user) => user.email === userEmail)} */
       />
     )
@@ -187,6 +190,13 @@ function MainComponent(props) {
         />
     );
   }
+  const OrdersWithHistory = () =>{
+    return(
+      <OrderHistory 
+        findUser = {props.user.user.filter((user) => user.email === (currentUser&&currentUser.email))}
+      />
+    )
+  }
   return ( 
         <>
           <ScrollToTop>
@@ -213,7 +223,7 @@ function MainComponent(props) {
               <Route exact path='/tickets' component={TicketsDetails} />
               <Route exact path='/cart' component={CartWithDetails} />
               <Route exact path='/allProducts' component={MultiStepForm} />
-              <Route exact path="/order-history" component={OrderHistory} />
+              <Route exact path="/order-history" component={OrdersWithHistory} />
               <Redirect to='/home' /> 
             </Switch> 
           </ScrollToTop>

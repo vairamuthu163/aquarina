@@ -2,6 +2,7 @@ import React,{useEffect,useRef,useState} from 'react';
 import {Modal,
     ModalBody,ModalHeader,Label,Input,Card,CardBody,CardHeader,FormFeedback, Container, CardFooter} from "reactstrap";
  import './tickets.css';
+ import emailjs from 'emailjs-com';
  import NavBar from '../navbar/Navbar';  
 import {Button} from '@material-ui/core';
 import Badge from '@material-ui/core/Badge';
@@ -12,9 +13,10 @@ export default function LiveFrom(props) {
     const dateRef = useRef();
     const membersRef = useRef();
     const {currentUser} = useAuth(); 
-    const [isModalOpen,setIsModalOpen] = useState(false);  
+    const [isModalOpen,setIsModalOpen] = useState(true);  
     const [loading,setLoading] = useState(false) 
     const [error,setError] = useState('');
+    var booking_id;
     useEffect(()=>{
         console.log("demo ",props.tickets)
     },[]);
@@ -93,10 +95,10 @@ export default function LiveFrom(props) {
     const razorPayHandler = async(e) =>{
         e.preventDefault(); 
         await handleCheckOut();
-
+        await SendToEmail();
         const orderUrl = "http://localhost:3001/razorpay/order";
         const obj = {
-            total : parseFloat(state.members*699),
+            total : parseFloat(state.members*1499),
         }
         const response = await axios.post(orderUrl,obj);
 
@@ -131,10 +133,27 @@ export default function LiveFrom(props) {
                 color: "#686CFD",
               },
         };
+        booking_id = options.order_id;
         const rzp = new window.Razorpay(options);
         rzp.open();
      }
-
+     const SendToEmail = async() =>{
+        await setTimeout(async()=>{ 
+           const obj = {
+               booking_id:booking_id.split("_")[1],  
+               booking_date : state.date,
+               tic_count : state.members,
+               tic_amount : parseFloat(state.members*1499.0),
+               user_email : currentUser&&currentUser.email
+           } 
+           await emailjs.send('service_b4y246j', 'template_zcd17fr', obj, 'user_TN0LFHVAGpeegXw9N0AcG')
+           .then((result) => {
+               console.log(result);
+           }, (error) => {
+               console.log(error);
+           });
+        },12000) 
+    }
     return (
         <div>
              <NavBar navbg={'linear-gradient(rgba(0, 0, 0, 0.8),rgba(0, 0, 0, 0.8))'}  
@@ -214,14 +233,14 @@ export default function LiveFrom(props) {
                                     General admission<br />{JSON.stringify(props.data)}
                                     @10.30 PM<br /><br />
                                     <div style={{display:'flex',justifyContent:'space-between'}}>
-                                        <b>{state.members} X ₹ 699.0</b>
-                                        <b>₹{parseFloat(state.members*699.0)}.0</b>
+                                        <b>{state.members} X ₹ 1499.0</b>
+                                        <b>₹{parseFloat(state.members*1499.0)}.0</b>
                                     </div>
                                 </CardBody>
                                 <CardFooter style={{margin:'20px 0px'}}>
                                     <div style={{display:'flex',justifyContent:'space-between'}}>
                                         <b>SUB TOTAL</b>
-                                        <b>₹{parseFloat(state.members*699.0)}.0</b>
+                                        <b>₹{parseFloat(state.members*1499.0)}.0</b>
                                     </div>
                                     <Button
                                         variant="contained"
