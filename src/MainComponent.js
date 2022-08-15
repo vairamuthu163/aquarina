@@ -9,6 +9,14 @@ import UpdateProfile from "./components/updateprofile/UpdateProfile";
 import PrivateRoute from "./PrivateRoute";
 import "./App.css";
 import Products from "./components/products/Products";
+import Slide from 'react-reveal/Slide';
+import Fade from 'react-reveal/Fade';
+import Bounce from 'react-reveal/Bounce';
+import Flip from 'react-reveal/Flip';
+import Zoom from 'react-reveal/Zoom';
+import Jump from 'react-reveal/Jump';
+import LightSpeed from 'react-reveal/LightSpeed';
+import HeadShake from 'react-reveal/HeadShake';
 // import Plants from "./components/products/plants/Plants";
 // import Filters from "./components/products/filters/Filters";
 // import Fishes from "./components/products/fishes/Fishes";
@@ -227,7 +235,9 @@ function MainComponent(props) {
               <Redirect to='/home' /> 
             </Switch> 
           </ScrollToTop>
-          <Footer />
+          <Fade bottom>
+            <Footer />
+          </Fade>
        </>
   );
 }

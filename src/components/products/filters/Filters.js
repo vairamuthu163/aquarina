@@ -73,7 +73,7 @@ const RenderFilters = ({filter,deleteProduct}) =>{
                         </div> 
                     </CardImgOverlay>
                     <CardBody className="text-center"> 
-                         <p><b>{filter.filterNamer}</b></p>  
+                         <p><b>{filter.filterName}</b></p>  
                             <Rating  
                                 className="mt-0"
                                 name="simple-controlled" 

@@ -6,6 +6,13 @@ import TwitterIcon from '@material-ui/icons/Twitter';
 import YouTubeIcon from '@material-ui/icons/YouTube';
 import { Button } from 'react-bootstrap';
 import Fade from 'react-reveal/Fade';
+import Slide from 'react-reveal/Slide'; 
+import Bounce from 'react-reveal/Bounce';
+import Flip from 'react-reveal/Flip';
+import Zoom from 'react-reveal/Zoom';
+import Jump from 'react-reveal/Jump';
+import LightSpeed from 'react-reveal/LightSpeed';
+import HeadShake from 'react-reveal/HeadShake';
 function Footer(){
     return(
        <Fade bottom>

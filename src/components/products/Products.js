@@ -487,7 +487,7 @@ export default function Products(props) {
                         </div>
                         <div className="col-12"> 
                             {value===0 && 
-                                <Fade clear>
+                                <Fade left>
                                     <AllProducts 
                                             allProducts={state.filteredData}
                                             deleteProduct = {props.deleteProduct} 
@@ -520,14 +520,14 @@ export default function Products(props) {
                             }
                             {
                                 value===3 && 
-                                <Fade bottom>
-                                <Fishes 
-                                    fishes={newState.fishes}
-                                    isLoading={props.fishesLoading}
-                                    errmess = {props.fishesErr}
-                                    deleteProduct = {props.deleteProduct}
- 
-                                />
+                                <Fade left>
+                                    <Fishes 
+                                        fishes={newState.fishes}
+                                        isLoading={props.fishesLoading}
+                                        errmess = {props.fishesErr}
+                                        deleteProduct = {props.deleteProduct}
+    
+                                    />
                                 </Fade>
                             }
                             {
@@ -544,7 +544,7 @@ export default function Products(props) {
                             }
                             {
                                 value===5 &&
-                                <Fade right>
+                                <Zoom top>
                                 <Filters 
                                     filters = {newState.filters}
                                     isLoading = {props.filtersLoading}  
@@ -552,7 +552,7 @@ export default function Products(props) {
                                     
                                     deleteProduct = {props.deleteProduct}
                                 />
-                                </Fade> 
+                                </Zoom> 
                             }
                             {
                                 value===6 && 

@@ -368,7 +368,13 @@ function ProductDetails(props) {
               />
             </Card>  */}
             <Card className="p-2" style={{zIndex:'1000'}}>
-              <div style={{width:'800px',height:'450px'}}>
+              <div style={{width:'500px',height:'450px'}}>
+              {/* <CardImg
+                width="100%"
+                style={{ maxHeight: "500px" }}
+                src={baseUrl+location.state.data.img}
+                alt={name}
+              /> */}
                 <ReactImageMagnify {...{
                         smallImage: {
                             alt: 'Wristwatch by Ted Baker London',
@@ -401,7 +407,7 @@ function ProductDetails(props) {
                <Typography style={{marginLeft:'30px'}}> {state.ratingcount!==0 ? <span>{parseInt(location.state.data.reviews.length)} &nbsp; reviews</span>:<span>Be the first to review this product</span>}</Typography>
             </Box>
             <div className="mt-3 ruppee">
-                <span className="fa fa-inr"></span>{location.state.data.price+".00"}&nbsp;&nbsp;<del className="text-danger"><span className="fa fa-inr"></span>{parseInt(location.state.data.price)+139}.00</del>
+                <span className="fa fa-inr"></span>{location.state.data.price+".00"}&nbsp;&nbsp;<del className="text-danger"><span className="fa fa-inr"></span>{parseInt(location.state.data.price.replace(/,/g, ''))+139}.00</del>
             </div>
             <hr />
             <div className="mt-md-4 mb-md-4 d-flex flex-row">

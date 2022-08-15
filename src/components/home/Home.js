@@ -4,7 +4,7 @@ import {Card,CardImg,CardBody,CardImgOverlay,Alert,Jumbotron,Container, CardTitl
 import {Link, useHistory} from 'react-router-dom';  
 import { Button } from '@material-ui/core';
 import Fab from '@material-ui/core/Fab'; 
-import { Scrollbars } from 'react-custom-scrollbars';
+// import { Scrollbars } from 'react-custom-scrollbars';
 
 import Slide from 'react-reveal/Slide';
 import Fade from 'react-reveal/Fade';
@@ -40,13 +40,13 @@ const renderThumb = ({ style, ...props }) => {
     return <div style={{ ...style, ...thumbStyle }} {...props} />;
 };
 
-const CustomScrollbars = props => (
-    <Scrollbars
-      renderThumbHorizontal={renderThumb}
-      renderThumbVertical={renderThumb}
-      {...props}
-    />
-  );
+// const CustomScrollbars = props => (
+//     <Scrollbars
+//       renderThumbHorizontal={renderThumb}
+//       renderThumbVertical={renderThumb}
+//       {...props}
+//     />
+//   );
 const RenderRecentProducts = ({recent}) =>{
     return(
         <div className="m-0 p-0">
@@ -236,10 +236,8 @@ export default function Home(props) {
                     </div>    
                 </div>
             </Container> 
-            <div className="container">
-                <Zoom>
-                <Shark className="mb-2" />
-                </Zoom>
+            <div className="container"> 
+                    <Shark className="mb-2" /> 
                 <div className="col-12 mt-5 mb-2">
                     <div className="text-center" style={{marginLeft:'auto',marginRight:'auto'}}>
                         <Button
@@ -263,7 +261,8 @@ export default function Home(props) {
                                 <h2 className="mt-4" style={{fontWeight:'bold'}}>{new Date().toLocaleString('default', { month: 'long' })}{' '}{new Date().getDate()}{', '}{new Date().getFullYear()}</h2>
                                 <div className="mt-3 ml-3">
                                     <div className="scrollableContent">
-                                        <CustomScrollbars autoHide autoHideTimeout={500} autoHideDuration={200}>
+                                        {/* <CustomScrollbars autoHide autoHideTimeout={500} autoHideDuration={200}> */}
+                                        <div className="overflow-scroll">
                                             <Card className="border-0 event" style={{margin:'10px 20px'}}>
                                                 <CardBody className="d-flex">
                                                     <div className="col-ms-8">
@@ -473,7 +472,8 @@ export default function Home(props) {
                                                     </div>
                                                 </CardBody>
                                             </Card>
-                                        </CustomScrollbars>
+                                        </div>
+                                        {/* </CustomScrollbars> */}
                                     </div>
                                 </div>
                             </div>
